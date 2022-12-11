@@ -113,19 +113,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func hide() {
-//        if timeService.timer != nil {
-//            timeService.isInForeground = false
-//        }
-        
         removeFromDock()
         NSApp.hide(nil)
     }
     
     private func unhide() {
-//        if timeService.timer != nil {
-//            timeService.isInForeground = true
-//        }
-        
         showInDock()
         NSApp.unhide(nil)
     }

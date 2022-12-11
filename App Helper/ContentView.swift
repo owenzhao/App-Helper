@@ -44,7 +44,7 @@ struct ContentView: View {
                         
                         if response == .OK, let url = panel.url {
                             let name = url.deletingPathExtension().lastPathComponent
-                            let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r \(url.path)")
+                            let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
                             let app = AHApp(name: name, url: url, bundleID: bundleID)
                             apps.append(app)
                         }
@@ -67,44 +67,6 @@ struct ContentView: View {
                 NotificationCenter.default.post(name: .updateWindow, object: nil, userInfo: ["window" : window])
             }
         }
-    }
-    
-    func removeRows(at offsets: IndexSet) {
-        apps.remove(atOffsets: offsets)
-    }
-    
-    private func getAppInfo() {
-        if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "me.guillaumeb.MonitorControl").first {
-            print(app.terminate())
-        }
-    }
-    
-    private func runApp() {
-        let url = URL(fileURLWithPath: "/Applications/MonitorControl.app")
-        NSWorkspace.shared.open(url)
-    }
-    
-    private func getBundleID() {
-        let url = URL(fileURLWithPath: "/Applications/MonitorControl.app")
-        let result = shell("mdls -name kMDItemCFBundleIdentifier -r \(url.path)")
-        print(result)
-    }
-    
-    func shell(_ command: String) -> String {
-        let task = Process()
-        let pipe = Pipe()
-        
-        task.standardOutput = pipe
-        task.standardError = pipe
-        task.arguments = ["-c", command]
-        task.launchPath = "/bin/zsh"
-        task.standardInput = nil
-        task.launch()
-        
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        let output = String(data: data, encoding: .utf8)!
-        
-        return output
     }
 }
 
