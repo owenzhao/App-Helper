@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults.git",
+      "state" : {
+        "revision" : "7a22d378742acbef49ecff11b9de8bf8b72b34dc",
+        "version" : "7.0.0"
+      }
+    },
+    {
+      "identity" : "swiftuiwindowbinder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/happycodelucky/SwiftUIWindowBinder.git",
+      "state" : {
+        "revision" : "27f9b1b28c58e7c00efc7661dde6663c9a49b145",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
