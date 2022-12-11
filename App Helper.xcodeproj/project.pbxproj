@@ -27,6 +27,9 @@
 		DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC63294565F3005D28E9 /* WindowDelegate.swift */; };
 		DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC66294566DB005D28E9 /* Notification.Name.swift */; };
 		DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC6829456918005D28E9 /* SystemWatcher.swift */; };
+		DC13DC77294571EE005D28E9 /* App-Helper-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC75294571EE005D28E9 /* App-Helper-InfoPlist.strings */; };
+		DC13DC7A294571EE005D28E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC78294571EE005D28E9 /* Localizable.strings */; };
+		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +66,12 @@
 		DC13DC66294566DB005D28E9 /* Notification.Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
 		DC13DC6829456918005D28E9 /* SystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWatcher.swift; sourceTree = "<group>"; };
 		DC13DC6A2945700B005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		DC13DC7429457131005D28E9 /* App-Helper-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "App-Helper-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DC13DC76294571EE005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/App-Helper-InfoPlist.strings"; sourceTree = "<group>"; };
+		DC13DC79294571EE005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DC13DC7E294572A0005D28E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Credits.html; sourceTree = "<group>"; };
+		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
+		DC13DC81294572A3005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +118,10 @@
 		DC13DC2B29452A49005D28E9 /* App Helper */ = {
 			isa = PBXGroup;
 			children = (
+				DC13DC7F294572A0005D28E9 /* Credits.html */,
+				DC13DC7429457131005D28E9 /* App-Helper-Info.plist */,
+				DC13DC78294571EE005D28E9 /* Localizable.strings */,
+				DC13DC75294571EE005D28E9 /* App-Helper-InfoPlist.strings */,
 				DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */,
 				DC13DC2E29452A49005D28E9 /* ContentView.swift */,
 				DC13DC40294532D9005D28E9 /* AppDetailView.swift */,
@@ -261,7 +274,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC13DC3429452A4A005D28E9 /* Preview Assets.xcassets in Resources */,
+				DC13DC7A294571EE005D28E9 /* Localizable.strings in Resources */,
 				DC13DC3129452A4A005D28E9 /* Assets.xcassets in Resources */,
+				DC13DC77294571EE005D28E9 /* App-Helper-InfoPlist.strings in Resources */,
+				DC13DC7D294572A0005D28E9 /* Credits.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +328,34 @@
 				DC13DC6A2945700B005D28E9 /* zh-Hans */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DC13DC75294571EE005D28E9 /* App-Helper-InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC13DC76294571EE005D28E9 /* zh-Hans */,
+			);
+			name = "App-Helper-InfoPlist.strings";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DC13DC78294571EE005D28E9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC13DC79294571EE005D28E9 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DC13DC7F294572A0005D28E9 /* Credits.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC13DC7E294572A0005D28E9 /* Base */,
+				DC13DC80294572A2005D28E9 /* en */,
+				DC13DC81294572A3005D28E9 /* zh-Hans */,
+			);
+			name = Credits.html;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -446,7 +490,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_FILE = "App-Helper-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,7 +519,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_FILE = "App-Helper-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
