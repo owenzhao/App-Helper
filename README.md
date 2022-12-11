@@ -10,7 +10,7 @@
 
 That's all. 
 
-App Helper watches when SystemPreferences.app quits. Then after two seconds, App Helper checks if AppIDSettings is still opened, if true, App Helper terminates the controlled apps and relaunches them. That will clear the settings apps that SystemPreferences.app leaves.
+App Helper watches when SystemPreferences.app quits. Then after two seconds, App Helper checks if AppleIDSettings is still opened, if true, App Helper terminates the controlled apps and relaunches them. That will clear the settings apps that SystemPreferences.app leaves.
 
 ## Images
 <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by justicon - Flaticon</a>
