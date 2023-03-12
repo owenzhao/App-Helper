@@ -15,16 +15,33 @@ struct RulesView: View {
     @Default(.restartMonitorControl) private var restartMonitorControl
     @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
     
+    @Default(.notifyUser) private var notifyUser
+    
+    private let notificatonErrorPublisher = NotificationCenter.default.publisher(for: .notificationError)
+    private let notificationAuthorizeDeniedPublisher = NotificationCenter.default.publisher(for: .notificationAuthorizeDenied)
+    
+    @State private var error:MyError?
+    @State private var showNotificationAuthorizeDeniedAlert = false
+    
     var body: some View {
         WindowBinder(window: $window) {
             VStack(alignment: .leading) {
-                Text("Rules")
-                    .font(.title)
-                Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
-                Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
+                Section {
+                    Text("Rules")
+                        .font(.title)
+                    Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
+                    Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
+                    
+                    Divider()
+                }
                 
-                Divider()
-
+                Section {
+                    Text("Preferences")
+                        .font(.title)
+                    Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
+                    Divider()
+                }
+                
                 Button("Run in Background") {
                     NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
                 }
@@ -36,6 +53,22 @@ struct RulesView: View {
                 window.delegate = WindowDelegate.shared
                 NotificationCenter.default.post(name: .updateWindow, object: nil, userInfo: ["window" : window])
             }
+        }
+        .onReceive(notificatonErrorPublisher) { notification in
+            if let userInfo = notification.userInfo as? [String:Error], let error = userInfo["error"] {
+                self.error = MyError(error)
+            }
+        }
+        .onReceive(notificationAuthorizeDeniedPublisher, perform: { _ in
+            showNotificationAuthorizeDeniedAlert = true
+        })
+        .alert(item: $error) { error in
+            Alert(title: Text(error.error.localizedDescription), message: nil, dismissButton: Alert.Button.default(Text("OK")))
+        }
+        .alert(isPresented: $showNotificationAuthorizeDeniedAlert) {
+            Alert(title: Text("Can't send notification!"),
+                  message: Text("Notification is not allowed by user. Please check your system preferences."),
+                  dismissButton: Alert.Button.default(Text("OK")))
         }
     }
 }
@@ -51,4 +84,13 @@ struct AHApp:Codable, Defaults.Serializable, Identifiable, Equatable, Hashable {
     let name:String?
     let url:URL
     let bundleID:String
+}
+
+struct MyError:Identifiable {
+    let id = UUID()
+    let error:Error
+    
+    init(_ error:Error) {
+        self.error = error
+    }
 }

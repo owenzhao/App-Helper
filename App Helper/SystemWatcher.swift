@@ -8,6 +8,7 @@
 import Foundation
 import AppKit
 import Defaults
+import UserNotifications
 
 class SystemWatcher {
     private init() {
@@ -109,15 +110,58 @@ class SystemWatcher {
         
         let result = shell("pkill -9 \(quitServiceName ?? checkServiceName)")
         print("Killed \(result)")
+        
+        if Defaults[.notifyUser] {
+            ruleApplied(name: quitServiceName ?? checkServiceName, action: .quit)
+        }
     }
     
     private func run(_ app:AHApp) {
         if NSRunningApplication.runningApplications(withBundleIdentifier: app.bundleID).first == nil {
             NSWorkspace.shared.open(app.url)
+            
+            if Defaults[.notifyUser] {
+                ruleApplied(name: app.name!, action: .restart)
+            }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.run(app)
             }
         }
     }
+    
+//    MARK: - Notification
+    private func ruleApplied(name:String, action:AHAction) {
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                center.requestAuthorization { granted, error in
+                    if let error {
+                        NotificationCenter.default.post(name: .notificationError, object: self, userInfo: ["error" : error])
+                    }
+                    
+                    self.ruleApplied(name: name, action: action)
+                }
+            case .denied:
+                NotificationCenter.default.post(name: .notificationAuthorizeDenied, object: self)
+            case .authorized:
+                fallthrough
+            case .provisional:
+                let content = UNMutableNotificationContent()
+                content.title = NSLocalizedString("Rule Applied", comment: "")
+                content.body = "\(name) \(action)"
+                
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+                center.add(request)
+            @unknown default:
+                break
+            }
+        }
+    }
+}
+
+enum AHAction:String {
+    case restart
+    case quit
 }

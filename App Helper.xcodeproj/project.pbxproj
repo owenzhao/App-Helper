@@ -29,6 +29,7 @@
 		DC13DC7A294571EE005D28E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC78294571EE005D28E9 /* Localizable.strings */; };
 		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
+		DCB4441F29BD650500F037FA /* App Helper Launcher-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCB4441D29BD650500F037FA /* App Helper Launcher-InfoPlist.strings */; };
 		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC81294572A3005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		DCB4441E29BD650500F037FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/App Helper Launcher-InfoPlist.strings"; sourceTree = "<group>"; };
 		DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,6 +101,7 @@
 		DC13DC2029452A49005D28E9 = {
 			isa = PBXGroup;
 			children = (
+				DCB4441D29BD650500F037FA /* App Helper Launcher-InfoPlist.strings */,
 				DC13DC2B29452A49005D28E9 /* App Helper */,
 				DC13DC472945480F005D28E9 /* App Helper Launcher */,
 				DC13DC2A29452A49005D28E9 /* Products */,
@@ -287,6 +290,7 @@
 			files = (
 				DC13DC4D29454816005D28E9 /* Assets.xcassets in Resources */,
 				DC13DC5029454816005D28E9 /* Main.storyboard in Resources */,
+				DCB4441F29BD650500F037FA /* App Helper Launcher-InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +360,15 @@
 				DC13DC81294572A3005D28E9 /* zh-Hans */,
 			);
 			name = Credits.html;
+			sourceTree = "<group>";
+		};
+		DCB4441D29BD650500F037FA /* App Helper Launcher-InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DCB4441E29BD650500F037FA /* zh-Hans */,
+			);
+			name = "App Helper Launcher-InfoPlist.strings";
+			path = "App Helper Launcher";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -484,7 +497,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -498,7 +511,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -514,7 +527,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -528,7 +541,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -544,7 +557,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -558,7 +571,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -575,7 +588,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -589,7 +602,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

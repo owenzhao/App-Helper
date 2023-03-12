@@ -1,12 +1,30 @@
 /* No comment provided by engineer. */
-"Add App" = "添加应用";
+"Can't send notification!" = "无法发送通知！";
 
 /* No comment provided by engineer. */
-"No Apps were controlled." = "未控制任何应用。";
+"Force Quitting SourceKitService When Xcode Quits" = "当Xcode退出后强制退出SourceKitService。";
+
+/* No comment provided by engineer. */
+"Notification is not allowed by user. Please check your system preferences." = "用户不允许通知。请检查您的系统设置。";
+
+/* No comment provided by engineer. */
+"Notify User when a rule is matched." = "当规则被匹配时，通知用户。";
+
+/* No comment provided by engineer. */
+"OK" = "确定";
+
+/* No comment provided by engineer. */
+"Preferences" = "设置";
+
+/* No comment provided by engineer. */
+"Restart Monitor Control When System Preferences App Quits" = "当系统设置应用退出时，重启Monitor Control。";
+
+/* No comment provided by engineer. */
+"Rule Applied" = "规则已应用";
+
+/* No comment provided by engineer. */
+"Rules" = "规则";
 
 /* No comment provided by engineer. */
 "Run in Background" = "后台运行";
-
-/* No comment provided by engineer. */
-"To remove a controlled app, select and press \"delete\" button on the keyboard." = "要删除一个已控制的应用，选中并键盘的“delete”键。";
 
