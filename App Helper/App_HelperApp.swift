@@ -137,7 +137,7 @@ struct App_HelperApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RulesView()
         }
     }
 }

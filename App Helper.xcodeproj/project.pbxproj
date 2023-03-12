@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */; };
-		DC13DC2F29452A49005D28E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC2E29452A49005D28E9 /* ContentView.swift */; };
 		DC13DC3129452A4A005D28E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC3029452A4A005D28E9 /* Assets.xcassets */; };
 		DC13DC3429452A4A005D28E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC3329452A4A005D28E9 /* Preview Assets.xcassets */; };
 		DC13DC3D29453060005D28E9 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = DC13DC3C29453060005D28E9 /* Defaults */; };
 		DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC3E2945308B005D28E9 /* Defaults.Keys.swift */; };
-		DC13DC41294532D9005D28E9 /* AppDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC40294532D9005D28E9 /* AppDetailView.swift */; };
 		DC13DC492945480F005D28E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC482945480F005D28E9 /* AppDelegate.swift */; };
 		DC13DC4B2945480F005D28E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC4A2945480F005D28E9 /* ViewController.swift */; };
 		DC13DC4D29454816005D28E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC4C29454816005D28E9 /* Assets.xcassets */; };
@@ -31,6 +29,7 @@
 		DC13DC7A294571EE005D28E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC78294571EE005D28E9 /* Localizable.strings */; };
 		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
+		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,12 +48,10 @@
 /* Begin PBXFileReference section */
 		DC13DC2929452A49005D28E9 /* App Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App_HelperApp.swift; sourceTree = "<group>"; };
-		DC13DC2E29452A49005D28E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DC13DC3029452A4A005D28E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DC13DC3329452A4A005D28E9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DC13DC3529452A4A005D28E9 /* App_Helper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App_Helper.entitlements; sourceTree = "<group>"; };
 		DC13DC3E2945308B005D28E9 /* Defaults.Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.Keys.swift; sourceTree = "<group>"; };
-		DC13DC40294532D9005D28E9 /* AppDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailView.swift; sourceTree = "<group>"; };
 		DC13DC462945480F005D28E9 /* App Helper Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Helper Launcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC13DC482945480F005D28E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC13DC4A2945480F005D28E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +71,7 @@
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC81294572A3005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +123,7 @@
 				DC13DC78294571EE005D28E9 /* Localizable.strings */,
 				DC13DC75294571EE005D28E9 /* App-Helper-InfoPlist.strings */,
 				DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */,
-				DC13DC2E29452A49005D28E9 /* ContentView.swift */,
-				DC13DC40294532D9005D28E9 /* AppDetailView.swift */,
+				DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
 				DC13DC65294566D3005D28E9 /* Tools */,
 				DC13DC5C29454958005D28E9 /* Defaults */,
@@ -303,9 +300,8 @@
 				DC13DC83294592AD005D28E9 /* Shell.swift in Sources */,
 				DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */,
 				DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */,
-				DC13DC2F29452A49005D28E9 /* ContentView.swift in Sources */,
 				DC13DC5E29454962005D28E9 /* Defaults.Keys.Shared.swift in Sources */,
-				DC13DC41294532D9005D28E9 /* AppDetailView.swift in Sources */,
+				DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */,
 				DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */,
 				DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */,
 				DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */,
@@ -488,7 +484,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -502,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -518,7 +514,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -532,7 +528,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -548,7 +544,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -562,7 +558,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -579,7 +575,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -593,7 +589,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

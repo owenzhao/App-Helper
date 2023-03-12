@@ -10,5 +10,7 @@ import Defaults
 
 extension Defaults.Keys {
     static let autoLaunchWhenLogin = Key<Bool>("autoLaunchWhenLogin", default: true)
-    static let apps = Defaults.Key<[AHApp]>("apps", default: [])
+    
+    static let restartMonitorControl = Defaults.Key<Bool>("Restart Monitor Control When System Preferences App Quits", default: false)
+    static let forceQuitSourceKitService = Defaults.Key<Bool>("Force Quitting SourceKitService When Xcode Quits", default: false)
 }
