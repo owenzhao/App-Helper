@@ -1,16 +1,17 @@
 # App Helper
-> This app is not sandboxed. As it can terminated other apps.
+> This app is not sandboxed. As it can terminated other apps and services.
 
 ![lion-w256](assets/lion.png)
 
 
 ## How to Use
-1. Add the app you want to be controlled.
+1. Enabled the rules you want to apply.
 2. Click "Run in Background".
 
 That's all. 
 
-App Helper watches when SystemPreferences.app quits. Then after two seconds, App Helper checks if AppleIDSettings is still opened, if true, App Helper terminates the controlled apps and relaunches them. That will clear the settings apps that SystemPreferences.app leaves.
+## Suggestions
+If you have other rules you want to apply, please file them on Github issues.
 
 ## Images
 <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by justicon - Flaticon</a>
