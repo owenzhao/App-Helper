@@ -18,14 +18,18 @@ struct RulesView: View {
     var body: some View {
         WindowBinder(window: $window) {
             VStack(alignment: .leading) {
+                Text("Rules")
+                    .font(.title)
                 Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
                 Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
+                
+                Divider()
 
                 Button("Run in Background") {
                     NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
                 }
             }
-            .toggleStyle(.switch)
+            .padding()
         }
         .onChange(of: window) { newValue in
             if let window = newValue {

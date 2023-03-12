@@ -484,7 +484,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -514,7 +514,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -544,7 +544,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -558,7 +558,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -575,7 +575,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -589,7 +589,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
