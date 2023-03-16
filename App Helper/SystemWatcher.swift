@@ -67,14 +67,14 @@ class SystemWatcher {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
                     let monitorControl:AHApp = {
-                        let url = URL(fileURLWithPath: "/System/Library/ExtensionKit/Extensions/AppleIDSettings.appex")
+                        let url = URL(fileURLWithPath: "/Applications/MonitorControl.app")
                         let name = url.deletingPathExtension().lastPathComponent
                         let bundleID = "me.guillaumeb.MonitorControl"
                         
                         return AHApp(name: name, url: url, bundleID: bundleID)
                     }()
                     
-                    restartApp(appleIDSettings, restartApp: monitorControl)
+                    restartApp(check: appleIDSettings, restart: monitorControl)
                 }
             }
         }
@@ -92,8 +92,8 @@ class SystemWatcher {
         }
     }
     
-    private func restartApp(_ checkApp:AHApp, restartApp:AHApp) {
-        if NSRunningApplication.runningApplications(withBundleIdentifier: checkApp.bundleID).first != nil {
+    private func restartApp(check checkApp:AHApp, restart restartApp:AHApp) {
+        if NSRunningApplication.runningApplications(withBundleIdentifier: checkApp.bundleID).first != nil || true {
             if let runningApp = NSRunningApplication.runningApplications(withBundleIdentifier: restartApp.bundleID).first {
                 runningApp.terminate()
                 run(restartApp)
@@ -112,7 +112,7 @@ class SystemWatcher {
         print("Killed \(result)")
         
         if Defaults[.notifyUser] {
-            ruleApplied(name: quitServiceName ?? checkServiceName, action: .quit)
+            ruleApplied(name: checkServiceName, action: .quit)
         }
     }
     
@@ -164,4 +164,13 @@ class SystemWatcher {
 enum AHAction:String {
     case restart
     case quit
+    
+    var localizedString:String {
+        switch self {
+        case .restart:
+            return NSLocalizedString("restarted", comment: "")
+        case .quit:
+            return NSLocalizedString("quit", comment: "")
+        }
+    }
 }

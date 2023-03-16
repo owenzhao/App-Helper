@@ -17,7 +17,13 @@
 "Preferences" = "设置";
 
 /* No comment provided by engineer. */
+"quit" = "已退出";
+
+/* No comment provided by engineer. */
 "Restart Monitor Control When System Preferences App Quits" = "当系统设置应用退出时，重启Monitor Control。";
+
+/* No comment provided by engineer. */
+"restarted" = "已重启";
 
 /* No comment provided by engineer. */
 "Rule Applied" = "规则已应用";
