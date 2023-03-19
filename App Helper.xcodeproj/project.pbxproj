@@ -29,6 +29,9 @@
 		DC13DC7A294571EE005D28E9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC78294571EE005D28E9 /* Localizable.strings */; };
 		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
+		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
+		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
+		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
 		DCB4441F29BD650500F037FA /* App Helper Launcher-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCB4441D29BD650500F037FA /* App Helper Launcher-InfoPlist.strings */; };
 		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +75,9 @@
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC81294572A3005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
 		DCB4441E29BD650500F037FA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/App Helper Launcher-InfoPlist.strings"; sourceTree = "<group>"; };
 		DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,6 +134,8 @@
 				DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */,
 				DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
+				DCA5960E29C710EE00E1DAB3 /* LogView.swift */,
+				DCA5961329C7178400E1DAB3 /* Model */,
 				DC13DC65294566D3005D28E9 /* Tools */,
 				DC13DC5C29454958005D28E9 /* Defaults */,
 				DC13DC3029452A4A005D28E9 /* Assets.xcassets */,
@@ -182,6 +190,15 @@
 				DC13DC82294592AD005D28E9 /* Shell.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		DCA5961329C7178400E1DAB3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */,
+				DCA5961429C717A400E1DAB3 /* LogProvider.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */,
 				DC13DC83294592AD005D28E9 /* Shell.swift in Sources */,
 				DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */,
 				DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */,
@@ -308,6 +326,8 @@
 				DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */,
 				DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */,
 				DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */,
+				DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */,
+				DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */,
 				DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,7 +517,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -511,7 +531,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -527,7 +547,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -541,7 +561,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -557,7 +577,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -571,7 +591,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -588,7 +608,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -602,7 +622,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -679,6 +699,19 @@
 			productName = SwiftUIWindowBinder;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */,
+			);
+			currentVersion = DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DC13DC2129452A49005D28E9 /* Project object */;
 }

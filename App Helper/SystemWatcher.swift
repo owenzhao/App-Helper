@@ -9,12 +9,16 @@ import Foundation
 import AppKit
 import Defaults
 import UserNotifications
+import CoreData
 
 class SystemWatcher {
-    private init() {
+    private let moc: NSManagedObjectContext
+    
+    private init(moc:NSManagedObjectContext) {
+        self.moc = moc
         startWatch()
     }
-    static let shared = SystemWatcher()
+    static let shared = SystemWatcher(moc: LogProvider.shared.container.viewContext)
     
     lazy private var systemPreferences:AHApp = {
         let url = URL(fileURLWithPath: "/System/Applications/System Settings.app")
@@ -150,13 +154,28 @@ class SystemWatcher {
             case .provisional:
                 let content = UNMutableNotificationContent()
                 content.title = NSLocalizedString("Rule Applied", comment: "")
-                content.body = "\(name) \(action)"
+                content.body = "\(name) \(action.localizedString)"
                 
                 let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
                 center.add(request)
+                
+                self.addLog(content.body)
             @unknown default:
                 break
             }
+        }
+    }
+    
+//    MARK: - Logs
+    private func addLog(_ text:String) {
+        let log = AHLog(context: moc)
+        log.createdDate = Date()
+        log.text = text
+        
+        do {
+            try moc.save()
+        } catch {
+            print(error)
         }
     }
 }

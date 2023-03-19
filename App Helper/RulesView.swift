@@ -45,6 +45,8 @@ struct RulesView: View {
                 Button("Run in Background") {
                     NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
                 }
+                
+                Spacer()
             }
             .padding()
         }

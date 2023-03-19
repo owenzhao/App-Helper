@@ -134,11 +134,41 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 @main
 struct App_HelperApp: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @StateObject private var logProvider = LogProvider.shared
+    
+    @State private var currentTab:AHTab = .rules
     
     var body: some Scene {
         WindowGroup {
-            RulesView()
+            Group {
+                switch currentTab {
+                case .rules:
+                    RulesView()
+                        .tabItem {
+                            Label("Rules", image: "ruler")
+                        }
+                case .logs:
+                    LogView()
+                        .tabItem {
+                            Label("Logs", image: "clock")
+                        }
+                }
+            }
+            .environment(\.managedObjectContext, logProvider.container.viewContext)
+            .toolbar {
+                ToolbarItemGroup {
+                    Picker(selection: $currentTab) {
+                        ForEach(AHTab.allCases) { tab in
+                            Text(tab.localizedString).tag(tab)
+                        }
+                    } label: {
+                        EmptyView()
+                    }
+                    .pickerStyle(.segmented)
+                }
+            }
         }
+        .windowToolbarStyle(.unifiedCompact(showsTitle: false))
     }
 }
 
@@ -146,3 +176,19 @@ struct App_HelperApp: App {
  <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by justicon - Flaticon</a>
  <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by Freepik - Flaticon</a>
  */
+
+enum AHTab:String, CaseIterable, Identifiable {
+    case rules
+    case logs
+    
+    var id: Self { self }
+    
+    var localizedString : String {
+        switch self {
+        case .rules:
+            return NSLocalizedString("Rules", comment: "")
+        case .logs:
+            return NSLocalizedString("Logs", comment: "")
+        }
+    }
+}

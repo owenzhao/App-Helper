@@ -5,6 +5,12 @@
 "Force Quitting SourceKitService When Xcode Quits" = "当Xcode退出后强制退出SourceKitService。";
 
 /* No comment provided by engineer. */
+"Logs" = "日志";
+
+/* No comment provided by engineer. */
+"No Logs" = "无日志";
+
+/* No comment provided by engineer. */
 "Notification is not allowed by user. Please check your system preferences." = "用户不允许通知。请检查您的系统设置。";
 
 /* No comment provided by engineer. */
