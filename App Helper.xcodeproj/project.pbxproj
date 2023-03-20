@@ -75,6 +75,9 @@
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC81294572A3005D28E9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
+		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC45A25129C843000007B036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
@@ -107,6 +110,7 @@
 		DC13DC2029452A49005D28E9 = {
 			isa = PBXGroup;
 			children = (
+				DC34007129C83EF400121B64 /* Global.xcconfig */,
 				DCB4441D29BD650500F037FA /* App Helper Launcher-InfoPlist.strings */,
 				DC13DC2B29452A49005D28E9 /* App Helper */,
 				DC13DC472945480F005D28E9 /* App Helper Launcher */,
@@ -141,6 +145,7 @@
 				DC13DC3029452A4A005D28E9 /* Assets.xcassets */,
 				DC13DC3529452A4A005D28E9 /* App_Helper.entitlements */,
 				DC13DC3229452A4A005D28E9 /* Preview Content */,
+				DC34007229C83FA100121B64 /* Info.plist */,
 			);
 			path = "App Helper";
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 				DC13DC4C29454816005D28E9 /* Assets.xcassets */,
 				DC13DC4E29454816005D28E9 /* Main.storyboard */,
 				DC13DC5129454816005D28E9 /* App_Helper_Launcher.entitlements */,
+				DC45A25129C843000007B036 /* Info.plist */,
 			);
 			path = "App Helper Launcher";
 			sourceTree = "<group>";
@@ -396,6 +402,7 @@
 /* Begin XCBuildConfiguration section */
 		DC13DC3629452A4A005D28E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC34007129C83EF400121B64 /* Global.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -457,6 +464,7 @@
 		};
 		DC13DC3729452A4A005D28E9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC34007129C83EF400121B64 /* Global.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -517,13 +525,13 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "App-Helper-Info.plist";
+				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -531,7 +539,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = "$(APP_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -547,13 +555,13 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "App-Helper-Info.plist";
+				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -561,7 +569,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = "$(APP_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -577,10 +585,11 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "App Helper Launcher/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSBackgroundOnly = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -591,7 +600,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = "$(APP_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -608,10 +617,11 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "App Helper Launcher/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSBackgroundOnly = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -622,7 +632,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = "$(APP_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

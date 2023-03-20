@@ -118,6 +118,8 @@ class SystemWatcher {
         if Defaults[.notifyUser] {
             ruleApplied(name: checkServiceName, action: .quit)
         }
+        
+        addLog("\(checkServiceName) \(AHAction.quit.localizedString)")
     }
     
     private func run(_ app:AHApp) {
@@ -127,6 +129,8 @@ class SystemWatcher {
             if Defaults[.notifyUser] {
                 ruleApplied(name: app.name!, action: .restart)
             }
+            
+            addLog("\(app.name!) \(AHAction.restart.localizedString)")
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.run(app)
@@ -158,8 +162,6 @@ class SystemWatcher {
                 
                 let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
                 center.add(request)
-                
-                self.addLog(content.body)
             @unknown default:
                 break
             }
