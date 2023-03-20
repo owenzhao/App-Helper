@@ -8,7 +8,7 @@
 import Foundation
 import Defaults
 
-let sharedDefaults = UserDefaults(suiteName: "96NM39SGJ5.com.parussoft.App-Helper-Launcher")!
+let sharedDefaults = UserDefaults(suiteName: "96NM39SGJ5.com.parussoft.App-Helper.group")!
 
 extension Defaults.Keys {
     public static let startFromLauncher = Key<Bool>("startFromLauncher", default: false, suite: sharedDefaults)
