@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 import SwiftUIWindowBinder
+import IOKit.pwr_mgt
 
 struct RulesView: View {
     @State private var window: SwiftUIWindowBinder.Window?
@@ -16,6 +17,10 @@ struct RulesView: View {
     @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
     
     @Default(.notifyUser) private var notifyUser
+    
+    @State private var preventScreensaver = false
+    @State private var assertionID: IOPMAssertionID = 0
+    @State private var sleepDisabled = false
     
     private let notificatonErrorPublisher = NotificationCenter.default.publisher(for: .notificationError)
     private let notificationAuthorizeDeniedPublisher = NotificationCenter.default.publisher(for: .notificationAuthorizeDenied)
@@ -39,6 +44,20 @@ struct RulesView: View {
                     Text("Preferences")
                         .font(.title)
                     Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
+                    Divider()
+                }
+                
+                Section {
+                    Text("Commands")
+                        .font(.title)
+                    Toggle("Prevent Screensaver.", isOn:$preventScreensaver)
+                        .onChange(of: preventScreensaver) { newValue in
+                            if preventScreensaver {
+                                disableScreenSleep()
+                            } else {
+                                enableScreenSleep()
+                            }
+                        }
                     Divider()
                 }
                 
@@ -71,6 +90,19 @@ struct RulesView: View {
             Alert(title: Text("Can't send notification!"),
                   message: Text("Notification is not allowed by user. Please check your system preferences."),
                   dismissButton: Alert.Button.default(Text("OK")))
+        }
+    }
+    
+    func disableScreenSleep(reason: String = "Disabling Screen Sleep") {
+        if !sleepDisabled {
+            sleepDisabled = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), reason as CFString, &assertionID) == kIOReturnSuccess
+        }
+
+    }
+    func enableScreenSleep() {
+        if sleepDisabled {
+            IOPMAssertionRelease(assertionID)
+            sleepDisabled = false
         }
     }
 }

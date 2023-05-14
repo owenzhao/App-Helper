@@ -2,7 +2,10 @@
 "Can't send notification!" = "无法发送通知！";
 
 /* No comment provided by engineer. */
-"Force Quitting SourceKitService When Xcode Quits" = "当Xcode退出后强制退出SourceKitService。";
+"Commands" = "命令";
+
+/* No comment provided by engineer. */
+"Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
 
 /* No comment provided by engineer. */
 "Logs" = "日志";
@@ -11,25 +14,28 @@
 "No Logs" = "无日志";
 
 /* No comment provided by engineer. */
-"Notification is not allowed by user. Please check your system preferences." = "用户不允许通知。请检查您的系统设置。";
+"Notification is not allowed by user. Please check your system preferences." = "用户不允许通知。请检查您的系统偏好设置。";
 
 /* No comment provided by engineer. */
-"Notify User when a rule is matched." = "当规则被匹配时，通知用户。";
+"Notify User when a rule is matched." = "当规则匹配时通知用户。";
 
 /* No comment provided by engineer. */
 "OK" = "确定";
 
 /* No comment provided by engineer. */
-"Preferences" = "设置";
+"Preferences" = "选项";
 
 /* No comment provided by engineer. */
-"quit" = "已退出";
+"Prevent Screensaver." = "阻止屏幕保护。";
 
 /* No comment provided by engineer. */
-"Restart Monitor Control When System Preferences App Quits" = "当系统设置应用退出时，重启Monitor Control。";
+"quit" = "退出";
 
 /* No comment provided by engineer. */
-"restarted" = "已重启";
+"Restart Monitor Control When System Preferences App Quits" = "当系统偏好设置应用程序退出时，重新启动监视器控制";
+
+/* No comment provided by engineer. */
+"restarted" = "重启";
 
 /* No comment provided by engineer. */
 "Rule Applied" = "规则已应用";
