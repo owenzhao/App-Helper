@@ -18,9 +18,9 @@ struct RulesView: View {
     
     @Default(.notifyUser) private var notifyUser
     
-    @State private var preventScreensaver = false
-    @State private var assertionID: IOPMAssertionID = 0
-    @State private var sleepDisabled = false
+    @Binding var preventScreensaver:Bool
+    @Binding var assertionID: IOPMAssertionID
+    @Binding var sleepDisabled:Bool
     
     private let notificatonErrorPublisher = NotificationCenter.default.publisher(for: .notificationError)
     private let notificationAuthorizeDeniedPublisher = NotificationCenter.default.publisher(for: .notificationAuthorizeDenied)
@@ -94,6 +94,9 @@ struct RulesView: View {
                   message: Text("Notification is not allowed by user. Please check your system preferences."),
                   dismissButton: Alert.Button.default(Text("OK")))
         }
+        .onAppear {
+            print(preventScreensaver)
+        }
     }
     
     func disableScreenSleep(reason: String = "Disabling Screen Sleep") {
@@ -112,7 +115,9 @@ struct RulesView: View {
 
 struct RulesView_Previews: PreviewProvider {
     static var previews: some View {
-        RulesView()
+        RulesView(preventScreensaver: .constant(false),
+                  assertionID: .constant(0),
+                  sleepDisabled: .constant(false))
     }
 }
 
