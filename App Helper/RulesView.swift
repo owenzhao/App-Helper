@@ -33,7 +33,7 @@ struct RulesView: View {
             VStack(alignment: .leading) {
                 Section {
                     Text("Rules")
-                        .font(.title)
+                        .font(.title.bold())
                     Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
                     Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
                     
@@ -42,14 +42,16 @@ struct RulesView: View {
                 
                 Section {
                     Text("Preferences")
-                        .font(.title)
+                        .font(.title2.bold())
                     Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
-                    Divider()
                 }
+
+                
+                Divider()
                 
                 Section {
                     Text("Commands")
-                        .font(.title)
+                        .font(.title.bold())
                     Toggle("Prevent Screensaver.", isOn:$preventScreensaver)
                         .onChange(of: preventScreensaver) { newValue in
                             if preventScreensaver {
@@ -60,6 +62,7 @@ struct RulesView: View {
                         }
                     Divider()
                 }
+                
                 
                 Button("Run in Background") {
                     NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
