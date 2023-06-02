@@ -52,6 +52,30 @@ class SystemWatcher {
         return AHApp(name: name, url: url, bundleID: bundleID)
     }()
     
+    lazy private var qqMusic:AHApp = {
+        let url = URL(fileURLWithPath: "/Applications/QQMusic.app")
+        let name = url.deletingPathExtension().lastPathComponent
+        let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
+        
+        return AHApp(name: name, url: url, bundleID: bundleID)
+    }()
+    
+    lazy private var safari:AHApp = {
+        let url = URL(fileURLWithPath: "/Applications/Safari.app")
+        let name = url.deletingPathExtension().lastPathComponent
+        let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
+        
+        return AHApp(name: name, url: url, bundleID: bundleID)
+    }()
+    
+    lazy private var mWebPro:AHApp = {
+        let url = URL(fileURLWithPath: "/Applications/MWeb Pro.app")
+        let name = url.deletingPathExtension().lastPathComponent
+        let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
+        
+        return AHApp(name: name, url: url, bundleID: bundleID)
+    }()
+    
     func startWatch() {
         let center = NSWorkspace.shared.notificationCenter
         center.addObserver(self, selector: #selector(applyRules(_:)), name: NSWorkspace.didTerminateApplicationNotification, object: nil)
@@ -94,6 +118,43 @@ class SystemWatcher {
                 }
             }
         }
+        
+        if Defaults[.cleanUpQQMusicRemains] {
+            if let userInfo = noti.userInfo,
+               let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+               terminatedApp.bundleIdentifier == qqMusic.bundleID {
+                print("QQ Music quits.")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
+                    quitApps(with: "QQMusic网页内容")
+                }
+            }
+        }
+        
+        if Defaults[.cleanUpSafariRemains] {
+            if let userInfo = noti.userInfo,
+               let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+               terminatedApp.bundleIdentifier == safari.bundleID {
+                print("Safari quits.")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
+                    quitApps(with: "Safari网页内容（已预热）")
+                    quitApps(with: "Safari网页内容（已缓存）")
+                }
+            }
+        }
+        
+        if Defaults[.cleanUpMWebProRemains] {
+            if let userInfo = noti.userInfo,
+               let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+               terminatedApp.bundleIdentifier == mWebPro.bundleID {
+                print("MWeb Pro quits.")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
+                    quitApps(with: "MWeb Pro网页内容")
+                }
+            }
+        }
     }
     
     private func restartApp(check checkApp:AHApp, restart restartApp:AHApp) {
@@ -120,6 +181,36 @@ class SystemWatcher {
         }
         
         addLog("\(checkServiceName) \(AHAction.quit.localizedString)")
+    }
+    
+    private func quitApps(with name:String) {
+        let apps = NSWorkspace.shared.runningApplications.filter { $0.localizedName == name }
+        
+        guard !apps.isEmpty else { return }
+        
+        var result = false
+        
+        apps.forEach {
+            result = $0.terminate()
+            
+            if $0.isTerminated == false {
+                result = $0.forceTerminate()
+                
+                if $0.isTerminated == false {
+                    let r = shell("kill -9 \($0.processIdentifier)")
+                    print("Killed \(r)")
+                    
+                    result = true // $0.isTerminated always returns false
+                }
+            }
+        }
+        
+        if result {
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Clean up %@ remains.", comment: ""), name))
+            ruleApplied(name: name, action: .quit)
+        } else {
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Can not clean up %@.", comment: ""), name))
+        }
     }
     
     private func run(_ app:AHApp) {

@@ -16,6 +16,11 @@ struct RulesView: View {
     @Default(.restartMonitorControl) private var restartMonitorControl
     @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
     
+    @Default(.cleanUpQQMusicRemains) private var cleanUpQQMusicRemains
+    @Default(.cleanUpSafariRemains) private var cleanUpSafariRemains
+    @Default(.cleanUpMWebProRemains) private var cleanUpMWebProRemains
+    
+    
     @Default(.notifyUser) private var notifyUser
     
     @Binding var preventScreensaver:Bool
@@ -36,9 +41,17 @@ struct RulesView: View {
                         .font(.title.bold())
                     Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
                     Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
-                    
-                    Divider()
                 }
+                
+                Section {
+                    Text("Clean Up Web Content Remain")
+                        .font(.title2.bold())
+                    Toggle("Clean up QQ Music Remains", isOn: $cleanUpQQMusicRemains)
+                    Toggle("Clean up Safari Remains", isOn: $cleanUpSafariRemains)
+                    Toggle("Clean up MWeb Pro Remains", isOn: $cleanUpMWebProRemains)
+                }
+                
+                Divider()
                 
                 Section {
                     Text("Preferences")

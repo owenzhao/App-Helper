@@ -151,12 +151,12 @@ struct App_HelperApp: App {
                               assertionID: $assertionID,
                               sleepDisabled: $sleepDisabled)
                     .tabItem {
-                        Label("Rules", image: "ruler")
+                        Label("Rules", systemImage: "ruler")
                     }
                 case .logs:
                     LogView()
                         .tabItem {
-                            Label("Logs", image: "clock")
+                            Label("Logs", systemImage: "clock")
                         }
                 }
             }

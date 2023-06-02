@@ -14,5 +14,10 @@ extension Defaults.Keys {
     static let restartMonitorControl = Defaults.Key<Bool>("Restart Monitor Control When System Preferences App Quits", default: false)
     static let forceQuitSourceKitService = Defaults.Key<Bool>("Force Quitting SourceKitService When Xcode Quits", default: false)
     
+    static let cleanUpQQMusicRemains = Defaults.Key<Bool>("cleanUpQQMusicRemains", default: false)
+    static let cleanUpSafariRemains = Defaults.Key<Bool>("cleanUpSafariRemains", default: false)
+    static let cleanUpMWebProRemains = Defaults.Key<Bool>("cleanUpMWebProRemains", default: false)
+    
+    
     static let notifyUser = Defaults.Key<Bool>("Notify User when a rule is matched", default: true)
 }
