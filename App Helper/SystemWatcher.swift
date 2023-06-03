@@ -119,6 +119,16 @@ class SystemWatcher {
             }
         }
         
+        if Defaults[.forceQuitOpenAndSavePanelService] {
+            if let userInfo = noti.userInfo,
+               let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
+               let name = terminatedApp.localizedName {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
+                    quitOpenAndSavePanelService(with: name)
+                }
+            }
+        }
+        
         if Defaults[.cleanUpQQMusicRemains] {
             if let userInfo = noti.userInfo,
                let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
@@ -138,8 +148,7 @@ class SystemWatcher {
                 print("Safari quits.")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitApps(with: "Safari网页内容（已预热）")
-                    quitApps(with: "Safari网页内容（已缓存）")
+                    quitApps(with: "Safari网页内容")
                 }
             }
         }
@@ -184,7 +193,7 @@ class SystemWatcher {
     }
     
     private func quitApps(with name:String) {
-        let apps = NSWorkspace.shared.runningApplications.filter { $0.localizedName == name }
+        let apps = NSWorkspace.shared.runningApplications.filter { $0.localizedName?.contains(name) == true }
         
         guard !apps.isEmpty else { return }
         
@@ -206,10 +215,43 @@ class SystemWatcher {
         }
         
         if result {
-            addLog(String.localizedStringWithFormat(NSLocalizedString("Clean up %@ remains.", comment: ""), name))
             ruleApplied(name: name, action: .quit)
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Clean up %@ remains.", comment: ""), name))
         } else {
             addLog(String.localizedStringWithFormat(NSLocalizedString("Can not clean up %@.", comment: ""), name))
+        }
+    }
+    
+    private func quitOpenAndSavePanelService(with name:String) {
+        let apps = NSWorkspace.shared.runningApplications
+            .filter { ($0.localizedName?.hasPrefix("Open and Save Panel Service") == true
+                       || $0.localizedName?.hasPrefix("QuickLookUIService") == true)
+                && $0.localizedName?.contains(name) == true }
+        
+        guard !apps.isEmpty else { return }
+        
+        var result = false
+        
+        apps.forEach {
+            result = $0.terminate()
+            
+            if $0.isTerminated == false {
+                result = $0.forceTerminate()
+                
+                if $0.isTerminated == false {
+                    let r = shell("kill -9 \($0.processIdentifier)")
+                    print("Killed \(r)")
+                    
+                    result = true // $0.isTerminated always returns false
+                }
+            }
+        }
+        
+        if result {
+            ruleApplied(name: "Open and Save Panel Service \(name)", action: .quit)
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Quit %@", comment: ""), "Open and Save Panel Service \(name)"))
+        } else {
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Can not quit %@.", comment: ""), "Open and Save Panel Service \(name)"))
         }
     }
     

@@ -2,6 +2,9 @@
 "Can not clean up %@." = "无法清理%@。";
 
 /* No comment provided by engineer. */
+"Can not quit %@." = "无法退出%@。";
+
+/* No comment provided by engineer. */
 "Can't send notification!" = "无法发送通知！";
 
 /* No comment provided by engineer. */
@@ -21,6 +24,9 @@
 
 /* No comment provided by engineer. */
 "Commands" = "命令";
+
+/* No comment provided by engineer. */
+"Force Quitting Open and Save Panel Service When an App Quits" = "当任意应用退出时，强制退出对应的Open and Save Panel Service。";
 
 /* No comment provided by engineer. */
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
@@ -48,6 +54,9 @@
 
 /* No comment provided by engineer. */
 "quit" = "退出";
+
+/* No comment provided by engineer. */
+"Quit %@" = "退出%@";
 
 /* No comment provided by engineer. */
 "Restart Monitor Control When System Preferences App Quits" = "当系统偏好设置应用程序退出时，重新启动监视器控制";

@@ -15,11 +15,11 @@ struct RulesView: View {
     
     @Default(.restartMonitorControl) private var restartMonitorControl
     @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
+    @Default(.forceQuitOpenAndSavePanelService) private var forceQuitOpenAndSavePanelService
     
     @Default(.cleanUpQQMusicRemains) private var cleanUpQQMusicRemains
     @Default(.cleanUpSafariRemains) private var cleanUpSafariRemains
     @Default(.cleanUpMWebProRemains) private var cleanUpMWebProRemains
-    
     
     @Default(.notifyUser) private var notifyUser
     
@@ -41,6 +41,7 @@ struct RulesView: View {
                         .font(.title.bold())
                     Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
                     Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
+                    Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
                 }
                 
                 Section {
