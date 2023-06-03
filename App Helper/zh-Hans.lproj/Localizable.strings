@@ -11,16 +11,10 @@
 "Clean up %@ remains." = "清理%@遗留。";
 
 /* No comment provided by engineer. */
-"Clean up MWeb Pro Remains" = "清理MWeb Pro遗留";
+"Clean Up Safari Remains Aggressively" = "侵略性地清理Safari的遗留。";
 
 /* No comment provided by engineer. */
-"Clean up QQ Music Remains" = "清理QQ音乐遗留";
-
-/* No comment provided by engineer. */
-"Clean up Safari Remains" = "清理Safari遗留";
-
-/* No comment provided by engineer. */
-"Clean Up Web Content Remain" = "清理网页遗留。";
+"Clean Up Web Content Remains When an App Quits" = "当任意应用退出时，清理对应的网页遗留。";
 
 /* No comment provided by engineer. */
 "Commands" = "命令";

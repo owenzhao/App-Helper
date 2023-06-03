@@ -16,10 +16,8 @@ struct RulesView: View {
     @Default(.restartMonitorControl) private var restartMonitorControl
     @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
     @Default(.forceQuitOpenAndSavePanelService) private var forceQuitOpenAndSavePanelService
-    
-    @Default(.cleanUpQQMusicRemains) private var cleanUpQQMusicRemains
-    @Default(.cleanUpSafariRemains) private var cleanUpSafariRemains
-    @Default(.cleanUpMWebProRemains) private var cleanUpMWebProRemains
+    @Default(.cleanUpWebContentRemains) private var cleanUpWebContentRemains
+    @Default(.cleanUpSafariRemainsAggressively) private var cleanUpSafariRemainsAggressively
     
     @Default(.notifyUser) private var notifyUser
     
@@ -42,14 +40,8 @@ struct RulesView: View {
                     Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
                     Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
                     Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
-                }
-                
-                Section {
-                    Text("Clean Up Web Content Remain")
-                        .font(.title2.bold())
-                    Toggle("Clean up QQ Music Remains", isOn: $cleanUpQQMusicRemains)
-                    Toggle("Clean up Safari Remains", isOn: $cleanUpSafariRemains)
-                    Toggle("Clean up MWeb Pro Remains", isOn: $cleanUpMWebProRemains)
+                    Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
+                    Toggle("Clean Up Safari Remains Aggressively", isOn: $cleanUpSafariRemainsAggressively)
                 }
                 
                 Divider()

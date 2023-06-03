@@ -52,24 +52,8 @@ class SystemWatcher {
         return AHApp(name: name, url: url, bundleID: bundleID)
     }()
     
-    lazy private var qqMusic:AHApp = {
-        let url = URL(fileURLWithPath: "/Applications/QQMusic.app")
-        let name = url.deletingPathExtension().lastPathComponent
-        let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
-        
-        return AHApp(name: name, url: url, bundleID: bundleID)
-    }()
-    
     lazy private var safari:AHApp = {
         let url = URL(fileURLWithPath: "/Applications/Safari.app")
-        let name = url.deletingPathExtension().lastPathComponent
-        let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
-        
-        return AHApp(name: name, url: url, bundleID: bundleID)
-    }()
-    
-    lazy private var mWebPro:AHApp = {
-        let url = URL(fileURLWithPath: "/Applications/MWeb Pro.app")
         let name = url.deletingPathExtension().lastPathComponent
         let bundleID = shell("mdls -name kMDItemCFBundleIdentifier -r '\(url.path)'")
         
@@ -129,38 +113,31 @@ class SystemWatcher {
             }
         }
         
-        if Defaults[.cleanUpQQMusicRemains] {
+        if Defaults[.cleanUpWebContentRemains] {
             if let userInfo = noti.userInfo,
                let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-               terminatedApp.bundleIdentifier == qqMusic.bundleID {
-                print("QQ Music quits.")
-                
+               let name = terminatedApp.localizedName {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitApps(with: "QQMusic网页内容")
+                    quitWebContent(with: name)
                 }
             }
         }
         
-        if Defaults[.cleanUpSafariRemains] {
+        if Defaults[.cleanUpSafariRemainsAggressively] {
             if let userInfo = noti.userInfo,
                let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
                terminatedApp.bundleIdentifier == safari.bundleID {
                 print("Safari quits.")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitApps(with: "Safari网页内容")
-                }
-            }
-        }
-        
-        if Defaults[.cleanUpMWebProRemains] {
-            if let userInfo = noti.userInfo,
-               let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-               terminatedApp.bundleIdentifier == mWebPro.bundleID {
-                print("MWeb Pro quits.")
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitApps(with: "MWeb Pro网页内容")
+                    let excludingApps = [
+                        "com.apple.Safari.History",
+                        "SafariBookmarksSyncAgent",
+                        "SafariLaunchAgent",
+                        "SafariNotificationAgent",
+                        "com.apple.Safari.SafeBrowsing.Service"
+                    ]
+                    quitSerice(with: "Safari", exclude: excludingApps)
                 }
             }
         }
@@ -222,11 +199,21 @@ class SystemWatcher {
         }
     }
     
+    private func quitWebContent(with name:String) {
+        quitSerice(with: name, services: ["网页内容", "Web Content"])
+    }
+    
     private func quitOpenAndSavePanelService(with name:String) {
+        let services = [
+            "Open and Save Panel Service",
+            "QuickLookUIService"
+        ]
+        quitSerice(with: name, services: services)
+    }
+    
+    private func quitSerice(with name:String, services:[String]) {
         let apps = NSWorkspace.shared.runningApplications
-            .filter { ($0.localizedName?.hasPrefix("Open and Save Panel Service") == true
-                       || $0.localizedName?.hasPrefix("QuickLookUIService") == true)
-                && $0.localizedName?.contains(name) == true }
+            .filter { $0.contains(in: services) && $0.localizedName?.contains(name) == true }
         
         guard !apps.isEmpty else { return }
         
@@ -248,10 +235,42 @@ class SystemWatcher {
         }
         
         if result {
-            ruleApplied(name: "Open and Save Panel Service \(name)", action: .quit)
-            addLog(String.localizedStringWithFormat(NSLocalizedString("Quit %@", comment: ""), "Open and Save Panel Service \(name)"))
+            ruleApplied(name: apps.first!.localizedName!, action: .quit)
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Quit %@", comment: ""), apps.first!.localizedName!))
         } else {
-            addLog(String.localizedStringWithFormat(NSLocalizedString("Can not quit %@.", comment: ""), "Open and Save Panel Service \(name)"))
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Can not quit %@.", comment: ""), apps.first!.localizedName!))
+        }
+    }
+    
+    private func quitSerice(with name:String, exclude excludingApps:[String]) {
+        let apps = NSWorkspace.shared.runningApplications
+            .filter { $0.localizedName?.contains(name) == true }
+            .filter { $0.contains(in: excludingApps) == false }
+        
+        guard !apps.isEmpty else { return }
+        
+        var result = false
+        
+        apps.forEach {
+            result = $0.terminate()
+            
+            if $0.isTerminated == false {
+                result = $0.forceTerminate()
+                
+                if $0.isTerminated == false {
+                    let r = shell("kill -9 \($0.processIdentifier)")
+                    print("Killed \(r)")
+                    
+                    result = true // $0.isTerminated always returns false
+                }
+            }
+        }
+        
+        if result {
+            ruleApplied(name: apps.first!.localizedName!, action: .quit)
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Quit %@", comment: ""), apps.first!.localizedName!))
+        } else {
+            addLog(String.localizedStringWithFormat(NSLocalizedString("Can not quit %@.", comment: ""), apps.first!.localizedName!))
         }
     }
     
@@ -326,5 +345,17 @@ enum AHAction:String {
         case .quit:
             return NSLocalizedString("quit", comment: "")
         }
+    }
+}
+
+extension NSRunningApplication {
+    func contains(in service:[String]) -> Bool {
+        for service in service {
+            if self.localizedName?.contains(service) == true {
+                return true
+            }
+        }
+        
+        return false
     }
 }
