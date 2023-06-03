@@ -116,7 +116,11 @@ class SystemWatcher {
         if Defaults[.cleanUpWebContentRemains] {
             if let userInfo = noti.userInfo,
                let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-               let name = terminatedApp.localizedName {
+               var name = terminatedApp.localizedName {
+                if name == "QQ音乐" {
+                    name = "QQMusic"
+                }
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
                     quitWebContent(with: name)
                 }
