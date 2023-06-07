@@ -17,13 +17,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationWillFinishLaunching(_ notification: Notification) {
         registerNotification()
-        setAutoStart()
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupMenubarTray()
         
-        if Defaults[.startFromLauncher] {
+        if #available(macOS 13, *) {
+            if let userInfo = notification.userInfo as? [String:Any],
+               let isDefault = userInfo[NSApplication.launchIsDefaultUserInfoKey] as? Bool {
+                if !isDefault {
+                    DispatchQueue.main.async {
+                        self.hide()
+                    }
+                }
+            }
+        } else if Defaults[.startFromLauncher] {
             Defaults[.startFromLauncher] = false
             
             DispatchQueue.main.async {
@@ -56,13 +64,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let shouldEnable = Defaults[.autoLaunchWhenLogin]
         
         if #available(macOS 13.0, *) {
-            if shouldEnable {
-                try? SMAppService().register()
-            } else {
-                try? SMAppService().unregister()
+            do {
+                if shouldEnable {
+                    try SMAppService.mainApp.register()
+                } else {
+                    try SMAppService.mainApp.unregister()
+                }
+            } catch {
+                print(error)
             }
+            
         } else {
-            if !SMLoginItemSetEnabled("com.parussoft.Stand-Reminder-Launcher" as CFString, shouldEnable) {
+            if !SMLoginItemSetEnabled("com.parussoft.App-Helper-Launcher" as CFString, shouldEnable) {
                 fatalError()
             }
         }
