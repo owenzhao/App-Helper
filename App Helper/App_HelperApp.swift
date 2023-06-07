@@ -22,21 +22,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupMenubarTray()
         
-        if #available(macOS 13, *) {
-            if let userInfo = notification.userInfo as? [String:Any],
-               let isDefault = userInfo[NSApplication.launchIsDefaultUserInfoKey] as? Bool {
-                if !isDefault {
-                    DispatchQueue.main.async {
-                        self.hide()
-                    }
-                }
-            }
-        } else if Defaults[.startFromLauncher] {
-            Defaults[.startFromLauncher] = false
-            
-            DispatchQueue.main.async {
-                self.hide()
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+            self.hide()
         }
     }
     
@@ -60,26 +47,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setAutoStart() {
-        #if !DEBUG
+//        #if !DEBUG
         let shouldEnable = Defaults[.autoLaunchWhenLogin]
         
-        if #available(macOS 13.0, *) {
-            do {
-                if shouldEnable {
-                    try SMAppService.mainApp.register()
-                } else {
-                    try SMAppService.mainApp.unregister()
-                }
-            } catch {
-                print(error)
+        do {
+            if shouldEnable {
+                //                    try SMAppService.loginItem(identifier: "com.parussoft.App-Helper-Launcher").register()
+                try SMAppService.mainApp.register()
+            } else {
+                //                    try SMAppService.loginItem(identifier: "com.parussoft.App-Helper-Launcher").unregister()
+                try SMAppService.mainApp.unregister()
             }
-            
-        } else {
-            if !SMLoginItemSetEnabled("com.parussoft.App-Helper-Launcher" as CFString, shouldEnable) {
-                fatalError()
-            }
+        } catch {
+            print(error)
         }
-        #endif
+//        #endif
     }
     
     private func setupMenubarTray() {

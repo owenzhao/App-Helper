@@ -12,42 +12,21 @@
 		DC13DC3429452A4A005D28E9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC3329452A4A005D28E9 /* Preview Assets.xcassets */; };
 		DC13DC3D29453060005D28E9 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = DC13DC3C29453060005D28E9 /* Defaults */; };
 		DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC3E2945308B005D28E9 /* Defaults.Keys.swift */; };
-		DC13DC492945480F005D28E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC482945480F005D28E9 /* AppDelegate.swift */; };
-		DC13DC4B2945480F005D28E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC4A2945480F005D28E9 /* ViewController.swift */; };
-		DC13DC4D29454816005D28E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC4C29454816005D28E9 /* Assets.xcassets */; };
-		DC13DC5029454816005D28E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC4E29454816005D28E9 /* Main.storyboard */; };
-		DC13DC572945482E005D28E9 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC13DC562945482E005D28E9 /* ServiceManagement.framework */; };
-		DC13DC5929454891005D28E9 /* App Helper Launcher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = DC13DC462945480F005D28E9 /* App Helper Launcher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DC13DC5B29454937005D28E9 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = DC13DC5A29454937005D28E9 /* Defaults */; };
 		DC13DC5E29454962005D28E9 /* Defaults.Keys.Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC5D29454962005D28E9 /* Defaults.Keys.Shared.swift */; };
-		DC13DC5F294549FA005D28E9 /* Defaults.Keys.Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC5D29454962005D28E9 /* Defaults.Keys.Shared.swift */; };
 		DC13DC6229456518005D28E9 /* SwiftUIWindowBinder in Frameworks */ = {isa = PBXBuildFile; productRef = DC13DC6129456518005D28E9 /* SwiftUIWindowBinder */; };
 		DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC63294565F3005D28E9 /* WindowDelegate.swift */; };
 		DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC66294566DB005D28E9 /* Notification.Name.swift */; };
 		DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC6829456918005D28E9 /* SystemWatcher.swift */; };
 		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
-		DC2A93C62A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C42A111AC100CB506A /* InfoPlist.strings */; };
 		DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C72A111AC100CB506A /* InfoPlist.strings */; };
 		DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93CA2A111AC100CB506A /* Localizable.strings */; };
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
 		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
 		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
+		DCC5E45E2A30B796003D5813 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC13DC562945482E005D28E9 /* ServiceManagement.framework */; };
 		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		DC13DC5829454866005D28E9 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/LoginItems;
-			dstSubfolderSpec = 1;
-			files = (
-				DC13DC5929454891005D28E9 /* App Helper Launcher.app in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		DC13DC2929452A49005D28E9 /* App Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,12 +35,6 @@
 		DC13DC3329452A4A005D28E9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DC13DC3529452A4A005D28E9 /* App_Helper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App_Helper.entitlements; sourceTree = "<group>"; };
 		DC13DC3E2945308B005D28E9 /* Defaults.Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.Keys.swift; sourceTree = "<group>"; };
-		DC13DC462945480F005D28E9 /* App Helper Launcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Helper Launcher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC13DC482945480F005D28E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DC13DC4A2945480F005D28E9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DC13DC4C29454816005D28E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DC13DC4F29454816005D28E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DC13DC5129454816005D28E9 /* App_Helper_Launcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App_Helper_Launcher.entitlements; sourceTree = "<group>"; };
 		DC13DC562945482E005D28E9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		DC13DC5D29454962005D28E9 /* Defaults.Keys.Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.Keys.Shared.swift; sourceTree = "<group>"; };
 		DC13DC63294565F3005D28E9 /* WindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowDelegate.swift; sourceTree = "<group>"; };
@@ -71,14 +44,11 @@
 		DC13DC7E294572A0005D28E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
-		DC2A93C22A110C7D00CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		DC2A93C32A110C7D00CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
-		DC2A93C52A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DC2A93C82A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DC2A93CB2A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DC45A25129C843000007B036 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
@@ -90,17 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC5E45E2A30B796003D5813 /* ServiceManagement.framework in Frameworks */,
 				DC13DC6229456518005D28E9 /* SwiftUIWindowBinder in Frameworks */,
 				DC13DC3D29453060005D28E9 /* Defaults in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DC13DC432945480F005D28E9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DC13DC5B29454937005D28E9 /* Defaults in Frameworks */,
-				DC13DC572945482E005D28E9 /* ServiceManagement.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +74,6 @@
 			children = (
 				DC34007129C83EF400121B64 /* Global.xcconfig */,
 				DC13DC2B29452A49005D28E9 /* App Helper */,
-				DC13DC472945480F005D28E9 /* App Helper Launcher */,
 				DC13DC2A29452A49005D28E9 /* Products */,
 				DC13DC552945482D005D28E9 /* Frameworks */,
 			);
@@ -122,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				DC13DC2929452A49005D28E9 /* App Helper.app */,
-				DC13DC462945480F005D28E9 /* App Helper Launcher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,20 +115,6 @@
 				DC13DC3329452A4A005D28E9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		DC13DC472945480F005D28E9 /* App Helper Launcher */ = {
-			isa = PBXGroup;
-			children = (
-				DC13DC482945480F005D28E9 /* AppDelegate.swift */,
-				DC13DC4A2945480F005D28E9 /* ViewController.swift */,
-				DC13DC4C29454816005D28E9 /* Assets.xcassets */,
-				DC13DC4E29454816005D28E9 /* Main.storyboard */,
-				DC13DC5129454816005D28E9 /* App_Helper_Launcher.entitlements */,
-				DC45A25129C843000007B036 /* Info.plist */,
-				DC2A93C42A111AC100CB506A /* InfoPlist.strings */,
-			);
-			path = "App Helper Launcher";
 			sourceTree = "<group>";
 		};
 		DC13DC552945482D005D28E9 /* Frameworks */ = {
@@ -217,7 +163,6 @@
 				DC13DC2529452A49005D28E9 /* Sources */,
 				DC13DC2629452A49005D28E9 /* Frameworks */,
 				DC13DC2729452A49005D28E9 /* Resources */,
-				DC13DC5829454866005D28E9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -232,26 +177,6 @@
 			productReference = DC13DC2929452A49005D28E9 /* App Helper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DC13DC452945480F005D28E9 /* App Helper Launcher */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC13DC5229454816005D28E9 /* Build configuration list for PBXNativeTarget "App Helper Launcher" */;
-			buildPhases = (
-				DC13DC422945480F005D28E9 /* Sources */,
-				DC13DC432945480F005D28E9 /* Frameworks */,
-				DC13DC442945480F005D28E9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "App Helper Launcher";
-			packageProductDependencies = (
-				DC13DC5A29454937005D28E9 /* Defaults */,
-			);
-			productName = "App Helper Launcher";
-			productReference = DC13DC462945480F005D28E9 /* App Helper Launcher.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -260,12 +185,9 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					DC13DC2829452A49005D28E9 = {
-						CreatedOnToolsVersion = 14.2;
-					};
-					DC13DC452945480F005D28E9 = {
 						CreatedOnToolsVersion = 14.2;
 					};
 				};
@@ -289,7 +211,6 @@
 			projectRoot = "";
 			targets = (
 				DC13DC2829452A49005D28E9 /* App Helper */,
-				DC13DC452945480F005D28E9 /* App Helper Launcher */,
 			);
 		};
 /* End PBXProject section */
@@ -304,16 +225,6 @@
 				DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */,
 				DC13DC3129452A4A005D28E9 /* Assets.xcassets in Resources */,
 				DC13DC7D294572A0005D28E9 /* Credits.html in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DC13DC442945480F005D28E9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DC13DC4D29454816005D28E9 /* Assets.xcassets in Resources */,
-				DC2A93C62A111AC100CB506A /* InfoPlist.strings in Resources */,
-				DC13DC5029454816005D28E9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,28 +249,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DC13DC422945480F005D28E9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DC13DC5F294549FA005D28E9 /* Defaults.Keys.Shared.swift in Sources */,
-				DC13DC4B2945480F005D28E9 /* ViewController.swift in Sources */,
-				DC13DC492945480F005D28E9 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DC13DC4E29454816005D28E9 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DC13DC4F29454816005D28E9 /* Base */,
-				DC2A93C22A110C7D00CB506A /* zh-Hans */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DC13DC7F294572A0005D28E9 /* Credits.html */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -368,14 +260,6 @@
 				DC2A93C32A110C7D00CB506A /* zh-Hans */,
 			);
 			name = Credits.html;
-			sourceTree = "<group>";
-		};
-		DC2A93C42A111AC100CB506A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DC2A93C52A111AC100CB506A /* zh-Hans */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		DC2A93C72A111AC100CB506A /* InfoPlist.strings */ = {
@@ -432,6 +316,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -449,7 +334,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -494,6 +379,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -505,7 +391,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -523,6 +409,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -553,6 +440,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -569,70 +457,6 @@
 				MARKETING_VERSION = "$(APP_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		DC13DC5329454816005D28E9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
-				DEVELOPMENT_TEAM = 96NM39SGJ5;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "App Helper Launcher/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSBackgroundOnly = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = "$(APP_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		DC13DC5429454816005D28E9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Helper Launcher/App_Helper_Launcher.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = "$(APP_BUILD)";
-				DEVELOPMENT_TEAM = 96NM39SGJ5;
-				ENABLE_HARDENED_RUNTIME = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "App Helper Launcher/Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSBackgroundOnly = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = "$(APP_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Launcher";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -655,15 +479,6 @@
 			buildConfigurations = (
 				DC13DC3929452A4A005D28E9 /* Debug */,
 				DC13DC3A29452A4A005D28E9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DC13DC5229454816005D28E9 /* Build configuration list for PBXNativeTarget "App Helper Launcher" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DC13DC5329454816005D28E9 /* Debug */,
-				DC13DC5429454816005D28E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -691,11 +506,6 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		DC13DC3C29453060005D28E9 /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DC13DC3B29453060005D28E9 /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
-		};
-		DC13DC5A29454937005D28E9 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DC13DC3B29453060005D28E9 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
