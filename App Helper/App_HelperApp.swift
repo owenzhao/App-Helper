@@ -47,21 +47,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func setAutoStart() {
-//        #if !DEBUG
+        #if !DEBUG
         let shouldEnable = Defaults[.autoLaunchWhenLogin]
         
         do {
             if shouldEnable {
-                //                    try SMAppService.loginItem(identifier: "com.parussoft.App-Helper-Launcher").register()
                 try SMAppService.mainApp.register()
             } else {
-                //                    try SMAppService.loginItem(identifier: "com.parussoft.App-Helper-Launcher").unregister()
                 try SMAppService.mainApp.unregister()
             }
         } catch {
             print(error)
         }
-//        #endif
+        #endif
     }
     
     private func setupMenubarTray() {

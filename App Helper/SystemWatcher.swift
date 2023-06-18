@@ -108,7 +108,11 @@ class SystemWatcher {
                let terminatedApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
                let name = terminatedApp.localizedName {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitOpenAndSavePanelService(with: name)
+                    if NSWorkspace.shared.runningApplications
+                        .filter({ $0.localizedName == terminatedApp.localizedName })
+                        .isEmpty == true {
+                        quitOpenAndSavePanelService(with: name)
+                    }
                 }
             }
         }
@@ -122,7 +126,11 @@ class SystemWatcher {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [self] in
-                    quitWebContent(with: name)
+                    if NSWorkspace.shared.runningApplications
+                        .filter({ $0.localizedName == terminatedApp.localizedName })
+                        .isEmpty == true {
+                        quitWebContent(with: name)
+                    }
                 }
             }
         }
