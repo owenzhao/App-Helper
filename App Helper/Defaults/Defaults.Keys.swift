@@ -18,4 +18,7 @@ extension Defaults.Keys {
     static let cleanUpSafariRemainsAggressively = Defaults.Key<Bool>("cleanUpSafariRemainsAggressively", default: false)
 
     static let notifyUser = Defaults.Key<Bool>("Notify User when a rule is matched", default: true)
+    
+    static let startSwitchHosts = Defaults.Key<Bool>("startSwitchHosts", default: false)
+    static let startNightOwl = Defaults.Key<Bool>("startNightOwl", default: false)
 }

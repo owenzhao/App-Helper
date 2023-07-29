@@ -8,5 +8,5 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-APP_VERSION = 1.2.7
-APP_BUILD = 26
+APP_VERSION = 1.2.8
+APP_BUILD = 27

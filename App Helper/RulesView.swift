@@ -21,6 +21,9 @@ struct RulesView: View {
     
     @Default(.notifyUser) private var notifyUser
     
+    @Default(.startSwitchHosts) private var startSwitchHosts
+    @Default(.startNightOwl) private var startNightOwl
+    
     @Binding var preventScreensaver:Bool
     @Binding var assertionID: IOPMAssertionID
     @Binding var sleepDisabled:Bool
@@ -42,18 +45,17 @@ struct RulesView: View {
                     Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
                     Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
                     Toggle("Clean Up Safari Remains Aggressively", isOn: $cleanUpSafariRemainsAggressively)
+                    
+                    Divider()
+                    
+                    Section {
+                        Text("Preferences")
+                            .font(.title2.bold())
+                        Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
+                    }
+                    
+                    Divider()
                 }
-                
-                Divider()
-                
-                Section {
-                    Text("Preferences")
-                        .font(.title2.bold())
-                    Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
-                }
-
-                
-                Divider()
                 
                 Section {
                     Text("Commands")
@@ -69,6 +71,15 @@ struct RulesView: View {
                     Divider()
                 }
                 
+                Section {
+                    Text("Start other apps after self starts")
+                        .font(.title.bold())
+                    
+                    Toggle("Start SwitchHosts", isOn: $startSwitchHosts)
+                    Toggle("Start NightOwl", isOn: $startNightOwl)
+                    
+                    Divider()
+                }
                 
                 Button("Run in Background") {
                     NotificationCenter.default.post(name: .simulatedWindowClose, object: self)

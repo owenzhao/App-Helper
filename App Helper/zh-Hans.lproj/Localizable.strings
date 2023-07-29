@@ -20,6 +20,9 @@
 "Commands" = "命令";
 
 /* No comment provided by engineer. */
+"failed" = "失败";
+
+/* No comment provided by engineer. */
 "Force Quitting Open and Save Panel Service When an App Quits" = "当任意应用退出时，强制退出对应的Open and Save Panel Service。";
 
 /* No comment provided by engineer. */
@@ -56,7 +59,7 @@
 "Restart Monitor Control When System Preferences App Quits" = "当系统偏好设置应用程序退出时，重新启动监视器控制";
 
 /* No comment provided by engineer. */
-"restarted" = "重启";
+"restarted" = "已重启";
 
 /* No comment provided by engineer. */
 "Rule Applied" = "规则已应用";
@@ -66,4 +69,16 @@
 
 /* No comment provided by engineer. */
 "Run in Background" = "后台运行";
+
+/* No comment provided by engineer. */
+"Start NightOwl" = "启动NightOwl";
+
+/* No comment provided by engineer. */
+"Start other apps after self starts" = "自我启动后启动其他应用程序";
+
+/* No comment provided by engineer. */
+"Start SwitchHosts" = "启动SwitchHosts";
+
+/* No comment provided by engineer. */
+"started" = "已启动";
 

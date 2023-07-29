@@ -60,14 +60,20 @@ class SystemWatcher {
         return AHApp(name: name, url: url, bundleID: bundleID)
     }()
     
+    private var timer:Timer?
+    
     func startWatch() {
         let center = NSWorkspace.shared.notificationCenter
         center.addObserver(self, selector: #selector(applyRules(_:)), name: NSWorkspace.didTerminateApplicationNotification, object: nil)
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
+            self.timerRules()
+        })
     }
     
     func stopWatch() {
         let center = NSWorkspace.shared.notificationCenter
         center.removeObserver(self)
+        timer?.invalidate()
     }
     
     @objc private func applyRules(_ noti:Notification) {
@@ -155,8 +161,48 @@ class SystemWatcher {
         }
     }
     
+    private func timerRules() {
+        if Defaults[.startSwitchHosts] {
+            let appURL = URL(filePath: "/Applications/SwitchHosts.app/")
+            let ws = NSWorkspace.shared
+            
+            if ws.runningApplications.filter({ $0.bundleURL == appURL }).isEmpty {
+                let result = ws.open(appURL)
+                
+                if Defaults[.notifyUser] {
+                    ruleApplied(name: "SwitchHosts", action: result ? .restart : .failed)
+                }
+                
+                if result {
+                    addLog("SwitchHosts \(AHAction.start.localizedString)")
+                } else {
+                    addLog("SwitchHosts \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
+                }
+            }
+        }
+        
+        if Defaults[.startNightOwl] {
+            let appURL = URL(filePath: "/Applications/NightOwl.app/")
+            let ws = NSWorkspace.shared
+            
+            if ws.runningApplications.filter({ $0.bundleURL == appURL }).isEmpty {
+                let result = ws.open(appURL)
+                
+                if Defaults[.notifyUser] {
+                    ruleApplied(name: "NightOwl", action: result ? .restart : .failed)
+                }
+                
+                if result {
+                    addLog("NightOwl \(AHAction.start.localizedString)")
+                } else {
+                    addLog("NightOwl \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
+                }
+            }
+        }
+    }
+    
     private func restartApp(check checkApp:AHApp, restart restartApp:AHApp) {
-        if NSRunningApplication.runningApplications(withBundleIdentifier: checkApp.bundleID).first != nil || true {
+        if NSRunningApplication.runningApplications(withBundleIdentifier: checkApp.bundleID).first != nil {
             if let runningApp = NSRunningApplication.runningApplications(withBundleIdentifier: restartApp.bundleID).first {
                 runningApp.terminate()
                 run(restartApp)
@@ -288,13 +334,17 @@ class SystemWatcher {
     
     private func run(_ app:AHApp) {
         if NSRunningApplication.runningApplications(withBundleIdentifier: app.bundleID).first == nil {
-            NSWorkspace.shared.open(app.url)
+            let result = NSWorkspace.shared.open(app.url)
             
             if Defaults[.notifyUser] {
-                ruleApplied(name: app.name!, action: .restart)
+                ruleApplied(name: app.name!, action: result ? .restart : .failed)
             }
             
-            addLog("\(app.name!) \(AHAction.restart.localizedString)")
+            if result {
+                addLog("\(app.name!) \(AHAction.restart.localizedString)")
+            } else {
+                addLog("\(app.name!) \(AHAction.restart.localizedString) \(AHAction.failed.localizedString)")
+            }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
                 self.run(app)
@@ -347,15 +397,21 @@ class SystemWatcher {
 }
 
 enum AHAction:String {
+    case start
     case restart
     case quit
+    case failed
     
     var localizedString:String {
         switch self {
+        case .start:
+            return NSLocalizedString("started", comment: "")
         case .restart:
             return NSLocalizedString("restarted", comment: "")
         case .quit:
             return NSLocalizedString("quit", comment: "")
+        case .failed:
+            return NSLocalizedString("failed", comment: "")
         }
     }
 }
