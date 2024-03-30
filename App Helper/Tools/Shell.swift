@@ -7,6 +7,7 @@
 
 import Foundation
 
+@discardableResult
 func shell(_ command: String) -> String {
   let task = Process()
   let pipe = Pipe()

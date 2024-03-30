@@ -24,9 +24,10 @@ struct RulesView: View {
   @Default(.startSwitchHosts) private var startSwitchHosts
   @Default(.startNightOwl) private var startNightOwl
 
-  @Binding var preventScreensaver: Bool
-  @Binding var assertionID: IOPMAssertionID
-  @Binding var sleepDisabled: Bool
+  @State private var preventScreensaver = false
+  @State private var hideDesktop = false
+  @State private var assertionID: IOPMAssertionID = 0
+  @State private var sleepDisabled = false
 
   private let notificatonErrorPublisher = NotificationCenter.default.publisher(for: .notificationError)
   private let notificationAuthorizeDeniedPublisher = NotificationCenter.default.publisher(for: .notificationAuthorizeDenied)
@@ -66,6 +67,14 @@ struct RulesView: View {
                 disableScreenSleep()
               } else {
                 enableScreenSleep()
+              }
+            }
+          Toggle("Hide Desktop.", isOn: $hideDesktop)
+            .onChange(of: hideDesktop) { _ in
+              if hideDesktop {
+                showDesktop(false)
+              } else {
+                showDesktop(true)
               }
             }
           Divider()
@@ -111,15 +120,22 @@ struct RulesView: View {
             message: Text("Notification is not allowed by user. Please check your system preferences."),
             dismissButton: Alert.Button.default(Text("OK")))
     }
-    .onAppear {
-      print(preventScreensaver)
-    }
   }
 
   func disableScreenSleep(reason: String = "Disabling Screen Sleep") {
     if !sleepDisabled {
       sleepDisabled = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), reason as CFString, &assertionID) == kIOReturnSuccess
     }
+  }
+
+  func showDesktop(_ show: Bool) {
+    if show {
+      print(shell("defaults write com.apple.finder CreateDesktop true"))
+    } else {
+      print(shell("defaults write com.apple.finder CreateDesktop false"))
+    }
+
+    print(shell("killall Finder"))
   }
 
   func enableScreenSleep() {
@@ -132,9 +148,7 @@ struct RulesView: View {
 
 struct RulesView_Previews: PreviewProvider {
   static var previews: some View {
-    RulesView(preventScreensaver: .constant(false),
-              assertionID: .constant(0),
-              sleepDisabled: .constant(false))
+    RulesView()
   }
 }
 

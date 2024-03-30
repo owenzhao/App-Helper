@@ -131,18 +131,12 @@ struct App_HelperApp: App {
 
   @State private var currentTab: AHTab = .rules
 
-  @State private var preventScreensaver = false
-  @State private var assertionID: IOPMAssertionID = 0
-  @State private var sleepDisabled = false
-
   var body: some Scene {
     WindowGroup {
       Group {
         switch currentTab {
         case .rules:
-          RulesView(preventScreensaver: $preventScreensaver,
-                    assertionID: $assertionID,
-                    sleepDisabled: $sleepDisabled)
+          RulesView()
             .tabItem {
               Label("Rules", systemImage: "ruler")
             }

@@ -29,6 +29,9 @@
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
 
 /* No comment provided by engineer. */
+"Hide Desktop." = "隐藏桌面。";
+
+/* No comment provided by engineer. */
 "Logs" = "日志";
 
 /* No comment provided by engineer. */

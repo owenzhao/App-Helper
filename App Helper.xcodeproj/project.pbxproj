@@ -418,7 +418,7 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -449,7 +449,7 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

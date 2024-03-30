@@ -4,3 +4,6 @@
 /* Bundle name */
 "CFBundleName" = "应用助手";
 
+/* Copyright (human-readable) */
+"NSHumanReadableCopyright" = "肇鑫";
+
