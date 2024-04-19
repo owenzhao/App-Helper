@@ -35,6 +35,9 @@
 "Logs" = "日志";
 
 /* No comment provided by engineer. */
+"Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" = "监控Xcode高CPU使用率。（超过100%，持续30秒。）";
+
+/* No comment provided by engineer. */
 "No Logs" = "无日志";
 
 /* No comment provided by engineer. */
@@ -84,4 +87,7 @@
 
 /* No comment provided by engineer. */
 "started" = "已启动";
+
+/* No comment provided by engineer. */
+"Xcode uses high CPU!" = "Xcode使用高CPU！";
 

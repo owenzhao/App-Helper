@@ -14,6 +14,7 @@ struct RulesView: View {
   @State private var window: SwiftUIWindowBinder.Window?
 
   @Default(.restartMonitorControl) private var restartMonitorControl
+  @Default(.monitorXcodeHighCPUUsage) private var monitorXcodeHighCPUUsage
   @Default(.forceQuitSourceKitService) private var forceQuitSourceKitService
   @Default(.forceQuitOpenAndSavePanelService) private var forceQuitOpenAndSavePanelService
   @Default(.cleanUpWebContentRemains) private var cleanUpWebContentRemains
@@ -42,6 +43,7 @@ struct RulesView: View {
           Text("Rules")
             .font(.title.bold())
           Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
+          Toggle("Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)", isOn: $monitorXcodeHighCPUUsage)
           Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
           Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
           Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)

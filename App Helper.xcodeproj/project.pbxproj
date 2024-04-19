@@ -185,7 +185,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					DC13DC2829452A49005D28E9 = {
 						CreatedOnToolsVersion = 14.2;
@@ -408,7 +408,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = $APP_BUILD;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
@@ -423,7 +423,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.9;
+				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -439,7 +439,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = $APP_BUILD;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				DEVELOPMENT_TEAM = 96NM39SGJ5;
@@ -454,7 +454,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.9;
+				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

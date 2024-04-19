@@ -13,6 +13,7 @@ import UserNotifications
 
 class SystemWatcher {
   private let moc: NSManagedObjectContext
+  private var xcodeUseHighCPUCount = 0
 
   private init(moc: NSManagedObjectContext) {
     self.moc = moc
@@ -198,6 +199,24 @@ class SystemWatcher {
         } else {
           addLog("NightOwl \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
         }
+      }
+    }
+
+    if Defaults[.monitorXcodeHighCPUUsage] {
+      if xcodeUseHighCPU() {
+        xcodeUseHighCPUCount += 5
+
+        if xcodeUseHighCPUCount >= 30 {
+          // 通知
+          let rule = NSLocalizedString("Xcode uses high CPU!", comment: "")
+          if Defaults[.notifyUser] {
+            ruleApplied(name: rule, action: .quit)
+          }
+          addLog(rule)
+          xcodeUseHighCPUCount = 0
+        }
+      } else if xcodeUseHighCPUCount != 0  {
+        xcodeUseHighCPUCount = 0
       }
     }
   }
@@ -422,6 +441,26 @@ extension NSRunningApplication {
     for service in service {
       if localizedName?.contains(service) == true {
         return true
+      }
+    }
+
+    return false
+  }
+}
+
+extension SystemWatcher {
+  func xcodeUseHighCPU() -> Bool {
+    let ws = NSWorkspace.shared
+
+    if let xcodeApp = ws.runningApplications.first(where: { $0.localizedName == "Xcode" }) {
+      let shellResult = shell("ps -o %cpu -p \(xcodeApp.processIdentifier)")
+      let results = shellResult
+        .split(separator: "\n")
+        .compactMap({ $0.trimmingCharacters(in: .whitespaces)})
+        .filter({ !$0.isEmpty })
+
+      if let cpuUsage = Double(results.last ?? "-100") {
+        return cpuUsage > 100.0
       }
     }
 
