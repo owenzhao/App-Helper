@@ -99,9 +99,9 @@ struct RulesView: View {
           Text("Display")
             .font(.title.bold())
           Toggle("Enable HDR", isOn: $isHDROn)
-            .onChange(of: isHDROn) {
+            .onChange(of: isHDROn, initial: false, { _, _ in
               toggleHDR()
-            }
+            })
             .toggleStyle(.switch)
 
           Divider()
