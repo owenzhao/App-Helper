@@ -37,7 +37,7 @@ struct RulesView: View {
   @State private var error: MyError?
   @State private var showNotificationAuthorizeDeniedAlert = false
 
-  @State private var isHDROn: Bool = false
+  @State private var isHDROn: Bool = RulesView.isHDREnabled()
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -100,7 +100,8 @@ struct RulesView: View {
             .font(.title.bold())
           Toggle("Enable HDR", isOn: $isHDROn)
             .onChange(of: isHDROn, initial: false, { _, _ in
-              toggleHDR()
+              RulesView.toggleHDR()
+              print("run")
             })
             .toggleStyle(.switch)
 
@@ -137,9 +138,6 @@ struct RulesView: View {
             message: Text("Notification is not allowed by user. Please check your system preferences."),
             dismissButton: Alert.Button.default(Text("OK")))
     }
-    .onAppear {
-      isHDROn = isHDREnabled()
-    }
   }
 
   func disableScreenSleep(reason: String = "Disabling Screen Sleep") {
@@ -165,7 +163,7 @@ struct RulesView: View {
     }
   }
 
-  func runAppleScript(_ script: String) -> (success: Bool, output: String?) {
+  static func runAppleScript(_ script: String) -> (success: Bool, output: String?) {
     let trusted = AXIsProcessTrusted()
     if !trusted {
       let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString: true]
@@ -196,81 +194,118 @@ struct RulesView: View {
     return (false, nil)
   }
 
-  func toggleHDR() {
+  static func toggleHDR() {
     let script = """
     tell application "System Settings"
     activate
     
-    delay 1
+    -- 等待窗口出现。可根据电脑的性能进行调整。
+    delay 0.5
     
+    -- 显示所有子项
+    -- return properties of every pane
+    
+    -- 打开显示器设置
+    -- {class:pane, name:"显示器", id:"com.apple.Displays-Settings.extension"}
     set the current pane to pane id "com.apple.Displays-Settings.extension"
     
-    delay 1
+    delay 0.5
     
+    -- 因为苹果脚本的特殊性，需要tell/ end tell等一一对应。所以，不能在第一段的try中的else中直接运行
+    -- 具体的故障是，没有运行效果，checkbox不会被点击
+    -- 因此，需要使用一个变量来进行转换。
+    -- 先假设已经开启了HDR，如果不是，则设置为false，这样就可以运行第二段的if。
     set isHDREnabled to true
     
+    -- 使用系统事件
     tell application "System Events" to tell application process "System Settings"
-      tell group 3 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
-        try
-          if (exists checkbox "高动态范围") then
-            click checkbox "高动态范围"
-          else
-            set isHDREnabled to false
-          end if
-        end try
-      end tell
-      
-      if (isHDREnabled is false) then
-        tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+    -- 这一步不是什么魔法，是一点儿一点儿试出来的。参考辅助代码
+    tell group 3 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+      try
+        if (exists checkbox "高动态范围") then
           click checkbox "高动态范围"
-        end tell
-      end if
+        else
+          set isHDREnabled to false
+        end if
+      end try
+    end tell
+    
+    if (isHDREnabled is false) then
+      tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+        click checkbox "高动态范围"
+      end tell
+    end if
     end tell
     
     tell application "System Settings" to quit
     end tell
+    
+    (* 辅助代码
+    tell application "System Events" to tell application process "System Settings"
+    tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+    return every UI element
+    end tell
+    end tell *)
     """
 
     let result = runAppleScript(script)
     if result.success {
       print("HDR状态已成功切换")
-      isHDROn = isHDREnabled()
     } else {
       print("切换HDR状态失败")
     }
   }
 
-  func isHDREnabled() -> Bool {
+  static func isHDREnabled() -> Bool {
     let script = """
     tell application "System Settings"
     activate
     
-    delay 1
+    -- 等待窗口出现。可根据电脑的性能进行调整。
+    delay 0.5
     
+    -- 显示所有子项
+    -- return properties of every pane
+    
+    -- 打开显示器设置
+    -- {class:pane, name:"显示器", id:"com.apple.Displays-Settings.extension"}
     set the current pane to pane id "com.apple.Displays-Settings.extension"
     
-    delay 1
+    delay 0.5
     
+    -- 因为苹果脚本的特殊性，需要tell/ end tell等一一对应。所以，不能在第一段的try中的else中直接运行
+    -- 具体的故障是，没有运行效果，checkbox不会被点击
+    -- 因此，需要使用一个变量来进行转换。
+    -- 先假设已经开启了HDR，如果不是，则设置为false，这样就可以运行第二段的if。
+    set isHDREnabled to false
+    
+    -- 使用系统事件
     tell application "System Events" to tell application process "System Settings"
-      tell group 3 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+    -- 这一步不是什么魔法，是一点儿一点儿试出来的。参考辅助代码
+    tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+      -- return exists checkbox "高动态范围"
+      try
         if (exists checkbox "高动态范围") then
-          return value of checkbox "高动态范围" as boolean
+          set isHDREnabled to true
         end if
-      end tell
-      
-      tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
-        if (exists checkbox "高动态范围") then
-          return value of checkbox "高动态范围" as boolean
-        end if
-      end tell
+      end try
+    end tell
     end tell
     
     tell application "System Settings" to quit
-    return false
+    
+    return isHDREnabled
     end tell
+    
+    (* 辅助代码
+    tell application "System Events" to tell application process "System Settings"
+    tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
+    return every UI element
+    end tell
+    end tell *)
     """
 
-    let result = runAppleScript(script)
+    let result = RulesView.runAppleScript(script)
     return result.success && result.output == "true"
   }
 }
