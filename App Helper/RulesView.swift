@@ -67,7 +67,7 @@ struct RulesView: View {
           Text("Commands")
             .font(.title.bold())
           Toggle("Prevent Screensaver.", isOn: $preventScreensaver)
-            .onChange(of: preventScreensaver) { _ in
+            .onChange(of: preventScreensaver) {
               if preventScreensaver {
                 disableScreenSleep()
               } else {
@@ -75,7 +75,7 @@ struct RulesView: View {
               }
             }
           Toggle("Hide Desktop.", isOn: $hideDesktop)
-            .onChange(of: hideDesktop) { _ in
+            .onChange(of: hideDesktop) {
               if hideDesktop {
                 showDesktop(false)
               } else {
@@ -99,7 +99,7 @@ struct RulesView: View {
           Text("Display")
             .font(.title.bold())
           Toggle("Enable HDR", isOn: $isHDROn)
-            .onChange(of: isHDROn) { newValue in
+            .onChange(of: isHDROn) {
               toggleHDR()
             }
             .toggleStyle(.switch)
@@ -115,8 +115,8 @@ struct RulesView: View {
       }
       .padding()
     }
-    .onChange(of: window) { newValue in
-      if let window = newValue {
+    .onChange(of: window) {
+      if let window {
         window.delegate = WindowDelegate.shared
         NotificationCenter.default.post(name: .updateWindow, object: nil, userInfo: ["window": window])
       }
