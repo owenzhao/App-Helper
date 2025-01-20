@@ -37,7 +37,7 @@ struct RulesView: View {
   @State private var error: MyError?
   @State private var showNotificationAuthorizeDeniedAlert = false
 
-  @State private var isHDROn: Bool = RulesView.isHDREnabled()
+//  @State private var isHDROn: Bool = false
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -98,12 +98,8 @@ struct RulesView: View {
         Section {
           Text("Display")
             .font(.title.bold())
-          Toggle("Enable HDR", isOn: $isHDROn)
-            .onChange(of: isHDROn, initial: false, { _, _ in
-              RulesView.toggleHDR()
-              print("run")
-            })
-            .toggleStyle(.switch)
+
+          Button("Switch HDR Status", action: RulesView.toggleHDR)
 
           Divider()
         }
