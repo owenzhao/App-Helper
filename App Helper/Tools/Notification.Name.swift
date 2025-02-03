@@ -13,4 +13,6 @@ extension Notification.Name {
 
   static let notificationError = Notification.Name("notificationError")
   static let notificationAuthorizeDenied = Notification.Name("notificationAuthorizeDenied")
+
+  static let hdrStatusChanged = Notification.Name("hdrStatusChanged")
 }

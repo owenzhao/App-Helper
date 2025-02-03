@@ -37,7 +37,8 @@ struct RulesView: View {
   @State private var error: MyError?
   @State private var showNotificationAuthorizeDeniedAlert = false
 
-//  @State private var isHDROn: Bool = false
+  @State private var hdrEnabledAlert = false
+  @State private var hdrDisabledAlert = false
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -100,6 +101,17 @@ struct RulesView: View {
             .font(.title.bold())
 
           Button("Switch HDR Status", action: RulesView.toggleHDR)
+            .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
+            .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
+            .onReceive(NotificationCenter.default.publisher(for: .hdrStatusChanged)) { notification in
+              if let userInfo = notification.userInfo as? [String: String], let hdrStatus = userInfo["hdrStatus"] {
+                if hdrStatus == "on" {
+                  self.hdrEnabledAlert = true
+                } else {
+                  self.hdrDisabledAlert = true
+                }
+              }
+            }
 
           Divider()
         }
@@ -212,6 +224,7 @@ struct RulesView: View {
     -- 因此，需要使用一个变量来进行转换。
     -- 先假设已经开启了HDR，如果不是，则设置为false，这样就可以运行第二段的if。
     set isHDREnabled to true
+    set hdrStatus to "on"
     
     -- 使用系统事件
     tell application "System Events" to tell application process "System Settings"
@@ -229,11 +242,13 @@ struct RulesView: View {
     if (isHDREnabled is false) then
       tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
         click checkbox "高动态范围"
+        set hdrStatus to "off"
       end tell
     end if
     end tell
     
     tell application "System Settings" to quit
+    return hdrStatus
     end tell
     
     (* 辅助代码
@@ -247,6 +262,8 @@ struct RulesView: View {
     let result = runAppleScript(script)
     if result.success {
       print("HDR状态已成功切换")
+      NotificationCenter.default.post(name: .hdrStatusChanged, object: nil, userInfo: ["hdrStatus": result.output ?? "on"])
+      NSSound.beep()
     } else {
       print("切换HDR状态失败")
     }
