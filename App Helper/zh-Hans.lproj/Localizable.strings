@@ -23,9 +23,6 @@
 "Display" = "显示器";
 
 /* No comment provided by engineer. */
-"Enable HDR" = "启用HDR";
-
-/* No comment provided by engineer. */
 "failed" = "失败";
 
 /* No comment provided by engineer. */
@@ -33,6 +30,12 @@
 
 /* No comment provided by engineer. */
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
+
+/* No comment provided by engineer. */
+"HDR is disabled" = "HDR已禁用";
+
+/* No comment provided by engineer. */
+"HDR is enabled." = "HDR已启用。";
 
 /* No comment provided by engineer. */
 "Hide Desktop." = "隐藏桌面。";
@@ -93,6 +96,9 @@
 
 /* No comment provided by engineer. */
 "started" = "已启动";
+
+/* No comment provided by engineer. */
+"Switch HDR Status" = "切换HDR状态";
 
 /* No comment provided by engineer. */
 "Xcode uses high CPU!" = "Xcode使用高CPU！";
