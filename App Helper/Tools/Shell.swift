@@ -19,8 +19,11 @@ func shell(_ command: String) -> String {
   task.standardInput = nil
   task.launch()
 
-  let data = pipe.fileHandleForReading.readDataToEndOfFile()
-  let output = String(data: data, encoding: .utf8)!
+//  let data = pipe.fileHandleForReading.readDataToEndOfFile()
+  if let data = try? pipe.fileHandleForReading.readToEnd() {
+    let output = String(data: data, encoding: .utf8)!
+    return output
+  }
 
-  return output
+  return ""
 }

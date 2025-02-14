@@ -1,4 +1,13 @@
 /* No comment provided by engineer. */
+"Brew" = "Brew";
+
+/* No comment provided by engineer. */
+"Brew has no updates." = "Brew没有更新。";
+
+/* No comment provided by engineer. */
+"Brew Upgrade" = "更新Brew";
+
+/* No comment provided by engineer. */
 "Can not clean up %@." = "无法清理%@。";
 
 /* No comment provided by engineer. */
@@ -6,6 +15,9 @@
 
 /* No comment provided by engineer. */
 "Can't send notification!" = "无法发送通知！";
+
+/* No comment provided by engineer. */
+"Check Update" = "检查更新";
 
 /* No comment provided by engineer. */
 "Clean up %@ remains." = "清理%@遗留。";
@@ -99,6 +111,9 @@
 
 /* No comment provided by engineer. */
 "Switch HDR Status" = "切换HDR状态";
+
+/* No comment provided by engineer. */
+"Upgrade" = "升级";
 
 /* No comment provided by engineer. */
 "Xcode uses high CPU!" = "Xcode使用高CPU！";

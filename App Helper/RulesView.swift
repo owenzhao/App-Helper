@@ -116,6 +116,13 @@ struct RulesView: View {
           Divider()
         }
 
+        Section {
+          Text("Brew")
+            .font(.title.bold())
+
+          BrewView()
+        }
+
         Button("Run in Background") {
           NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
         }
