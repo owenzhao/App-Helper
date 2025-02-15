@@ -121,6 +121,7 @@ struct RulesView: View {
             .font(.title.bold())
 
           BrewView()
+          Divider()
         }
 
         Button("Run in Background") {
