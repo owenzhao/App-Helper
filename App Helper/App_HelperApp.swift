@@ -15,6 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var statusItem: NSStatusItem?
   private var watcher = SystemWatcher.shared
 
+  private var hasBrewUpdates = false
+  private var timer: Timer?
+  private var showBrewUpdates = false
+
   func applicationWillFinishLaunching(_ notification: Notification) {
     registerNotification()
   }
@@ -38,6 +42,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NotificationCenter.default.addObserver(forName: .updateWindow, object: nil, queue: nil) { notification in
       if let userInfo = notification.userInfo as? [String: NSWindow], let window = userInfo["window"] {
         self.window = window
+      }
+    }
+
+    NotificationCenter.default.addObserver(forName: .hasBrewUpdates, object: nil, queue: nil) { notification in
+      if let userInfo = notification.userInfo as? [String: Bool], let hasBrewUpdates = userInfo["hasBrewUpdates"] {
+        self.hasBrewUpdates = hasBrewUpdates
+        self.setupMenubarTray()
       }
     }
 
@@ -70,9 +81,38 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       fatalError()
     }
 
+    if hasBrewUpdates {
+      self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
+        guard let self else { return }
+
+        showBrewUpdates.toggle()
+
+        if showBrewUpdates {
+          setMenuItemButtonTitle(button)
+        } else {
+          setMenuItemButtonImage(button)
+        }
+      })
+    } else {
+      if timer != nil {
+        timer?.invalidate()
+        timer = nil
+      }
+
+      setMenuItemButtonImage(button)
+      button.action = #selector(menuAction(_:))
+    }
+  }
+
+  private func setMenuItemButtonImage(_ button: NSStatusBarButton) {
     let image = NSImage(imageLiteralResourceName: "lion_menubar")
     button.image = image
-    button.action = #selector(menuAction(_:))
+    button.title = ""
+  }
+
+  private func setMenuItemButtonTitle(_ button: NSStatusBarButton) {
+    button.image = nil
+    button.title = "🍺"
   }
 
   @objc private func menuAction(_ sender: Any) {

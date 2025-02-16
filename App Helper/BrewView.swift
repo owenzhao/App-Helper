@@ -44,7 +44,6 @@ class BrewUpdateObserver: ObservableObject {
     if Date().timeIntervalSince(lastCheckDate) > 60 * 60 { // 大于1小时
       Task {
         await checkForUpdates(background: background)
-        Defaults[.lastBrewUpdateCheck] = Date()
       }
     }
   }
@@ -53,7 +52,11 @@ class BrewUpdateObserver: ObservableObject {
   @MainActor
   func checkForUpdates(background: Bool = false) async {
     isLoading = true
-    defer { isLoading = false }
+    
+    defer {
+      isLoading = false
+      Defaults[.lastBrewUpdateCheck] = Date()
+    }
 
     do {
       try await Task.sleep(nanoseconds: 1000) // 为动画效果
@@ -65,8 +68,10 @@ class BrewUpdateObserver: ObservableObject {
         }
 
         updateAppList = []
+        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates" : false])
       } else {
         updateAppList = updates
+        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates" : true])
         sendUpdateNotification(packages: updates)
       }
     } catch {

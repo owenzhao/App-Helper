@@ -15,4 +15,6 @@ extension Notification.Name {
   static let notificationAuthorizeDenied = Notification.Name("notificationAuthorizeDenied")
 
   static let hdrStatusChanged = Notification.Name("hdrStatusChanged")
+
+  static let hasBrewUpdates = Notification.Name("hasBrewUpdates")
 }
