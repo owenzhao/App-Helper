@@ -34,29 +34,24 @@ class BrewUpdateObserver: ObservableObject {
   }
 
   @objc private func handleSystemWake() {
-    checkIfNeedUpdate()
+    checkIfNeedUpdate(background: true)
   }
 
-  func checkIfNeedUpdate() {
+  // 根据brew的设置，时长超过60分钟则在调用outdated的时候会自动先调用update。
+  func checkIfNeedUpdate(background: Bool = false) {
     let lastCheckDate = Defaults[.lastBrewUpdateCheck]
 
-    // 检查是否是同一天
-    let calendar = Calendar.current
-    if !calendar.isDate(lastCheckDate, inSameDayAs: Date()) {
+    if Date().timeIntervalSince(lastCheckDate) > 60 * 60 { // 大于1小时
       Task {
-        await checkForUpdates()
+        await checkForUpdates(background: background)
         Defaults[.lastBrewUpdateCheck] = Date()
-      }
-    } else {
-      Task {
-        await setBrewOutdated()
       }
     }
   }
 
   // 添加更新检查方法
   @MainActor
-  func checkForUpdates() async {
+  func checkForUpdates(background: Bool = false) async {
     isLoading = true
     defer { isLoading = false }
 
@@ -65,26 +60,12 @@ class BrewUpdateObserver: ObservableObject {
       let updates = BrewManager.shared.checkBrewUpdate()
 
       if updates.isEmpty {
-        showBrewHasNoUpdate = true
+        if background == false {
+          showBrewHasNoUpdate = true
+        }
+
         updateAppList = []
       } else {
-        updateAppList = updates
-        sendUpdateNotification(packages: updates)
-      }
-    } catch {
-    }
-  }
-
-  @MainActor
-  func setBrewOutdated() async {
-    isLoading = true
-    defer { isLoading = false }
-
-    do {
-      try await Task.sleep(nanoseconds: 1000) // 为动画效果
-      let updates = BrewManager.shared.getBrewOutdated()
-
-      if !updates.isEmpty {
         updateAppList = updates
         sendUpdateNotification(packages: updates)
       }
@@ -197,7 +178,11 @@ struct BrewView: View {
     }
     .onAppear {
       requestNotificationPermission()
-      observer.checkIfNeedUpdate()
+
+      Task {
+        try await Task.sleep(nanoseconds: 1000_000_000 * 3)
+        observer.checkIfNeedUpdate(background: true)
+      }
     }
   }
 
