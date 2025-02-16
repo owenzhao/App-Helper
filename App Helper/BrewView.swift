@@ -181,6 +181,10 @@ struct BrewView: View {
       if observer.isLoading {
         ProgressView()
           .controlSize(.small)
+      } else {
+        Text(Defaults[.lastBrewUpdateCheck], format: .relative(presentation: .named))
+          .foregroundStyle(.green)
+          .font(.subheadline)
       }
     }
     .alert("Brew has no updates.", isPresented: $observer.showBrewHasNoUpdate) {
