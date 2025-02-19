@@ -5,9 +5,9 @@
 //  Created by zhaoxin on 2025/2/8.
 //
 
+import Defaults
 import SwiftUI
 import UserNotifications
-import Defaults
 
 // 创建一个 ObservableObject 来处理系统通知
 class BrewUpdateObserver: ObservableObject {
@@ -52,7 +52,7 @@ class BrewUpdateObserver: ObservableObject {
   @MainActor
   func checkForUpdates(background: Bool = false) async {
     isLoading = true
-    
+
     defer {
       isLoading = false
       Defaults[.lastBrewUpdateCheck] = Date()
@@ -68,10 +68,10 @@ class BrewUpdateObserver: ObservableObject {
         }
 
         updateAppList = []
-        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates" : false])
+        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": false])
       } else {
         updateAppList = updates
-        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates" : true])
+        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": true])
         sendUpdateNotification(packages: updates)
       }
     } catch {
@@ -168,9 +168,11 @@ struct BrewView: View {
         ProgressView()
           .controlSize(.small)
       } else {
-        Text(Defaults[.lastBrewUpdateCheck], format: .relative(presentation: .named))
-          .foregroundStyle(.green)
-          .font(.subheadline)
+        TimelineView(.periodic(from: Date(), by: 30)) { _ in
+          Text(Defaults[.lastBrewUpdateCheck], format: .relative(presentation: .named))
+            .foregroundStyle(.green)
+            .font(.subheadline)
+        }
       }
     }
     .alert("Brew has no updates.", isPresented: $observer.showBrewHasNoUpdate) {
@@ -185,7 +187,7 @@ struct BrewView: View {
       requestNotificationPermission()
 
       Task {
-        try await Task.sleep(nanoseconds: 1000_000_000 * 3)
+        try await Task.sleep(nanoseconds: 1000000000 * 3)
         observer.checkIfNeedUpdate(background: true)
       }
     }
