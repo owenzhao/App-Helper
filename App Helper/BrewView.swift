@@ -11,6 +11,7 @@ import UserNotifications
 
 // 创建一个 ObservableObject 来处理系统通知
 class BrewUpdateObserver: ObservableObject {
+  static let shared = BrewUpdateObserver() // 转换为单例
   private var notificationCenter: NotificationCenter
   @Published var updateAppList: [String] = [] // 添加此属性
   @Published var isLoading: Bool = false // 添加加载状态
@@ -18,7 +19,7 @@ class BrewUpdateObserver: ObservableObject {
   @Published var showBrewUpgradeAlert: Bool = false // 添加升级提示状态
   @Published var brewUpgradeResult: String? = nil // 添加升级结果
 
-  init() {
+  private init() {
     notificationCenter = NSWorkspace.shared.notificationCenter
     setupObservers()
   }
@@ -29,6 +30,14 @@ class BrewUpdateObserver: ObservableObject {
       self,
       selector: #selector(handleSystemWake),
       name: NSWorkspace.didWakeNotification,
+      object: nil
+    )
+
+    // 监听应用程序启动完成
+    notificationCenter.addObserver(
+      self,
+      selector: #selector(handleSystemWake),
+      name: NSApplication.didFinishLaunchingNotification,
       object: nil
     )
   }
@@ -59,22 +68,32 @@ class BrewUpdateObserver: ObservableObject {
     }
 
     do {
-      try await Task.sleep(nanoseconds: 1000) // 为动画效果
-      let updates = BrewManager.shared.checkBrewUpdate()
+      if !background {
+        try await Task.sleep(nanoseconds: 1000) // 为动画效果
+      }
 
-      if updates.isEmpty {
-        if background == false {
-          showBrewHasNoUpdate = true
-        }
+      let updates = BrewService.shared.checkBrewUpdate()
 
-        updateAppList = []
-        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": false])
-      } else {
-        updateAppList = updates
-        NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": true])
-        sendUpdateNotification(packages: updates)
+      defer {
+        updateUI(updates: updates)
+      }
+
+      if updates.isEmpty && !background {
+        showBrewHasNoUpdate = true
       }
     } catch {
+      print("检查更新时发生错误: \(error)")
+    }
+  }
+
+  private func updateUI(updates: [String]) {
+    self.updateAppList = updates
+
+    if updateAppList.isEmpty {
+      NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": false])
+    } else {
+      NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": true])
+      sendUpdateNotification(packages: updates)
     }
   }
 
@@ -84,11 +103,10 @@ class BrewUpdateObserver: ObservableObject {
     content.body = "发现\(packages.count)个包需要更新：\(packages.joined(separator: ", "))"
     content.sound = .default
 
-    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
     let request = UNNotificationRequest(
       identifier: UUID().uuidString,
       content: content,
-      trigger: trigger
+      trigger: nil
     )
 
     UNUserNotificationCenter.current().add(request) { error in
@@ -104,12 +122,12 @@ class BrewUpdateObserver: ObservableObject {
     isLoading = true
     defer {
       isLoading = false
-      updateAppList = []
+      updateUI(updates: [])
     }
 
     do {
       try await Task.sleep(nanoseconds: 1000)
-      brewUpgradeResult = BrewManager.shared.upgradeBrew()
+      brewUpgradeResult = BrewService.shared.upgradeBrew()
       showBrewUpgradeAlert = true
     } catch {
       print("升级时发生错误: \(error)")
@@ -121,47 +139,42 @@ class BrewUpdateObserver: ObservableObject {
   }
 }
 
-// 创建一个单例来管理 Brew 操作
-class BrewManager {
-  static let shared = BrewManager()
+struct BrewView: View {
+  @StateObject private var observer = BrewUpdateObserver.shared
 
-  private init() {}
+  var body: some View {
+    BrewContentView(observer: observer)
+      .onAppear {
+        requestNotificationPermission()
 
-  func updateBrew() {
-    shell("/opt/homebrew/bin/brew update")
+        Task {
+          try await Task.sleep(nanoseconds: 1000000000 * 3)
+          observer.checkIfNeedUpdate(background: true)
+        }
+      }
   }
 
-  func checkBrewUpdate() -> [String] {
-    updateBrew()
-    return getBrewOutdated()
-  }
-
-  func getBrewOutdated() -> [String] {
-    let output = shell("/opt/homebrew/bin/brew outdated")
-    return output.split(separator: "\n").map(String.init)
-  }
-
-  func upgradeBrew() -> String {
-    return shell("/opt/homebrew/bin/brew upgrade")
+  private func requestNotificationPermission() {
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+      if granted {
+        print("通知权限已获取")
+      } else if let error = error {
+        print("请求通知权限失败: \(error.localizedDescription)")
+      }
+    }
   }
 }
 
-struct BrewView: View {
-  @StateObject private var observer = BrewUpdateObserver()
+// 将视图逻辑分离到子视图中
+private struct BrewContentView: View {
+  @ObservedObject var observer: BrewUpdateObserver
 
   var body: some View {
     HStack {
       if observer.updateAppList.isEmpty {
         checkUpdateButton
       } else {
-        VStack(alignment: .leading) {
-          upgradeButton
-
-          List(observer.updateAppList, id: \.self) { app in
-            Text(app)
-          }
-          .cornerRadius(12)
-        }
+        updateInfoView
       }
 
       if observer.isLoading {
@@ -183,30 +196,20 @@ struct BrewView: View {
         Text(result)
       }
     }
-    .onAppear {
-      requestNotificationPermission()
+  }
 
-      Task {
-        try await Task.sleep(nanoseconds: 1000000000 * 3)
-        observer.checkIfNeedUpdate(background: true)
+  private var updateInfoView: some View {
+    VStack(alignment: .leading) {
+      upgradeButton
+
+      List(observer.updateAppList, id: \.self) { app in
+        Text(app)
       }
+      .cornerRadius(12)
     }
   }
 
-  // 请求通知权限
-  private func requestNotificationPermission() {
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
-      if granted {
-        print("通知权限已获取")
-      } else if let error = error {
-        print("请求通知权限失败: \(error.localizedDescription)")
-      }
-    }
-  }
-}
-
-extension BrewView {
-  var checkUpdateButton: some View {
+  private var checkUpdateButton: some View {
     Button("Check Update") {
       Task {
         await observer.checkForUpdates()
@@ -214,7 +217,7 @@ extension BrewView {
     }
   }
 
-  var upgradeButton: some View {
+  private var upgradeButton: some View {
     Button("Upgrade") {
       Task {
         await observer.performUpgrade()
