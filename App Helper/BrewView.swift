@@ -19,9 +19,15 @@ class BrewUpdateObserver: ObservableObject {
   @Published var showBrewUpgradeAlert: Bool = false // 添加升级提示状态
   @Published var brewUpgradeResult: String? = nil // 添加升级结果
 
+  // 添加自动检查计时器
+  private var autoCheckTimer: Timer?
+
   private init() {
     notificationCenter = NSWorkspace.shared.notificationCenter
     setupObservers()
+
+    // 初始化时启动自动检查计时器
+    startAutoCheckTimer()
   }
 
   private func setupObservers() {
@@ -32,28 +38,16 @@ class BrewUpdateObserver: ObservableObject {
       name: NSWorkspace.didWakeNotification,
       object: nil
     )
-
-    // 监听应用程序启动完成
-    notificationCenter.addObserver(
-      self,
-      selector: #selector(handleSystemWake),
-      name: NSApplication.didFinishLaunchingNotification,
-      object: nil
-    )
   }
 
   @objc private func handleSystemWake() {
-    checkIfNeedUpdate(background: true)
-  }
+    print("Awake at: \(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
 
-  // 根据brew的设置，时长超过60分钟则在调用outdated的时候会自动先调用update。
-  func checkIfNeedUpdate(background: Bool = false) {
-    let lastCheckDate = Defaults[.lastBrewUpdateCheck]
+    // 重启自动检查计时器，确保系统休眠后继续正常工作
+    startAutoCheckTimer()
 
-    if Date().timeIntervalSince(lastCheckDate) > 60 * 60 { // 大于1小时
-      Task {
-        await checkForUpdates(background: background)
-      }
+    Task {
+      await checkForUpdates(background: true)
     }
   }
 
@@ -120,6 +114,7 @@ class BrewUpdateObserver: ObservableObject {
   @MainActor
   func performUpgrade() async {
     isLoading = true
+
     defer {
       isLoading = false
       updateUI(updates: [])
@@ -134,8 +129,40 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
+  // 添加启动自动检查计时器的方法
+  private func startAutoCheckTimer() {
+    // 先停止已有的计时器
+    stopAutoCheckTimer()
+
+    // 创建一个新的计时器，每60分钟执行一次
+    autoCheckTimer = Timer.scheduledTimer(
+      withTimeInterval: 60 * 60, // 60分钟
+      repeats: true
+    ) { [weak self] _ in
+      guard let self = self else { return }
+      print("自动检查Brew更新：\(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
+
+      Task {
+        await self.checkForUpdates(background: true)
+      }
+    }
+
+    // 确保计时器在RunLoop中运行
+    if let timer = autoCheckTimer {
+      RunLoop.main.add(timer, forMode: .common)
+    }
+  }
+
+  // 添加停止计时器的方法
+  private func stopAutoCheckTimer() {
+    autoCheckTimer?.invalidate()
+    autoCheckTimer = nil
+  }
+
   deinit {
     notificationCenter.removeObserver(self)
+    // 在对象释放时停止计时器
+    stopAutoCheckTimer()
   }
 }
 
@@ -149,7 +176,7 @@ struct BrewView: View {
 
         Task {
           try await Task.sleep(nanoseconds: 1000000000 * 3)
-          observer.checkIfNeedUpdate(background: true)
+          await observer.checkForUpdates(background: true)
         }
       }
   }
@@ -181,11 +208,12 @@ private struct BrewContentView: View {
         ProgressView()
           .controlSize(.small)
       } else {
-        TimelineView(.periodic(from: Date(), by: 30)) { _ in
-          Text(Defaults[.lastBrewUpdateCheck], format: .relative(presentation: .named))
-            .foregroundStyle(.green)
-            .font(.subheadline)
+        VStack {
+          Text("上次更新：") +
+            Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
         }
+        .foregroundStyle(.green)
+        .font(.subheadline)
       }
     }
     .alert("Brew has no updates.", isPresented: $observer.showBrewHasNoUpdate) {
@@ -193,7 +221,9 @@ private struct BrewContentView: View {
     .alert("Brew Upgrade", isPresented: $observer.showBrewUpgradeAlert) {
     } message: {
       if let result = observer.brewUpgradeResult {
-        Text(result)
+        ScrollView {
+          Text(result)
+        }
       }
     }
   }

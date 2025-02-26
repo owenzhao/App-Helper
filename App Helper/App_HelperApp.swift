@@ -92,6 +92,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
           setMenuItemButtonImage(button)
         }
+
+        button.action = #selector(menuAction(_:))
       })
     } else {
       if timer != nil {
