@@ -62,10 +62,7 @@ class BrewUpdateObserver: ObservableObject {
     }
 
     do {
-      if !background {
-        try await Task.sleep(nanoseconds: 1000) // 为动画效果
-      }
-
+      try await Task.sleep(nanoseconds: 1000) // 为动画效果
       let updates = BrewService.shared.checkBrewUpdate()
 
       defer {
