@@ -43,86 +43,11 @@ struct RulesView: View {
   var body: some View {
     WindowBinder(window: $window) {
       VStack(alignment: .leading) {
-        Section {
-          Text("Rules")
-            .font(.title.bold())
-          Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
-          Toggle("Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)", isOn: $monitorXcodeHighCPUUsage)
-          Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
-          Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
-          Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
-          Toggle("Clean Up Safari Remains Aggressively", isOn: $cleanUpSafariRemainsAggressively)
-
-          Divider()
-
-          Section {
-            Text("Preferences")
-              .font(.title2.bold())
-            Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
-          }
-
-          Divider()
-        }
-
-        Section {
-          Text("Commands")
-            .font(.title.bold())
-          Toggle("Prevent Screensaver.", isOn: $preventScreensaver)
-            .onChange(of: preventScreensaver) {
-              if preventScreensaver {
-                disableScreenSleep()
-              } else {
-                enableScreenSleep()
-              }
-            }
-          Toggle("Hide Desktop.", isOn: $hideDesktop)
-            .onChange(of: hideDesktop) {
-              if hideDesktop {
-                showDesktop(false)
-              } else {
-                showDesktop(true)
-              }
-            }
-          Divider()
-        }
-
-        Section {
-          Text("Start other apps after self starts")
-            .font(.title.bold())
-
-          Toggle("Start SwitchHosts", isOn: $startSwitchHosts)
-          Toggle("Start NightOwl", isOn: $startNightOwl)
-
-          Divider()
-        }
-
-        Section {
-          Text("Display")
-            .font(.title.bold())
-
-          Button("Switch HDR Status", action: RulesView.toggleHDR)
-            .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
-            .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
-            .onReceive(NotificationCenter.default.publisher(for: .hdrStatusChanged)) { notification in
-              if let userInfo = notification.userInfo as? [String: String], let hdrStatus = userInfo["hdrStatus"] {
-                if hdrStatus == "on" {
-                  self.hdrEnabledAlert = true
-                } else {
-                  self.hdrDisabledAlert = true
-                }
-              }
-            }
-
-          Divider()
-        }
-
-        Section {
-          Text("Brew")
-            .font(.title.bold())
-
-          BrewView()
-          Divider()
-        }
+        rulesSection
+        commandsSection
+        autoStartSection
+        displaySection
+        brewSection
 
         Button("Run in Background") {
           NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
@@ -153,6 +78,15 @@ struct RulesView: View {
       Alert(title: Text("Can't send notification!"),
             message: Text("Notification is not allowed by user. Please check your system preferences."),
             dismissButton: Alert.Button.default(Text("OK")))
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .hdrStatusChanged)) { notification in
+      if let userInfo = notification.userInfo as? [String: String], let hdrStatus = userInfo["hdrStatus"] {
+        if hdrStatus == "on" {
+          self.hdrEnabledAlert = true
+        } else {
+          self.hdrDisabledAlert = true
+        }
+      }
     }
   }
 
@@ -328,6 +262,88 @@ struct RulesView: View {
 
     let result = RulesView.runAppleScript(script)
     return result.success && result.output == "true"
+  }
+}
+
+// MARK: - Section Views
+extension RulesView {
+  private var rulesSection: some View {
+    Section {
+      Text("Rules")
+        .font(.title.bold())
+      Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
+      Toggle("Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)", isOn: $monitorXcodeHighCPUUsage)
+      Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
+      Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
+      Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
+      Toggle("Clean Up Safari Remains Aggressively", isOn: $cleanUpSafariRemainsAggressively)
+      Divider()
+
+      preferencesSection
+    }
+  }
+
+  private var preferencesSection: some View {
+    Section {
+      Text("Preferences")
+        .font(.title2.bold())
+      Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
+      Divider()
+    }
+  }
+
+  private var commandsSection: some View {
+    Section {
+      Text("Commands")
+        .font(.title.bold())
+      Toggle("Prevent Screensaver.", isOn: $preventScreensaver)
+        .onChange(of: preventScreensaver) {
+          if preventScreensaver {
+            disableScreenSleep()
+          } else {
+            enableScreenSleep()
+          }
+        }
+      Toggle("Hide Desktop.", isOn: $hideDesktop)
+        .onChange(of: hideDesktop) {
+          if hideDesktop {
+            showDesktop(false)
+          } else {
+            showDesktop(true)
+          }
+        }
+      Divider()
+    }
+  }
+
+  private var autoStartSection: some View {
+    Section {
+      Text("Start other apps after self starts")
+        .font(.title.bold())
+      Toggle("Start SwitchHosts", isOn: $startSwitchHosts)
+      Toggle("Start NightOwl", isOn: $startNightOwl)
+      Divider()
+    }
+  }
+
+  private var displaySection: some View {
+    Section {
+      Text("Display")
+        .font(.title.bold())
+      Button("Switch HDR Status", action: RulesView.toggleHDR)
+        .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
+        .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
+      Divider()
+    }
+  }
+
+  private var brewSection: some View {
+    Section {
+      Text("Brew")
+        .font(.title.bold())
+      BrewView()
+      Divider()
+    }
   }
 }
 
