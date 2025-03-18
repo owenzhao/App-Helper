@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
       self.hide()
     }
   }
