@@ -232,6 +232,12 @@ private struct BrewContentView: View {
       List(observer.updateAppList, id: \.self) { app in
         Text(app)
       }
+      .frame(height: 100) // 固定高度
+      .overlay(alignment: .bottom, content: {
+        Text("若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。")
+          .font(.footnote)
+          .foregroundStyle(.red)
+      })
       .cornerRadius(12)
     }
   }
