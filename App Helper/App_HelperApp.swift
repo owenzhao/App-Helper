@@ -136,6 +136,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if NSApp.isHidden {
       NSApp.unhide(nil)
       if !operated { operated = true }
+    } else {
+      print("not hidden")
     }
 
     if window.isMiniaturized {
@@ -151,7 +153,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     guard window.isKeyWindow else { return }
 
     if !operated {
-      NSApp.unhide(nil)
+      NSApp.hide(nil)
     }
   }
 
