@@ -52,25 +52,33 @@ class BrewUpdateObserver: ObservableObject {
   }
 
   // 添加更新检查方法
-  @MainActor
+  // First, create a custom global actor for background operations
+  @globalActor actor BrewBackgroundActor {
+    static let shared = BrewBackgroundActor()
+    private init() {}
+  }
+
+  // Modified checkForUpdates function
+  @BrewBackgroundActor
   func checkForUpdates(background: Bool = false) async {
-    isLoading = true
+    await MainActor.run { isLoading = true }
 
     defer {
-      isLoading = false
-      Defaults[.lastBrewUpdateCheck] = Date()
+      Task { @MainActor in
+        isLoading = false
+        Defaults[.lastBrewUpdateCheck] = Date()
+      }
     }
 
     do {
-      try await Task.sleep(nanoseconds: 1000) // 为动画效果
+      try await Task.sleep(nanoseconds: 1000)
       let updates = BrewService.shared.checkBrewUpdate()
 
-      defer {
+      await MainActor.run {
         updateUI(updates: updates)
-      }
-
-      if updates.isEmpty && !background {
-        showBrewHasNoUpdate = true
+        if updates.isEmpty && !background {
+          showBrewHasNoUpdate = true
+        }
       }
     } catch {
       print("检查更新时发生错误: \(error)")
@@ -85,6 +93,30 @@ class BrewUpdateObserver: ObservableObject {
     } else {
       NotificationCenter.default.post(name: .hasBrewUpdates, object: nil, userInfo: ["hasBrewUpdates": true])
       sendUpdateNotification(packages: updates)
+    }
+  }
+
+  // 添加升级方法
+  @BrewBackgroundActor
+  func performUpgrade() async {
+    await MainActor.run { isLoading = true }
+
+    defer {
+      Task { @MainActor in
+        isLoading = false
+        updateUI(updates: [])
+      }
+    }
+
+    do {
+      try await Task.sleep(nanoseconds: 1000)
+      let result = BrewService.shared.upgradeBrew()
+      await MainActor.run {
+        brewUpgradeResult = result
+        showBrewUpgradeAlert = true
+      }
+    } catch {
+      print("升级时发生错误: \(error)")
     }
   }
 
@@ -104,25 +136,6 @@ class BrewUpdateObserver: ObservableObject {
       if let error = error {
         print("发送通知失败: \(error.localizedDescription)")
       }
-    }
-  }
-
-  // 添加升级方法
-  @MainActor
-  func performUpgrade() async {
-    isLoading = true
-
-    defer {
-      isLoading = false
-      updateUI(updates: [])
-    }
-
-    do {
-      try await Task.sleep(nanoseconds: 1000)
-      brewUpgradeResult = BrewService.shared.upgradeBrew()
-      showBrewUpgradeAlert = true
-    } catch {
-      print("升级时发生错误: \(error)")
     }
   }
 
@@ -197,20 +210,9 @@ private struct BrewContentView: View {
     HStack {
       if observer.updateAppList.isEmpty {
         checkUpdateButton
+        lastUpdatedView
       } else {
         updateInfoView
-      }
-
-      if observer.isLoading {
-        ProgressView()
-          .controlSize(.small)
-      } else {
-        VStack {
-          Text("上次更新：") +
-            Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
-        }
-        .foregroundStyle(.green)
-        .font(.subheadline)
       }
     }
     .alert("Brew has no updates.", isPresented: $observer.showBrewHasNoUpdate) {
@@ -227,7 +229,10 @@ private struct BrewContentView: View {
 
   private var updateInfoView: some View {
     VStack(alignment: .leading) {
-      upgradeButton
+      HStack {
+        upgradeButton
+        lastUpdatedView
+      }
 
       List(observer.updateAppList, id: \.self) { app in
         Text(app)
@@ -255,6 +260,21 @@ private struct BrewContentView: View {
       Task {
         await observer.performUpgrade()
       }
+    }
+  }
+
+  @ViewBuilder
+  private var lastUpdatedView: some View {
+    if observer.isLoading {
+      ProgressView()
+        .controlSize(.small)
+    } else {
+      VStack {
+        Text("上次更新：") +
+        Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
+      }
+      .foregroundStyle(.green)
+      .font(.subheadline)
     }
   }
 }

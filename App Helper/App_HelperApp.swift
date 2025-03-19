@@ -26,8 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
-      self.hide()
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+      NSApp.hide(nil)
     }
   }
 
@@ -35,9 +35,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     watcher.stopWatch()
   }
 
+  func applicationWillHide(_ notification: Notification) {
+    removeFromDock()
+  }
+
+  func applicationWillUnhide(_ notification: Notification) {
+    showInDock()
+  }
+
   private func registerNotification() {
     NotificationCenter.default.addObserver(forName: .simulatedWindowClose, object: nil, queue: nil) { _ in
-      self.hide()
+      NSApp.hide(nil)
     }
     NotificationCenter.default.addObserver(forName: .updateWindow, object: nil, queue: nil) { notification in
       if let userInfo = notification.userInfo as? [String: NSWindow], let window = userInfo["window"] {
@@ -126,7 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     window.center()
 
     if NSApp.isHidden {
-      unhide()
+      NSApp.unhide(nil)
       if !operated { operated = true }
     }
 
@@ -143,18 +151,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     guard window.isKeyWindow else { return }
 
     if !operated {
-      hide()
+      NSApp.unhide(nil)
     }
-  }
-
-  func hide() {
-    removeFromDock()
-    NSApp.hide(nil)
-  }
-
-  private func unhide() {
-    showInDock()
-    NSApp.unhide(nil)
   }
 
   private func showInDock() {
