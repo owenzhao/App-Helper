@@ -24,4 +24,7 @@ extension Defaults.Keys {
   static let startNightOwl = Defaults.Key<Bool>("startNightOwl", default: false)
 
   static let lastBrewUpdateCheck = Defaults.Key<Date>("LastBrewUpdateCheck", default: Date.distantPast)
+
+  static let sleepShortcut = Key<String>("sleepShortcut", default: "Fn ⌃F12")
+  static let enableSleepWatching = Key<Bool>("enableSleepWatching", default: true)
 }

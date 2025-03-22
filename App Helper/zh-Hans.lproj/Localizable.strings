@@ -1,4 +1,10 @@
 /* No comment provided by engineer. */
+"若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。" = "若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。";
+
+/* No comment provided by engineer. */
+"上次更新：" = "上次更新：";
+
+/* No comment provided by engineer. */
 "Brew" = "Brew";
 
 /* No comment provided by engineer. */
@@ -32,7 +38,13 @@
 "Commands" = "命令";
 
 /* No comment provided by engineer. */
+"Confirm" = "确认";
+
+/* No comment provided by engineer. */
 "Display" = "显示器";
+
+/* No comment provided by engineer. */
+"Enable Sleep Watching" = "允许监控睡眠";
 
 /* No comment provided by engineer. */
 "failed" = "失败";
@@ -98,6 +110,9 @@
 "Run in Background" = "后台运行";
 
 /* No comment provided by engineer. */
+"Sleep Shortcut:" = "睡眠快捷键：";
+
+/* No comment provided by engineer. */
 "Start NightOwl" = "启动NightOwl";
 
 /* No comment provided by engineer. */
@@ -111,6 +126,9 @@
 
 /* No comment provided by engineer. */
 "Switch HDR Status" = "切换HDR状态";
+
+/* No comment provided by engineer. */
+"System Sleep" = "系统睡眠";
 
 /* No comment provided by engineer. */
 "Upgrade" = "升级";

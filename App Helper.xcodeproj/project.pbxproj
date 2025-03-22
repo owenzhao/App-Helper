@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -59,6 +59,10 @@
 		DCFC3AF12D69D05300B6B2BD /* BrewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		DC5101D22D8E2D0F00515905 /* Keyboard Watcher */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Keyboard Watcher"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		DC13DC2629452A49005D28E9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -98,6 +102,7 @@
 				DC13DC7429457131005D28E9 /* App-Helper-Info.plist */,
 				DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */,
 				DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */,
+				DC5101D22D8E2D0F00515905 /* Keyboard Watcher */,
 				DC6063DD2D56EF6A002F0999 /* BrewView.swift */,
 				DCFC3AF12D69D05300B6B2BD /* BrewService.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
@@ -173,6 +178,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DC5101D22D8E2D0F00515905 /* Keyboard Watcher */,
 			);
 			name = "App Helper";
 			packageProductDependencies = (

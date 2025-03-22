@@ -26,6 +26,10 @@ struct RulesView: View {
   @Default(.startSwitchHosts) private var startSwitchHosts
   @Default(.startNightOwl) private var startNightOwl
 
+  @Default(.enableSleepWatching) private var enableSleepWatching
+  @Default(.sleepShortcut) private var sleepShortcut
+  @State private var isRecordingShortcut = false
+
   @State private var preventScreensaver = false
   @State private var hideDesktop = false
   @State private var assertionID: IOPMAssertionID = 0
@@ -42,18 +46,21 @@ struct RulesView: View {
 
   var body: some View {
     WindowBinder(window: $window) {
-      VStack(alignment: .leading) {
-        rulesSection
-        commandsSection
-        autoStartSection
-        displaySection
-        brewSection
+      ScrollView {
+        VStack(alignment: .leading) {
+          rulesSection
+          commandsSection
+          autoStartSection
+          displaySection
+          brewSection
+          systemSleepSection
 
-        Button("Run in Background") {
-          NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
+          Button("Run in Background") {
+            NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
+          }
+
+          Spacer()
         }
-
-        Spacer()
       }
       .padding()
     }
@@ -343,6 +350,26 @@ extension RulesView {
         .font(.title.bold())
       BrewView()
       Divider()
+    }
+  }
+
+  private var systemSleepSection: some View {
+    Section {
+      Text("System Sleep")
+        .font(.title.bold())
+
+      HStack {
+        Text("Sleep Shortcut:")
+        KeyboardShortcutView(
+          shortcut: $sleepShortcut,
+          isRecording: $isRecordingShortcut,
+          specialKeysEnabled: true
+        )
+      }
+      .disabled(!enableSleepWatching)
+
+      Toggle("Enable Sleep Watching", isOn: $enableSleepWatching)
+        .toggleStyle(.switch)
     }
   }
 }

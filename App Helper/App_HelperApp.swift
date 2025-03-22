@@ -19,12 +19,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var timer: Timer?
   private var showBrewUpdates = false
 
+  private let shortcutManager = GlobalShortcutManager()
+
+  func registerObserver() {
+    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])  // Command-Option-S
+  }
+
   func applicationWillFinishLaunching(_ notification: Notification) {
     registerNotification()
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
+    registerObserver()
 
     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
       NSApp.hide(nil)
@@ -204,6 +211,10 @@ struct App_HelperApp: App {
       }
     }
     .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+
+//    WindowGroup {
+//      KeyboardMonitorView()
+//    }
   }
 }
 
