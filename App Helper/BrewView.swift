@@ -223,6 +223,7 @@ private struct BrewContentView: View {
         ScrollView {
           Text(result)
         }
+        .frame(maxHeight: 800) // 限制高度, 防止内容过多导致布局问题
       }
     }
   }
