@@ -8,5 +8,5 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-APP_VERSION = 1.5.0
-APP_BUILD = 55
+APP_VERSION = 1.5.1
+APP_BUILD = 56
