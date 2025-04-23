@@ -33,9 +33,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupMenubarTray()
     registerObserver()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-      NSApp.hide(nil)
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+//      NSApp.hide(nil)
+//    }
   }
 
   func applicationWillTerminate(_ notification: Notification) {
