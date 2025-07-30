@@ -89,10 +89,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func setupMenubarTray() {
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    self.statusItem = statusItem
+    if self.statusItem == nil {
+      self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    }
 
-    guard let button = statusItem.button else {
+    guard let button = self.statusItem?.button else {
       fatalError()
     }
 

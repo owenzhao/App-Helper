@@ -49,10 +49,10 @@ struct RulesView: View {
       ScrollView {
         VStack(alignment: .leading) {
           rulesSection
+          brewSection
           commandsSection
           autoStartSection
           displaySection
-          brewSection
           systemSleepSection
 
           Button("Run in Background") {
