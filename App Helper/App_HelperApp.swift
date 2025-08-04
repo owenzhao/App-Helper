@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private let shortcutManager = GlobalShortcutManager()
 
   func registerObserver() {
-    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])  // Command-Option-S
+    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut]) // Command-Option-S
   }
 
   func applicationWillFinishLaunching(_ notification: Notification) {
@@ -33,9 +33,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupMenubarTray()
     registerObserver()
 
-//    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-//      NSApp.hide(nil)
-//    }
+    //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+    //      NSApp.hide(nil)
+    //    }
   }
 
   func applicationWillTerminate(_ notification: Notification) {
@@ -195,6 +195,11 @@ struct App_HelperApp: App {
             .tabItem {
               Label("Logs", systemImage: "clock")
             }
+        case .xcode:
+          XcodeView()
+            .tabItem {
+              Label("Xcode", systemImage: "hammer")
+            }
         }
       }
       .environment(\.managedObjectContext, logProvider.container.viewContext)
@@ -213,9 +218,9 @@ struct App_HelperApp: App {
     }
     .windowToolbarStyle(.unifiedCompact(showsTitle: false))
 
-//    WindowGroup {
-//      KeyboardMonitorView()
-//    }
+    //    WindowGroup {
+    //      KeyboardMonitorView()
+    //    }
   }
 }
 
@@ -227,15 +232,18 @@ struct App_HelperApp: App {
 enum AHTab: String, CaseIterable, Identifiable {
   case rules
   case logs
+  case xcode
 
   var id: Self { self }
 
   var localizedString: String {
     switch self {
     case .rules:
-      return NSLocalizedString("Rules", comment: "")
+      return NSLocalizedString("Rules", comment: "Rules tab title")
     case .logs:
-      return NSLocalizedString("Logs", comment: "")
+      return NSLocalizedString("Logs", comment: "Logs tab title")
+    case .xcode:
+      return NSLocalizedString("Xcode", comment: "Xcode tab title")
     }
   }
 }

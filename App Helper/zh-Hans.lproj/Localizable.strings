@@ -43,6 +43,9 @@
 /* No comment provided by engineer. */
 "Display" = "显示器";
 
+/* Prompt for project drag-and-drop */
+"Drag your project file here" = "将您的项目文件拖到这里";
+
 /* No comment provided by engineer. */
 "Enable Sleep Watching" = "允许监控睡眠";
 
@@ -55,6 +58,9 @@
 /* No comment provided by engineer. */
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
 
+/* Button to resolve SPM dependencies */
+"Get SPM Dependencies" = "获取SPM依赖项";
+
 /* No comment provided by engineer. */
 "HDR is disabled" = "HDR已禁用";
 
@@ -64,7 +70,7 @@
 /* No comment provided by engineer. */
 "Hide Desktop." = "隐藏桌面。";
 
-/* No comment provided by engineer. */
+/* Logs tab title */
 "Logs" = "日志";
 
 /* No comment provided by engineer. */
@@ -103,7 +109,7 @@
 /* No comment provided by engineer. */
 "Rule Applied" = "规则已应用";
 
-/* No comment provided by engineer. */
+/* Rules tab title */
 "Rules" = "规则";
 
 /* No comment provided by engineer. */
@@ -132,6 +138,12 @@
 
 /* No comment provided by engineer. */
 "Upgrade" = "升级";
+
+/* Xcode tab title */
+"Xcode" = "Xcode";
+
+/* Xcode tab description */
+"Xcode integration features" = "Xcode集成功能";
 
 /* No comment provided by engineer. */
 "Xcode uses high CPU!" = "Xcode使用高CPU！";

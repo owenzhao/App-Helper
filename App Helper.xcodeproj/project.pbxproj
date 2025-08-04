@@ -22,6 +22,7 @@
 		DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C72A111AC100CB506A /* InfoPlist.strings */; };
 		DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93CA2A111AC100CB506A /* Localizable.strings */; };
 		DC6063DE2D56EF6A002F0999 /* BrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6063DD2D56EF6A002F0999 /* BrewView.swift */; };
+		DC6DF5152E402A9C00A50C27 /* XcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6DF5142E402A9C00A50C27 /* XcodeView.swift */; };
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
 		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
 		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
@@ -52,6 +53,7 @@
 		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC6063DD2D56EF6A002F0999 /* BrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewView.swift; sourceTree = "<group>"; };
+		DC6DF5142E402A9C00A50C27 /* XcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeView.swift; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				DCFC3AF12D69D05300B6B2BD /* BrewService.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
 				DCA5960E29C710EE00E1DAB3 /* LogView.swift */,
+				DC6DF5142E402A9C00A50C27 /* XcodeView.swift */,
 				DCA5961329C7178400E1DAB3 /* Model */,
 				DC13DC65294566D3005D28E9 /* Tools */,
 				DC13DC5C29454958005D28E9 /* Defaults */,
@@ -261,6 +264,7 @@
 				DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */,
 				DCFC3AF22D69D05300B6B2BD /* BrewService.swift in Sources */,
 				DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */,
+				DC6DF5152E402A9C00A50C27 /* XcodeView.swift in Sources */,
 				DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
