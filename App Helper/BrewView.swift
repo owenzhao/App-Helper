@@ -239,6 +239,7 @@ private struct BrewContentView: View {
         Text(app)
       }
       .frame(height: 100) // 固定高度
+      .background(Color(.windowBackgroundColor))
       .overlay(alignment: .bottom, content: {
         Text("若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。")
           .font(.footnote)
