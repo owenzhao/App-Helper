@@ -234,17 +234,33 @@ private struct BrewContentView: View {
         upgradeButton
         lastUpdatedView
       }
+      AppUpdateListView(apps: observer.updateAppList)
+        .frame(height: 100)
+        .overlay(alignment: .bottom) {
+          Text("If the system prompts for App management (update or delete other applications) permission, please allow.", comment: "Permission prompt for app management")
+            .font(.footnote)
+            .foregroundStyle(.red)
+        }
+    }
+  }
 
-      List(observer.updateAppList, id: \.self) { app in
-        Text(app)
+  // New view for the app update list
+  private struct AppUpdateListView: View {
+    let apps: [String]
+    var body: some View {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 8) {
+          ForEach(apps, id: \.self) { app in
+            Text(app)
+              .font(.body)
+              .foregroundColor(.primary)
+              .padding(.vertical, 2)
+          }
+        }
+        .padding(8)
+        .frame(maxWidth: .infinity, alignment: .leading)
       }
-      .frame(height: 100) // 固定高度
-      .background(Color(.windowBackgroundColor))
-      .overlay(alignment: .bottom, content: {
-        Text("若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。")
-          .font(.footnote)
-          .foregroundStyle(.red)
-      })
+      .background(.secondary.opacity(0.2))
       .cornerRadius(12)
     }
   }
@@ -273,7 +289,7 @@ private struct BrewContentView: View {
     } else {
       VStack {
         Text("上次更新：") +
-        Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
+          Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
       }
       .foregroundStyle(.green)
       .font(.subheadline)
