@@ -1,7 +1,4 @@
 /* No comment provided by engineer. */
-"若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。" = "若系统弹出需要App管理（更新或删除其他应用程序）的权限，请允许。";
-
-/* No comment provided by engineer. */
 "上次更新：" = "上次更新：";
 
 /* No comment provided by engineer. */
@@ -70,6 +67,9 @@
 /* No comment provided by engineer. */
 "Hide Desktop." = "隐藏桌面。";
 
+/* Permission prompt for app management */
+"If the system prompts for App management (update or delete other applications) permission, please allow." = "如果系统提示需要应用管理（更新或删除其他应用程序）权限，请允许。";
+
 /* Logs tab title */
 "Logs" = "日志";
 
@@ -87,6 +87,9 @@
 
 /* No comment provided by engineer. */
 "OK" = "确定";
+
+/* Shell operation takes too long time. */
+"Operation timeout" = "操作超时";
 
 /* No comment provided by engineer. */
 "Preferences" = "选项";

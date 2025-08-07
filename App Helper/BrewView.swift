@@ -104,19 +104,32 @@ class BrewUpdateObserver: ObservableObject {
     defer {
       Task { @MainActor in
         isLoading = false
-        updateUI(updates: [])
       }
     }
 
     do {
       try await Task.sleep(nanoseconds: 1000)
       let result = BrewService.shared.upgradeBrew()
-      await MainActor.run {
-        brewUpgradeResult = result
-        showBrewUpgradeAlert = true
+
+      if result == NSLocalizedString("Operation timeout", comment: "Shell operation takes too long time.") {
+        await MainActor.run {
+          brewUpgradeResult = result
+          showBrewUpgradeAlert = true
+        }
+      } else {
+        await MainActor.run {
+          brewUpgradeResult = result
+          showBrewUpgradeAlert = true
+          updateUI(updates: [])
+        }
       }
     } catch {
       print("升级时发生错误: \(error)")
+
+      await MainActor.run {
+        brewUpgradeResult = error.localizedDescription
+        showBrewUpgradeAlert = true
+      }
     }
   }
 

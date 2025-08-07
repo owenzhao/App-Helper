@@ -40,7 +40,7 @@ func shell(_ command: String, timeout: TimeInterval = 600) -> String {
     if task.isRunning {
       task.terminate()
     }
-    return "执行超时"
+    return NSLocalizedString("Operation timeout", comment: "Shell operation takes too long time.") // "执行超时"
   }
 
   return output
