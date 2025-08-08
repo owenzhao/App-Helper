@@ -88,7 +88,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
   }
 
+  private func invalidateTimerIfNeeded() {
+    if timer != nil {
+      timer?.invalidate()
+      timer = nil
+    }
+  }
+
   private func setupMenubarTray() {
+    invalidateTimerIfNeeded()
+
     if self.statusItem == nil {
       self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     }
@@ -112,11 +121,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         button.action = #selector(menuAction(_:))
       })
     } else {
-      if timer != nil {
-        timer?.invalidate()
-        timer = nil
-      }
-
       setMenuItemButtonImage(button)
       button.action = #selector(menuAction(_:))
     }
