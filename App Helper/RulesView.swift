@@ -64,7 +64,7 @@ struct RulesView: View {
       }
       .padding()
     }
-    .onChange(of: window) {
+    .onChange(of: window) { _, window in
       if let window {
         window.delegate = WindowDelegate.shared
         NotificationCenter.default.post(name: .updateWindow, object: nil, userInfo: ["window": window])
@@ -82,9 +82,9 @@ struct RulesView: View {
       Alert(title: Text(error.error.localizedDescription), message: nil, dismissButton: Alert.Button.default(Text("OK")))
     }
     .alert(isPresented: $showNotificationAuthorizeDeniedAlert) {
-      Alert(title: Text("Can't send notification!"),
-            message: Text("Notification is not allowed by user. Please check your system preferences."),
-            dismissButton: Alert.Button.default(Text("OK")))
+      Alert(title: Text("Can't send notification!", comment: "Notification not allowed alert title"),
+            message: Text("Notification is not allowed by user. Please check your system preferences.", comment: "Notification not allowed alert message"),
+            dismissButton: Alert.Button.default(Text("OK", comment: "OK button")))
     }
     .onReceive(NotificationCenter.default.publisher(for: .hdrStatusChanged)) { notification in
       if let userInfo = notification.userInfo as? [String: String], let hdrStatus = userInfo["hdrStatus"] {
@@ -270,6 +270,20 @@ struct RulesView: View {
     let result = RulesView.runAppleScript(script)
     return result.success && result.output == "true"
   }
+
+  static func toggleSystemAppearance() {
+    let script = """
+    tell application \"System Events\"
+      set currentAppearance to (get appearance preferences)
+      if (dark mode of currentAppearance is true) then
+        set dark mode of currentAppearance to false
+      else
+        set dark mode of currentAppearance to true
+      end if
+    end tell
+    """
+    _ = runAppleScript(script)
+  }
 }
 
 // MARK: - Section Views
@@ -335,11 +349,14 @@ extension RulesView {
 
   private var displaySection: some View {
     Section {
-      Text("Display")
+      Text("Display", comment: "Display section title")
         .font(.title.bold())
       Button("Switch HDR Status", action: RulesView.toggleHDR)
         .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
         .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
+      Button(action: RulesView.toggleSystemAppearance) {
+        Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
+      }
       Divider()
     }
   }
