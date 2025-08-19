@@ -10,6 +10,7 @@ import IOKit.pwr_mgt
 import SwiftUI
 import SwiftUIWindowBinder
 import AppleScriptObjC
+import AVFoundation
 
 struct RulesView: View {
   @State private var window: SwiftUIWindowBinder.Window?
@@ -43,6 +44,7 @@ struct RulesView: View {
 
   @State private var hdrEnabledAlert = false
   @State private var hdrDisabledAlert = false
+  @State private var isHDRSupported: Bool = false // Track HDR support, default false
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -63,6 +65,9 @@ struct RulesView: View {
         }
       }
       .padding()
+    }
+    .onAppear {
+      isHDRSupported = Self.checkHDRSupport()
     }
     .onChange(of: window) { _, window in
       if let window {
@@ -284,6 +289,16 @@ struct RulesView: View {
     """
     _ = runAppleScript(script)
   }
+
+  static func checkHDRSupport() -> Bool {
+    for screen in NSScreen.screens {
+      if screen.maximumPotentialExtendedDynamicRangeColorComponentValue > 1.0 {
+        return true
+      }
+    }
+    
+    return false
+  }
 }
 
 // MARK: - Section Views
@@ -351,10 +366,12 @@ extension RulesView {
     Section {
       Text("Display", comment: "Display section title")
         .font(.title.bold())
-      Button("Switch HDR Status", action: RulesView.toggleHDR)
-        .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
-        .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
-      Button(action: RulesView.toggleSystemAppearance) {
+      if isHDRSupported {
+        Button("Switch HDR Status", action: Self.toggleHDR)
+          .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
+          .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
+      }
+      Button(action: Self.toggleSystemAppearance) {
         Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
       }
       Divider()
