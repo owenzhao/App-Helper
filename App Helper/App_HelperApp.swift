@@ -21,6 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private let shortcutManager = GlobalShortcutManager()
 
+  private var displaySectionWindow: NSWindow?
+  private var popover: NSPopover? // Popover to host SwiftUI view for quick access
+
   func registerObserver() {
     shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut]) // Command-Option-S
   }
@@ -95,6 +98,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  private func showDisplaySectionWindow() {
+    if displaySectionWindow == nil {
+      let contentView = NSHostingView(rootView: RulesView.DisplaySectionView())
+      let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
+                            styleMask: [.titled, .closable, .resizable],
+                            backing: .buffered, defer: false)
+      window.contentView = contentView
+      window.title = NSLocalizedString("Display Settings", comment: "Window title for display section")
+      window.center()
+      displaySectionWindow = window
+    }
+    displaySectionWindow?.makeKeyAndOrderFront(nil)
+    NSApp.activate(ignoringOtherApps: true)
+  }
+
+  private func showMainAppWindow() {
+    if window == nil {
+      // Create and show main window if not initialized
+      let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
+                                styleMask: [.titled, .closable, .resizable],
+                                backing: .buffered, defer: false)
+      mainWindow.contentView = NSHostingView(rootView: RulesView())
+      mainWindow.title = NSLocalizedString("App Helper", comment: "Main app window title")
+      mainWindow.center()
+      window = mainWindow
+    }
+    window?.makeKeyAndOrderFront(nil)
+    NSApp.activate(ignoringOtherApps: true)
+  }
+
   private func setupMenubarTray() {
     invalidateTimerIfNeeded()
 
@@ -106,24 +139,55 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       fatalError()
     }
 
+    // Use a popover for rich menu content instead of NSMenu
+    if popover == nil {
+      let pop = NSPopover()
+      pop.behavior = .transient // closes when focus changes
+      pop.contentSize = NSSize(width: 360, height: 280)
+      pop.contentViewController = NSHostingController(rootView: AppMenuPopoverView(openMainApp: { [weak self] in
+        self?.showMainAppWindow()
+      }))
+      popover = pop
+    }
+
+    // Ensure no NSMenu is attached so clicks trigger the popover
+    self.statusItem?.menu = nil
+
+    // Left-click toggles the popover
+    button.target = self
+    button.action = #selector(togglePopover(_:))
+
     if hasBrewUpdates {
       self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
         guard let self else { return }
-
-        showBrewUpdates.toggle()
-
-        if showBrewUpdates {
-          setMenuItemButtonTitle(button)
+        self.showBrewUpdates.toggle()
+        if self.showBrewUpdates {
+          self.setMenuItemButtonTitle(button)
         } else {
-          setMenuItemButtonImage(button)
+          self.setMenuItemButtonImage(button)
         }
-
-        button.action = #selector(menuAction(_:))
       })
     } else {
       setMenuItemButtonImage(button)
-      button.action = #selector(menuAction(_:))
     }
+  }
+
+  @objc private func togglePopover(_ sender: Any?) {
+    if let popover, popover.isShown {
+      closePopover(sender)
+    } else {
+      showPopover(sender)
+    }
+  }
+
+  private func showPopover(_ sender: Any?) {
+    guard let button = statusItem?.button, let popover = popover else { return }
+    popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+    NSApp.activate(ignoringOtherApps: true)
+  }
+
+  private func closePopover(_ sender: Any?) {
+    popover?.performClose(sender)
   }
 
   private func setMenuItemButtonImage(_ button: NSStatusBarButton) {
@@ -175,6 +239,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private func removeFromDock() {
     NSApp.setActivationPolicy(.accessory)
+  }
+
+  @objc private func handleDisplaySectionMenu() {
+    showDisplaySectionWindow()
+  }
+
+  @objc private func handleMainAppMenu() {
+    showMainAppWindow()
   }
 }
 

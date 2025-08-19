@@ -5,12 +5,12 @@
 //  Created by zhaoxin on 2023/3/11.
 //
 
+import AppleScriptObjC
+import AVFoundation
 import Defaults
 import IOKit.pwr_mgt
 import SwiftUI
 import SwiftUIWindowBinder
-import AppleScriptObjC
-import AVFoundation
 
 struct RulesView: View {
   @State private var window: SwiftUIWindowBinder.Window?
@@ -44,7 +44,7 @@ struct RulesView: View {
 
   @State private var hdrEnabledAlert = false
   @State private var hdrDisabledAlert = false
-  @State private var isHDRSupported: Bool = false // Track HDR support, default false
+  @State private var isHDRSupported = false // Track HDR support, default false
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -156,30 +156,30 @@ struct RulesView: View {
     return (false, nil)
   }
 
-  static func toggleHDR() {
+  static func toggleHDR(completion: @escaping (Bool) -> Void) {
     let script = """
     tell application "System Settings"
     activate
-    
+
     -- 等待窗口出现。可根据电脑的性能进行调整。
     delay 0.5
-    
+
     -- 显示所有子项
     -- return properties of every pane
-    
+
     -- 打开显示器设置
     -- {class:pane, name:"显示器", id:"com.apple.Displays-Settings.extension"}
     set the current pane to pane id "com.apple.Displays-Settings.extension"
-    
+
     delay 0.5
-    
+
     -- 因为苹果脚本的特殊性，需要tell/ end tell等一一对应。所以，不能在第一段的try中的else中直接运行
     -- 具体的故障是，没有运行效果，checkbox不会被点击
     -- 因此，需要使用一个变量来进行转换。
     -- 先假设已经开启了HDR，如果不是，则设置为false，这样就可以运行第二段的if。
     set isHDREnabled to true
     set hdrStatus to "on"
-    
+
     -- 使用系统事件
     tell application "System Events" to tell application process "System Settings"
     -- 这一步不是什么魔法，是一点儿一点儿试出来的。参考辅助代码
@@ -192,7 +192,7 @@ struct RulesView: View {
         end if
       end try
     end tell
-    
+
     if (isHDREnabled is false) then
       tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
         click checkbox "高动态范围"
@@ -200,11 +200,11 @@ struct RulesView: View {
       end tell
     end if
     end tell
-    
+
     tell application "System Settings" to quit
     return hdrStatus
     end tell
-    
+
     (* 辅助代码
     tell application "System Events" to tell application process "System Settings"
     tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
@@ -227,25 +227,25 @@ struct RulesView: View {
     let script = """
     tell application "System Settings"
     activate
-    
+
     -- 等待窗口出现。可根据电脑的性能进行调整。
     delay 0.5
-    
+
     -- 显示所有子项
     -- return properties of every pane
-    
+
     -- 打开显示器设置
     -- {class:pane, name:"显示器", id:"com.apple.Displays-Settings.extension"}
     set the current pane to pane id "com.apple.Displays-Settings.extension"
-    
+
     delay 0.5
-    
+
     -- 因为苹果脚本的特殊性，需要tell/ end tell等一一对应。所以，不能在第一段的try中的else中直接运行
     -- 具体的故障是，没有运行效果，checkbox不会被点击
     -- 因此，需要使用一个变量来进行转换。
     -- 先假设已经开启了HDR，如果不是，则设置为false，这样就可以运行第二段的if。
     set isHDREnabled to false
-    
+
     -- 使用系统事件
     tell application "System Events" to tell application process "System Settings"
     -- 这一步不是什么魔法，是一点儿一点儿试出来的。参考辅助代码
@@ -258,12 +258,12 @@ struct RulesView: View {
       end try
     end tell
     end tell
-    
+
     tell application "System Settings" to quit
-    
+
     return isHDREnabled
     end tell
-    
+
     (* 辅助代码
     tell application "System Events" to tell application process "System Settings"
     tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window "显示器"
@@ -296,7 +296,7 @@ struct RulesView: View {
         return true
       }
     }
-    
+
     return false
   }
 }
@@ -362,20 +362,128 @@ extension RulesView {
     }
   }
 
-  private var displaySection: some View {
-    Section {
-      Text("Display", comment: "Display section title")
-        .font(.title.bold())
-      if isHDRSupported {
-        Button("Switch HDR Status", action: Self.toggleHDR)
+  struct DisplaySectionView: View {
+    @State private var hdrEnabledAlert = false
+    @State private var hdrDisabledAlert = false
+    @State private var isHDRSupported = false
+
+    var body: some View {
+      Section {
+        Text("Display", comment: "Display section title")
+          .font(.title.bold())
+        if isHDRSupported {
+          Button("Switch HDR Status") {
+            Self.toggleHDR { enabled in
+              if enabled {
+                hdrEnabledAlert = true
+              } else {
+                hdrDisabledAlert = true
+              }
+            }
+          }
           .alert("HDR is enabled.", isPresented: $hdrEnabledAlert, actions: {})
           .alert("HDR is disabled", isPresented: $hdrDisabledAlert, actions: {})
+        }
+        Button(action: Self.toggleSystemAppearance) {
+          Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
+        }
+        Divider()
       }
-      Button(action: Self.toggleSystemAppearance) {
-        Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
+      .onAppear {
+        isHDRSupported = Self.checkHDRSupport()
       }
-      Divider()
     }
+
+    private static func checkHDRSupport() -> Bool {
+      for screen in NSScreen.screens {
+        if screen.maximumPotentialExtendedDynamicRangeColorComponentValue > 1.0 {
+          return true
+        }
+      }
+      return false
+    }
+
+    private static func runAppleScript(_ script: String) -> (success: Bool, output: String?) {
+      let trusted = AXIsProcessTrusted()
+      if !trusted {
+        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString: true]
+        AXIsProcessTrustedWithOptions(options)
+        return (false, nil)
+      }
+      let task = Process()
+      task.launchPath = "/usr/bin/osascript"
+      task.arguments = ["-e", script]
+      let pipe = Pipe()
+      task.standardOutput = pipe
+      do {
+        try task.run()
+        task.waitUntilExit()
+        if task.terminationStatus == 0 {
+          let data = pipe.fileHandleForReading.readDataToEndOfFile()
+          let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
+          return (true, output)
+        }
+      } catch {
+        print("AppleScript error: \(error)")
+      }
+      return (false, nil)
+    }
+
+    private static func toggleHDR(completion: @escaping (Bool) -> Void) {
+      let script = """
+      tell application \"System Settings\"
+      activate
+      delay 0.5
+      set the current pane to pane id \"com.apple.Displays-Settings.extension\"
+      delay 0.5
+      set isHDREnabled to true
+      set hdrStatus to \"on\"
+      tell application \"System Events\" to tell application process \"System Settings\"
+      tell group 3 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window \"显示器\"
+      try
+      if (exists checkbox \"高动态范围\") then
+      click checkbox \"高动态范围\"
+      else
+      set isHDREnabled to false
+      end if
+      end try
+      end tell
+      if (isHDREnabled is false) then
+      tell group 4 of scroll area 2 of group 1 of group 2 of splitter group 1 of group 1 of window \"显示器\"
+      click checkbox \"高动态范围\"
+      set hdrStatus to \"off\"
+      end tell
+      end if
+      end tell
+      tell application \"System Settings\" to quit
+      return hdrStatus
+      end tell
+      """
+      let result = runAppleScript(script)
+      if result.success {
+        completion(result.output == "on")
+      } else {
+        completion(false)
+      }
+    }
+
+    private static func toggleSystemAppearance() {
+      let script = """
+      tell application \"System Events\"
+      set currentAppearance to (get appearance preferences)
+      if (dark mode of currentAppearance is true) then
+      set dark mode of currentAppearance to false
+      else
+      set dark mode of currentAppearance to true
+      end if
+      end tell
+      """
+      _ = runAppleScript(script)
+    }
+  }
+
+  private var displaySection: some View {
+    DisplaySectionView()
   }
 
   private var brewSection: some View {
