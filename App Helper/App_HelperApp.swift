@@ -21,8 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private let shortcutManager = GlobalShortcutManager()
 
-  private var displaySectionWindow: NSWindow?
-  private var popover: NSPopover? // Popover to host SwiftUI view for quick access
+  private var popover: NSPopover?
 
   func registerObserver() {
     shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut]) // Command-Option-S
@@ -36,6 +35,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupMenubarTray()
     registerObserver()
 
+    NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
+      guard let self = self else { return }
+      // Only close main window if open
+      if let window = self.window, window.isVisible {
+        window.orderOut(nil)
+      }
+    }
+
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
     //      NSApp.hide(nil)
     //    }
@@ -43,14 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillTerminate(_ notification: Notification) {
     watcher.stopWatch()
-  }
-
-  func applicationWillHide(_ notification: Notification) {
-    removeFromDock()
-  }
-
-  func applicationWillUnhide(_ notification: Notification) {
-    showInDock()
   }
 
   private func registerNotification() {
@@ -76,7 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func setAutoStart() {
-    #if !DEBUG
+#if !DEBUG
     let shouldEnable = Defaults[.autoLaunchWhenLogin]
 
     do {
@@ -88,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     } catch {
       print(error)
     }
-    #endif
+#endif
   }
 
   private func invalidateTimerIfNeeded() {
@@ -96,21 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       timer?.invalidate()
       timer = nil
     }
-  }
-
-  private func showDisplaySectionWindow() {
-    if displaySectionWindow == nil {
-      let contentView = NSHostingView(rootView: RulesView.DisplaySectionView())
-      let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 400, height: 300),
-                            styleMask: [.titled, .closable, .resizable],
-                            backing: .buffered, defer: false)
-      window.contentView = contentView
-      window.title = NSLocalizedString("Display Settings", comment: "Window title for display section")
-      window.center()
-      displaySectionWindow = window
-    }
-    displaySectionWindow?.makeKeyAndOrderFront(nil)
-    NSApp.activate(ignoringOtherApps: true)
   }
 
   private func showMainAppWindow() {
@@ -139,21 +123,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       fatalError()
     }
 
-    // Use a popover for rich menu content instead of NSMenu
+    // Restore popover logic
     if popover == nil {
       let pop = NSPopover()
       pop.behavior = .transient // closes when focus changes
       pop.contentSize = NSSize(width: 360, height: 280)
       pop.contentViewController = NSHostingController(rootView: AppMenuPopoverView(openMainApp: { [weak self] in
         self?.showMainAppWindow()
+      }, closePopover: { [weak self] in
+        self?.closePopover(nil)
       }))
       popover = pop
     }
 
-    // Ensure no NSMenu is attached so clicks trigger the popover
     self.statusItem?.menu = nil
-
-    // Left-click toggles the popover
     button.target = self
     button.action = #selector(togglePopover(_:))
 
@@ -183,7 +166,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func showPopover(_ sender: Any?) {
     guard let button = statusItem?.button, let popover = popover else { return }
     popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-    NSApp.activate(ignoringOtherApps: true)
   }
 
   private func closePopover(_ sender: Any?) {
@@ -199,54 +181,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func setMenuItemButtonTitle(_ button: NSStatusBarButton) {
     button.image = nil
     button.title = "🍺"
-  }
-
-  @objc private func menuAction(_ sender: Any) {
-    guard let window = window else {
-      return
-    }
-
-    var operated = false
-    window.center()
-
-    if NSApp.isHidden {
-      NSApp.unhide(nil)
-      if !operated { operated = true }
-    } else {
-      print("not hidden")
-    }
-
-    if window.isMiniaturized {
-      window.deminiaturize(nil)
-      if !operated { operated = true }
-    }
-
-    if !NSApp.isActive {
-      NSApp.activate(ignoringOtherApps: true)
-      if !operated { operated = true }
-    }
-
-    guard window.isKeyWindow else { return }
-
-    if !operated {
-      NSApp.hide(nil)
-    }
-  }
-
-  private func showInDock() {
-    NSApp.setActivationPolicy(.regular)
-  }
-
-  private func removeFromDock() {
-    NSApp.setActivationPolicy(.accessory)
-  }
-
-  @objc private func handleDisplaySectionMenu() {
-    showDisplaySectionWindow()
-  }
-
-  @objc private func handleMainAppMenu() {
-    showMainAppWindow()
   }
 }
 
