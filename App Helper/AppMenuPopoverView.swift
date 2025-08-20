@@ -30,7 +30,7 @@ struct WindowCloseButton: View {
           .fill(AppMenuStyle.closeButtonColor)
           .frame(width: AppMenuStyle.closeButtonSize, height: AppMenuStyle.closeButtonSize)
         if isHovering {
-          Text("×", comment: "NSWindow style close button x")
+          Text(verbatim: "x")
             .font(.system(size: 10, weight: .bold))
             .foregroundColor(AppMenuStyle.closeButtonXColor)
         }
