@@ -144,13 +144,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     displayHeader.isEnabled = false
     menu.addItem(displayHeader)
 
-    if RulesView.checkHDRSupport() {
-      let hdrTitle = NSLocalizedString("Switch HDR Status", comment: "Menu item to toggle HDR status")
-      let hdrItem = NSMenuItem(title: hdrTitle, action: #selector(toggleHDRMenuAction(_:)), keyEquivalent: "")
-      hdrItem.target = self
-      menu.addItem(hdrItem)
-    }
-
     let appearanceTitle = NSLocalizedString("Toggle System Color Theme", comment: "Menu item to toggle system appearance")
     let appearanceItem = NSMenuItem(title: appearanceTitle, action: #selector(toggleAppearanceMenuAction(_:)), keyEquivalent: "")
     appearanceItem.target = self
@@ -168,10 +161,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   // MARK: - Menu Actions
-  @objc private func toggleHDRMenuAction(_ sender: Any?) {
-    RulesView.toggleHDR { _ in }
-  }
-
   @objc private func toggleAppearanceMenuAction(_ sender: Any?) {
     RulesView.toggleSystemAppearance()
   }
