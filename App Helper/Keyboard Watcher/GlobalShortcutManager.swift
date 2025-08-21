@@ -42,7 +42,20 @@ class GlobalShortcutManager {
   }
 
   func registerSleepShortcut(_ shortcutString: String) {
-    registeredShortcut = shortcutString
+    registeredShortcut = shortcutString.isEmpty ? nil : shortcutString
+  }
+
+  /// Enable or disable global/local key monitoring at runtime.
+  func setEnabled(_ enabled: Bool) {
+    if enabled {
+      if eventMonitor == nil {
+        startMonitoring()
+      }
+    } else {
+      if eventMonitor != nil {
+        stopMonitoring()
+      }
+    }
   }
 
   private func startMonitoring() {
@@ -98,9 +111,9 @@ class GlobalShortcutManager {
       putSystemToSleep()
     }
 
-    #if DEBUG
+#if DEBUG
     print("Current shortcut: \(currentShortcut)")
-    #endif
+#endif
   }
 
   private func stopMonitoring() {

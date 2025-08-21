@@ -8,9 +8,6 @@
 import SwiftUI
 import Defaults
 
-import SwiftUI
-import Defaults
-
 struct KeyboardShortcutView: View {
   @Binding var shortcut: String
   @Binding var isRecording: Bool
@@ -84,7 +81,8 @@ struct KeyboardShortcutView: View {
           shortcutString += specialKey
           tempShortcut = shortcutString
         } else if let key = event.characters?.uppercased() {
-          shortcutString += key
+          let normalizedKey = (key == " ") ? "Space" : key
+          shortcutString += normalizedKey
           tempShortcut = shortcutString
         }
 

@@ -21,9 +21,59 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private let shortcutManager = GlobalShortcutManager()
   private var statusMenu: NSMenu? // retain the menu
+  private var observationTasks: [Task<Void, Never>] = []
 
   func registerObserver() {
-    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut]) // Command-Option-S
+    // Register current values at launch
+    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])
+    shortcutManager.setEnabled(Defaults[.enableSleepWatching])
+
+    // Start per-key observation tasks using the new Defaults.updates API
+    startObservationTasks()
+  }
+
+  private func startObservationTasks() {
+    // Cancel any existing tasks first to avoid duplication
+    cancelObservationTasks()
+
+    // Sleep shortcut updates
+    let sleepTask = Task { [weak self] in
+      guard let self else { return }
+      for await change in Defaults.updates(.sleepShortcut, initial: false) {
+        await MainActor.run {
+          self.shortcutManager.registerSleepShortcut(change)
+        }
+      }
+    }
+
+    // Enable sleep watching updates
+    let enableTask = Task { [weak self] in
+      guard let self else { return }
+      for await change in Defaults.updates(.enableSleepWatching, initial: false) {
+        await MainActor.run {
+          self.shortcutManager.setEnabled(change)
+        }
+      }
+    }
+
+    // Auto start preference updates
+    let autoStartTask = Task { [weak self] in
+      guard let self else { return }
+      for await _ in Defaults.updates(.autoLaunchWhenLogin, initial: false) {
+        await MainActor.run {
+          self.setAutoStart()
+        }
+      }
+    }
+
+    observationTasks.append(contentsOf: [sleepTask, enableTask, autoStartTask])
+  }
+
+  private func cancelObservationTasks() {
+    for task in observationTasks {
+      task.cancel()
+    }
+    observationTasks.removeAll()
   }
 
   func applicationWillFinishLaunching(_ notification: Notification) {
@@ -41,6 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillTerminate(_ notification: Notification) {
     watcher.stopWatch()
+    cancelObservationTasks()
   }
 
   private func registerNotification() {
@@ -59,10 +110,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.setupMenubarTray()
       }
     }
-
-    Defaults.observe(.autoLaunchWhenLogin) { _ in
-      self.setAutoStart()
-    }.tieToLifetime(of: self)
   }
 
   private func setAutoStart() {
