@@ -20,8 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var showBrewUpdates = false
 
   private let shortcutManager = GlobalShortcutManager()
-
-  private var popover: NSPopover?
+  private var statusMenu: NSMenu? // retain the menu
 
   func registerObserver() {
     shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut]) // Command-Option-S
@@ -34,14 +33,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
     registerObserver()
-
-    NotificationCenter.default.addObserver(forName: NSApplication.didResignActiveNotification, object: nil, queue: .main) { [weak self] _ in
-      guard let self = self else { return }
-      // Only close main window if open
-      if let window = self.window, window.isVisible {
-        window.orderOut(nil)
-      }
-    }
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
     //      NSApp.hide(nil)
@@ -123,22 +114,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       fatalError()
     }
 
-    // Restore popover logic
-    if popover == nil {
-      let pop = NSPopover()
-      pop.behavior = .transient // closes when focus changes
-      pop.contentSize = NSSize(width: 360, height: 280)
-      pop.contentViewController = NSHostingController(rootView: AppMenuPopoverView(openMainApp: { [weak self] in
-        self?.showMainAppWindow()
-      }, closePopover: { [weak self] in
-        self?.closePopover(nil)
-      }))
-      popover = pop
-    }
-
-    self.statusItem?.menu = nil
-    button.target = self
-    button.action = #selector(togglePopover(_:))
+    // Build and assign a native NSMenu for the status item
+    let menu = buildStatusMenu()
+    self.statusMenu = menu
+    self.statusItem?.menu = menu
 
     if hasBrewUpdates {
       self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
@@ -155,21 +134,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
-  @objc private func togglePopover(_ sender: Any?) {
-    if let popover, popover.isShown {
-      closePopover(sender)
-    } else {
-      showPopover(sender)
+  // MARK: - Status Menu Builder
+  private func buildStatusMenu() -> NSMenu {
+    let menu = NSMenu()
+
+    // Display section
+    let displayTitle = NSLocalizedString("Display", comment: "Display section title in status menu")
+    let displayHeader = NSMenuItem(title: displayTitle, action: nil, keyEquivalent: "")
+    displayHeader.isEnabled = false
+    menu.addItem(displayHeader)
+
+    if RulesView.checkHDRSupport() {
+      let hdrTitle = NSLocalizedString("Switch HDR Status", comment: "Menu item to toggle HDR status")
+      let hdrItem = NSMenuItem(title: hdrTitle, action: #selector(toggleHDRMenuAction(_:)), keyEquivalent: "")
+      hdrItem.target = self
+      menu.addItem(hdrItem)
     }
+
+    let appearanceTitle = NSLocalizedString("Toggle System Color Theme", comment: "Menu item to toggle system appearance")
+    let appearanceItem = NSMenuItem(title: appearanceTitle, action: #selector(toggleAppearanceMenuAction(_:)), keyEquivalent: "")
+    appearanceItem.target = self
+    menu.addItem(appearanceItem)
+
+    menu.addItem(.separator())
+
+    // Open main app
+    let openMainTitle = NSLocalizedString("Open Main App", comment: "Menu item to open the main application window")
+    let openMainItem = NSMenuItem(title: openMainTitle, action: #selector(openMainAppMenuAction(_:)), keyEquivalent: "")
+    openMainItem.target = self
+    menu.addItem(openMainItem)
+
+    return menu
   }
 
-  private func showPopover(_ sender: Any?) {
-    guard let button = statusItem?.button, let popover = popover else { return }
-    popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+  // MARK: - Menu Actions
+  @objc private func toggleHDRMenuAction(_ sender: Any?) {
+    RulesView.toggleHDR { _ in }
   }
 
-  private func closePopover(_ sender: Any?) {
-    popover?.performClose(sender)
+  @objc private func toggleAppearanceMenuAction(_ sender: Any?) {
+    RulesView.toggleSystemAppearance()
+  }
+
+  @objc private func openMainAppMenuAction(_ sender: Any?) {
+    showMainAppWindow()
   }
 
   private func setMenuItemButtonImage(_ button: NSStatusBarButton) {
