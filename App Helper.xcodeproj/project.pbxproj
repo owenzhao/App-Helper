@@ -443,6 +443,7 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "The application needs to modify the system color theme.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -473,8 +474,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "App Helper/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
+				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "The application needs to modify the system color theme.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
