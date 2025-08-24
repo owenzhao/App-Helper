@@ -97,6 +97,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func registerNotification() {
     NotificationCenter.default.addObserver(forName: .simulatedWindowClose, object: nil, queue: nil) { _ in
       NSApp.hide(nil)
+      NSApp.setActivationPolicy(.accessory) // Hide Dock icon when main window is closed
     }
     NotificationCenter.default.addObserver(forName: .updateWindow, object: nil, queue: nil) { notification in
       if let userInfo = notification.userInfo as? [String: NSWindow], let window = userInfo["window"] {
@@ -113,7 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func setAutoStart() {
-#if !DEBUG
+    #if !DEBUG
     let shouldEnable = Defaults[.autoLaunchWhenLogin]
 
     do {
@@ -125,7 +126,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     } catch {
       print(error)
     }
-#endif
+    #endif
   }
 
   private func invalidateTimerIfNeeded() {
@@ -136,6 +137,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func showMainAppWindow() {
+    NSApp.setActivationPolicy(.regular) // Show Dock icon when main window is shown
     if window == nil {
       // Create and show main window if not initialized
       let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
