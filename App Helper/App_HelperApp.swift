@@ -217,9 +217,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func setMenuItemButtonImage(_ button: NSStatusBarButton) {
-    let image = NSImage(imageLiteralResourceName: "lion_menubar")
+    let image = NSImage(imageLiteralResourceName: getMenuItemImageName())
     button.image = image
     button.title = ""
+  }
+
+  private func getMenuItemImageName() -> String {
+    #if DEBUG
+    return "lion_menubar_beta"
+    #else
+    return "lion_menubar"
+    #endif
   }
 
   private func setMenuItemButtonTitle(_ button: NSStatusBarButton) {

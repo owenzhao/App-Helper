@@ -429,7 +429,7 @@
 		DC13DC3929452A4A005D28E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconBeta;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -441,9 +441,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "App Helper/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
+				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app requires access to System Preferences to switch HDR mode.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -451,7 +450,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = $APP_VERSION;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Beta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -476,7 +475,6 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app requires access to System Preferences to switch HDR mode.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
