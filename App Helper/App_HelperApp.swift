@@ -281,6 +281,12 @@ struct App_HelperApp: App {
       }
     }
     .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+    .commands {
+      // 替换文件菜单，移除新建窗口等不需要的命令
+      CommandGroup(replacing: .newItem) {
+        // 留空，这样就移除了新建相关的菜单项
+      }
+    }
 
     //    WindowGroup {
     //      KeyboardMonitorView()
