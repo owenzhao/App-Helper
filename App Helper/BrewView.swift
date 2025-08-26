@@ -379,19 +379,17 @@ private struct BrewContentView: View {
   @Default(.brewUpdateTime) private var updateTime
   @Default(.brewUpdateWeekday) private var updateWeekday
 
+  @State private var showingSettings = false
+
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
-      autoUpdateToggleView
-      updateFrequencyPickerView
-      updateScheduleSettingsView
+      brewToggleWithSettingsView
 
-      HStack {
-        if observer.updateAppList.isEmpty {
-          checkUpdateButton
-          lastUpdatedView
-        } else {
-          updateInfoView
-        }
+      if observer.updateAppList.isEmpty {
+        // 合并的左侧内容区域
+        combinedLeftContentView
+      } else {
+        updateInfoView
       }
     }
     .alert("Brew has no updates.", isPresented: $observer.showBrewHasNoUpdate) {
@@ -402,187 +400,75 @@ private struct BrewContentView: View {
         ScrollView {
           Text(result)
         }
-        .frame(maxHeight: 800) // 限制高度, 防止内容过多导致布局问题
+        .frame(maxHeight: 800)
       }
     }
+    .sheet(isPresented: $showingSettings) {
+      BrewSettingsView(
+        isAutoUpdateEnabled: $isAutoUpdateEnabled,
+        updateFrequency: $updateFrequency,
+        updateTime: $updateTime,
+        updateWeekday: $updateWeekday,
+        observer: observer
+      )
+    }
   }
 
-  private var autoUpdateToggleView: some View {
-    Toggle(isOn: $isAutoUpdateEnabled) {
-      Text("Enable Auto Update", comment: "Toggle for enabling automatic brew updates")
-    }
-    .toggleStyle(SwitchToggleStyle())
-    .onChange(of: isAutoUpdateEnabled) { _, newValue in
-      observer.handleAutoUpdateSettingChange()
-    }
-  }
-
-  private var updateFrequencyPickerView: some View {
+  private var brewToggleWithSettingsView: some View {
     HStack {
-      Text("Update Frequency", comment: "Label for update frequency selection")
-      Spacer()
-      Picker("Update Frequency", selection: $updateFrequency) {
-        ForEach(BrewUpdateFrequency.allCases, id: \.self) { frequency in
-          Text(frequency.localizedTitle).tag(frequency)
-        }
+      Toggle(isOn: $isAutoUpdateEnabled) {
+        Text("Brew", comment: "Toggle for enabling automatic brew updates")
+          .font(.title.bold())
       }
-      .pickerStyle(MenuPickerStyle())
+      .toggleStyle(SwitchToggleStyle())
+      .onChange(of: isAutoUpdateEnabled) { _, newValue in
+        observer.handleAutoUpdateSettingChange()
+      }
+
+      Spacer()
+
+      Button(action: {
+        showingSettings = true
+      }) {
+        Image(systemName: "gearshape")
+          .font(.title2)
+          .foregroundColor(.primary)
+      }
+      .buttonStyle(PlainButtonStyle())
       .disabled(!isAutoUpdateEnabled)
-      .onChange(of: updateFrequency) { _, newValue in
-        observer.handleFrequencyChange()
+    }
+  }
+
+  private var checkUpdateButton: some View {
+    Button("Check Update") {
+      Task {
+        await observer.checkForUpdates()
       }
     }
+    .disabled(!isAutoUpdateEnabled)
+  }
+
+  private var upgradeButton: some View {
+    Button("Upgrade") {
+      Task {
+        await observer.performUpgrade()
+      }
+    }
+    .disabled(!isAutoUpdateEnabled)
   }
 
   @ViewBuilder
-  private var updateScheduleSettingsView: some View {
-    if updateFrequency == .daily {
-      dailyUpdateSettingsView
-    } else if updateFrequency == .weekly {
-      weeklyUpdateSettingsView
-    }
-  }
-
-  private var dailyUpdateSettingsView: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Daily Update Settings", comment: "Header for daily update settings")
-        .font(.headline)
-        .foregroundColor(.primary)
-
-      updateTimePickerView
-
-      // 显示下次更新时间
-      if isAutoUpdateEnabled {
-        nextUpdateInfoView
+  private var lastUpdatedView: some View {
+    if observer.isLoading {
+      ProgressView()
+        .controlSize(.small)
+    } else {
+      VStack {
+        Text("Last Updated:", comment: "Label for last update time") +
+        Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
       }
-    }
-    .padding(12)
-    .background(.secondary.opacity(0.1))
-    .cornerRadius(8)
-  }
-
-  private var weeklyUpdateSettingsView: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Weekly Update Settings", comment: "Header for weekly update settings")
-        .font(.headline)
-        .foregroundColor(.primary)
-
-      weekdayPickerView
-      updateTimePickerView
-
-      // 显示下次更新时间
-      if isAutoUpdateEnabled {
-        nextUpdateInfoView
-      }
-    }
-    .padding(12)
-    .background(.secondary.opacity(0.1))
-    .cornerRadius(8)
-  }
-
-  private var weekdayPickerView: some View {
-    HStack {
-      Text("Update Day", comment: "Label for weekday selection")
-      Spacer()
-      Picker("Update Day", selection: $updateWeekday) {
-        ForEach(BrewUpdateWeekday.allCases, id: \.self) { weekday in
-          Text(weekday.localizedTitle).tag(weekday)
-        }
-      }
-      .pickerStyle(MenuPickerStyle())
-      .disabled(!isAutoUpdateEnabled)
-      .onChange(of: updateWeekday) { _, newValue in
-        observer.handleTimeChange()
-      }
-    }
-  }
-
-  private var updateTimePickerView: some View {
-    HStack {
-      Text("Update Time", comment: "Label for time selection")
-      Spacer()
-
-      // 使用更友好的时间选择器
-      HStack(spacing: 4) {
-        Text("at", comment: "Preposition before time")
-          .foregroundColor(.secondary)
-
-        DatePicker(
-          "Update Time",
-          selection: $updateTime,
-          displayedComponents: [.hourAndMinute]
-        )
-        .labelsHidden()
-        .disabled(!isAutoUpdateEnabled)
-        .onChange(of: updateTime) { _, newValue in
-          observer.handleTimeChange()
-        }
-      }
-    }
-  }
-
-  private var nextUpdateInfoView: some View {
-    HStack {
-      Image(systemName: "clock")
-        .foregroundColor(.blue)
-        .font(.caption)
-
-      Text("Next update: \(nextUpdateTimeString)", comment: "Shows when the next update will occur")
-        .font(.caption)
-        .foregroundColor(.secondary)
-    }
-  }
-
-  private var nextUpdateTimeString: String {
-    let calendar = Calendar.current
-    let now = Date()
-    let scheduledTime = updateTime
-    let timeComponents = calendar.dateComponents([.hour, .minute], from: scheduledTime)
-
-    switch updateFrequency {
-    case .hourly:
-      return NSLocalizedString("Every hour", comment: "Next update time for hourly frequency")
-
-    case .daily:
-      var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
-      todayComponents.hour = timeComponents.hour
-      todayComponents.minute = timeComponents.minute
-      todayComponents.second = 0
-
-      guard let todayCheckTime = calendar.date(from: todayComponents) else {
-        return NSLocalizedString("Unknown", comment: "Unknown next update time")
-      }
-
-      let nextUpdate = todayCheckTime > now ? todayCheckTime : calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
-
-      let formatter = DateFormatter()
-      if calendar.isDateInToday(nextUpdate) {
-        formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("Today at %@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
-      } else if calendar.isDateInTomorrow(nextUpdate) {
-        formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("Tomorrow at %@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
-      } else {
-        formatter.dateFormat = "MMM d, HH:mm"
-        return formatter.string(from: nextUpdate)
-      }
-
-    case .weekly:
-      var weekdayComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
-      weekdayComponents.weekday = updateWeekday.rawValue
-      weekdayComponents.hour = timeComponents.hour
-      weekdayComponents.minute = timeComponents.minute
-      weekdayComponents.second = 0
-
-      guard let thisWeekDate = calendar.date(from: weekdayComponents) else {
-        return NSLocalizedString("Unknown", comment: "Unknown next update time")
-      }
-
-      let nextUpdate = thisWeekDate > now ? thisWeekDate : calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
-
-      let formatter = DateFormatter()
-      formatter.dateFormat = "EEEE, MMM d, HH:mm"
-      return formatter.string(from: nextUpdate)
+      .foregroundStyle(.green)
+      .font(.subheadline)
     }
   }
 
@@ -623,40 +509,418 @@ private struct BrewContentView: View {
     }
   }
 
-  private var checkUpdateButton: some View {
-    Button("Check Update") {
-      Task {
-        await observer.checkForUpdates()
+  private var combinedLeftContentView: some View {
+    HStack(spacing: 8) {
+      // 检查更新按钮
+      checkUpdateButton
+
+      // 最后更新时间
+      if observer.isLoading {
+        ProgressView()
+          .controlSize(.small)
+      } else {
+        HStack {
+          Text("Last Updated:", comment: "Label for last update time")
+          Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
+        }
+        .foregroundStyle(.green)
+        .font(.subheadline)
+      }
+
+      Spacer()
+
+      // 简单的更新设置信息
+      if isAutoUpdateEnabled {
+        VStack(alignment: .trailing, spacing: 2) {
+          Text("更新频率：\(updateFrequency.localizedTitle)", comment: "Update frequency display")
+            .font(.subheadline)
+            .foregroundColor(.primary)
+
+          Text("下次更新时间：\(nextUpdateTimeString)", comment: "Next update time display")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 6)
+        .background(Color(.controlBackgroundColor))
+        .cornerRadius(6)
       }
     }
-    .disabled(!isAutoUpdateEnabled)
   }
 
-  private var upgradeButton: some View {
-    Button("Upgrade") {
-      Task {
-        await observer.performUpgrade()
-      }
-    }
-    .disabled(!isAutoUpdateEnabled)
-  }
+  private var nextUpdateTimeString: String {
+    let calendar = Calendar.current
+    let now = Date()
+    let scheduledTime = updateTime
+    let timeComponents = calendar.dateComponents([.hour, .minute], from: scheduledTime)
 
-  @ViewBuilder
-  private var lastUpdatedView: some View {
-    if observer.isLoading {
-      ProgressView()
-        .controlSize(.small)
-    } else {
-      VStack {
-        Text("上次更新：") +
-        Text(Defaults[.lastBrewUpdateCheck], format: .dateTime.hour().minute().second())
+    switch updateFrequency {
+    case .hourly:
+      return NSLocalizedString("每小时", comment: "Next update time for hourly frequency")
+
+    case .daily:
+      var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
+      todayComponents.hour = timeComponents.hour
+      todayComponents.minute = timeComponents.minute
+      todayComponents.second = 0
+
+      guard let todayCheckTime = calendar.date(from: todayComponents) else {
+        return NSLocalizedString("未知", comment: "Unknown next update time")
       }
-      .foregroundStyle(.green)
-      .font(.subheadline)
+
+      let nextUpdate = todayCheckTime > now ? todayCheckTime : calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
+
+      let formatter = DateFormatter()
+      if calendar.isDateInToday(nextUpdate) {
+        formatter.dateFormat = "HH:mm"
+        return String(format: NSLocalizedString("今天%@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
+      } else if calendar.isDateInTomorrow(nextUpdate) {
+        formatter.dateFormat = "HH:mm"
+        return String(format: NSLocalizedString("明天%@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
+      } else {
+        formatter.dateFormat = "MM月dd日 HH:mm"
+        return formatter.string(from: nextUpdate)
+      }
+
+    case .weekly:
+      var weekdayComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+      weekdayComponents.weekday = updateWeekday.rawValue
+      weekdayComponents.hour = timeComponents.hour
+      weekdayComponents.minute = timeComponents.minute
+      weekdayComponents.second = 0
+
+      guard let thisWeekDate = calendar.date(from: weekdayComponents) else {
+        return NSLocalizedString("未知", comment: "Unknown next update time")
+      }
+
+      let nextUpdate = thisWeekDate > now ? thisWeekDate : calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
+
+      let formatter = DateFormatter()
+      formatter.dateFormat = "EEEE MM月dd日 HH:mm"
+      return formatter.string(from: nextUpdate)
     }
   }
 }
 
-#Preview {
-  BrewView()
+// MARK: - Brew Settings View
+struct BrewSettingsView: View {
+  @Binding var isAutoUpdateEnabled: Bool
+  @Binding var updateFrequency: BrewUpdateFrequency
+  @Binding var updateTime: Date
+  @Binding var updateWeekday: BrewUpdateWeekday
+  let observer: BrewUpdateObserver
+
+  @Environment(\.dismiss) private var dismiss
+
+  var body: some View {
+    NavigationStack {
+      VStack(spacing: 0) {
+        // 主要设置内容区域
+        ScrollView {
+          VStack(alignment: .leading, spacing: 24) {
+            settingsHeaderView
+            updateScheduleSection
+
+            if updateFrequency == .daily {
+              dailySettingsSection
+            } else if updateFrequency == .weekly {
+              weeklySettingsSection
+            }
+
+            if isAutoUpdateEnabled {
+              nextUpdateSection
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.top, 20)
+        }
+
+        Spacer()
+
+        // 底部固定按钮
+        bottomActionView
+      }
+      .navigationTitle("")
+    }
+    .frame(minWidth: 480, minHeight: 600)
+  }
+
+  private var settingsHeaderView: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      Text("Brew Settings", comment: "Title for brew settings sheet")
+        .font(.largeTitle.bold())
+        .foregroundColor(.primary)
+
+      Text("Configure automatic update schedule", comment: "Subtitle for brew settings")
+        .font(.subheadline)
+        .foregroundColor(.secondary)
+    }
+  }
+
+  private var updateScheduleSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      sectionHeaderView(title: "Update Schedule", icon: "calendar")
+
+      updateFrequencyPickerView
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color(.controlBackgroundColor))
+        .cornerRadius(12)
+    }
+  }
+
+  private var dailySettingsSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      sectionHeaderView(title: "Daily Settings", icon: "clock")
+
+      VStack(spacing: 12) {
+        settingRowView(
+          label: "Update Time",
+          icon: "clock.fill"
+        ) {
+          updateTimePickerView
+        }
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .background(Color(.controlBackgroundColor))
+      .cornerRadius(12)
+
+      footerText("Updates will run daily at the specified time.")
+    }
+  }
+
+  private var weeklySettingsSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      sectionHeaderView(title: "Weekly Settings", icon: "calendar.badge.clock")
+
+      VStack(spacing: 12) {
+        settingRowView(
+          label: "Update Day",
+          icon: "calendar"
+        ) {
+          weekdayPickerView
+        }
+
+        Divider()
+          .padding(.horizontal, -4)
+
+        settingRowView(
+          label: "Update Time",
+          icon: "clock.fill"
+        ) {
+          updateTimePickerView
+        }
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 12)
+      .background(Color(.controlBackgroundColor))
+      .cornerRadius(12)
+
+      footerText("Updates will run weekly on the selected day at the specified time.")
+    }
+  }
+
+  private var nextUpdateSection: some View {
+    VStack(alignment: .leading, spacing: 16) {
+      sectionHeaderView(title: "Next Update", icon: "clock.badge")
+
+      HStack(spacing: 12) {
+        Image(systemName: "clock.arrow.circlepath")
+          .font(.title2)
+          .foregroundColor(.blue)
+          .frame(width: 24, height: 24)
+
+        VStack(alignment: .leading, spacing: 4) {
+          Text("Scheduled for", comment: "Label for next scheduled update")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+
+          Text(nextUpdateTimeString)
+            .font(.headline)
+            .foregroundColor(.primary)
+        }
+
+        Spacer()
+      }
+      .padding(.horizontal, 16)
+      .padding(.vertical, 16)
+      .background(Color.blue.opacity(0.1))
+      .cornerRadius(12)
+      .overlay(
+        RoundedRectangle(cornerRadius: 12)
+          .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+      )
+    }
+  }
+
+  private var bottomActionView: some View {
+    VStack(spacing: 0) {
+      Divider()
+
+      HStack {
+        Spacer()
+
+        Button {
+          dismiss()
+        } label: {
+          Text("Done", comment: "Done button in settings")
+            .font(.headline)
+            .foregroundColor(.white)
+            .frame(minWidth: 80, minHeight: 36)
+            .padding(.horizontal, 20)
+            .background(Color.blue)
+            .cornerRadius(8)
+        }
+        .buttonStyle(PlainButtonStyle())
+      }
+      .padding(.horizontal, 24)
+      .padding(.vertical, 16)
+      .background(Color(.windowBackgroundColor))
+    }
+  }
+
+  // MARK: - Helper Views
+
+  private func sectionHeaderView(title: String, icon: String) -> some View {
+    HStack(spacing: 8) {
+      Image(systemName: icon)
+        .font(.title3)
+        .foregroundColor(.blue)
+        .frame(width: 20, height: 20)
+
+      Text(LocalizedStringKey(title), comment: "Section header title")
+        .font(.title3.bold())
+        .foregroundColor(.primary)
+
+      Spacer()
+    }
+  }
+
+  private func settingRowView<Content: View>(
+    label: String,
+    icon: String,
+    @ViewBuilder content: () -> Content
+  ) -> some View {
+    HStack(alignment: .center, spacing: 12) {
+      Image(systemName: icon)
+        .font(.body)
+        .foregroundColor(.blue)
+        .frame(width: 20, height: 20)
+
+      Text(LocalizedStringKey(label), comment: "Setting row label")
+        .font(.body.weight(.medium))
+        .foregroundColor(.primary)
+        .frame(minWidth: 100, alignment: .leading)
+
+      Spacer()
+
+      content()
+    }
+    .frame(minHeight: 44)
+  }
+
+  private func footerText(_ text: String) -> some View {
+    Text(LocalizedStringKey(text), comment: "Footer explanation text")
+      .font(.caption)
+      .foregroundColor(.secondary)
+      .padding(.horizontal, 4)
+  }
+
+  // MARK: - Setting Controls
+
+  private var updateFrequencyPickerView: some View {
+    Picker("Update Frequency", selection: $updateFrequency) {
+      ForEach(BrewUpdateFrequency.allCases, id: \.self) { frequency in
+        Text(frequency.localizedTitle)
+          .tag(frequency)
+      }
+    }
+    .pickerStyle(.segmented)
+    .disabled(!isAutoUpdateEnabled)
+    .onChange(of: updateFrequency) { _, newValue in
+      observer.handleFrequencyChange()
+    }
+  }
+
+  private var weekdayPickerView: some View {
+    Picker("Update Day", selection: $updateWeekday) {
+      ForEach(BrewUpdateWeekday.allCases, id: \.self) { weekday in
+        Text(weekday.localizedTitle)
+          .tag(weekday)
+      }
+    }
+    .pickerStyle(.menu)
+    .disabled(!isAutoUpdateEnabled)
+    .onChange(of: updateWeekday) { _, newValue in
+      observer.handleTimeChange()
+    }
+    .frame(minWidth: 120)
+  }
+
+  private var updateTimePickerView: some View {
+    DatePicker(
+      "Update Time",
+      selection: $updateTime,
+      displayedComponents: [.hourAndMinute]
+    )
+    .labelsHidden()
+    .disabled(!isAutoUpdateEnabled)
+    .onChange(of: updateTime) { _, newValue in
+      observer.handleTimeChange()
+    }
+    .frame(minWidth: 120)
+  }
+
+  private var nextUpdateTimeString: String {
+    let calendar = Calendar.current
+    let now = Date()
+    let scheduledTime = updateTime
+    let timeComponents = calendar.dateComponents([.hour, .minute], from: scheduledTime)
+
+    switch updateFrequency {
+    case .hourly:
+      return NSLocalizedString("每小时", comment: "Next update time for hourly frequency")
+
+    case .daily:
+      var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
+      todayComponents.hour = timeComponents.hour
+      todayComponents.minute = timeComponents.minute
+      todayComponents.second = 0
+
+      guard let todayCheckTime = calendar.date(from: todayComponents) else {
+        return NSLocalizedString("未知", comment: "Unknown next update time")
+      }
+
+      let nextUpdate = todayCheckTime > now ? todayCheckTime : calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
+
+      let formatter = DateFormatter()
+      if calendar.isDateInToday(nextUpdate) {
+        formatter.dateFormat = "HH:mm"
+        return String(format: NSLocalizedString("今天%@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
+      } else if calendar.isDateInTomorrow(nextUpdate) {
+        formatter.dateFormat = "HH:mm"
+        return String(format: NSLocalizedString("明天%@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
+      } else {
+        formatter.dateFormat = "MM月dd日 HH:mm"
+        return formatter.string(from: nextUpdate)
+      }
+
+    case .weekly:
+      var weekdayComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+      weekdayComponents.weekday = updateWeekday.rawValue
+      weekdayComponents.hour = timeComponents.hour
+      weekdayComponents.minute = timeComponents.minute
+      weekdayComponents.second = 0
+
+      guard let thisWeekDate = calendar.date(from: weekdayComponents) else {
+        return NSLocalizedString("未知", comment: "Unknown next update time")
+      }
+
+      let nextUpdate = thisWeekDate > now ? thisWeekDate : calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
+
+      let formatter = DateFormatter()
+      formatter.dateFormat = "EEEE MM月dd日 HH:mm"
+      return formatter.string(from: nextUpdate)
+    }
+  }
 }

@@ -235,8 +235,6 @@ extension RulesView {
 
   private var brewSection: some View {
     Section {
-      Text("Brew")
-        .font(.title.bold())
       BrewView()
       Divider()
     }
