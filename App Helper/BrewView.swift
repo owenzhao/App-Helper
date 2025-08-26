@@ -254,7 +254,6 @@ class BrewUpdateObserver: ObservableObject {
     case .daily:
       // 每日频率：检查今天是否应该更新且还没有更新
       let today = calendar.startOfDay(for: now)
-      let lastUpdateDay = calendar.startOfDay(for: lastUpdate)
 
       // 如果今天已经更新过了，不需要再更新
       if calendar.isDate(lastUpdate, inSameDayAs: now) {
