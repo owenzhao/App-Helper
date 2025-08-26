@@ -48,12 +48,6 @@ class BrewUpdateObserver: ObservableObject {
 
     // 重启自动检查，确保系统休眠后继续正常工作
     startAutoCheckIfEnabled()
-
-    if Defaults[.enableBrewAutoUpdate] {
-      Task {
-        await checkForUpdates(background: true)
-      }
-    }
   }
 
   // 添加更新检查方法
@@ -362,11 +356,7 @@ struct BrewView: View {
     BrewContentView(observer: observer)
       .onAppear {
         requestNotificationPermission()
-
-        Task {
-          try await Task.sleep(nanoseconds: 1000000000 * 3)
-          await observer.checkForUpdates(background: true)
-        }
+        // 移除强制检测，让定时器根据时间规则自动判断
       }
   }
 

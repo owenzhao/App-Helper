@@ -4,6 +4,9 @@
 /* Main app window title */
 "App Helper" = "应用程序助手";
 
+/* Preposition before time */
+"at" = "在";
+
 /* No comment provided by engineer. */
 "Brew" = "Brew";
 
@@ -34,23 +37,36 @@
 /* No comment provided by engineer. */
 "Clean Up Web Content Remains When an App Quits" = "当任意应用退出时，清理对应的网页遗留。";
 
-/* Accessibility label for NSWindow style close button */
-"Close" = "关闭";
-
 /* No comment provided by engineer. */
 "Commands" = "命令";
 
 /* No comment provided by engineer. */
 "Confirm" = "确认";
 
-/* Display section title */
+/* Update frequency option for daily */
+"Daily" = "每日";
+
+/* Header for daily update settings */
+"Daily Update Settings" = "每日更新设置";
+
+/* Display section title
+Display section title in status menu */
 "Display" = "显示器";
 
 /* Prompt for project drag-and-drop */
 "Drag your project file here" = "将您的项目文件拖到这里";
 
+/* Toggle for enabling automatic brew updates */
+"Enable Auto Update" = "启用自动更新";
+
 /* No comment provided by engineer. */
 "Enable Sleep Watching" = "允许监控睡眠";
+
+/* Next update time for hourly frequency */
+"Every hour" = "每小时";
+
+/* Update frequency option for every hour */
+"Every Hour" = "每小时";
 
 /* No comment provided by engineer. */
 "failed" = "失败";
@@ -61,14 +77,11 @@
 /* No comment provided by engineer. */
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
 
+/* Friday weekday option */
+"Friday" = "星期五";
+
 /* Button to resolve SPM dependencies */
 "Get SPM Dependencies" = "获取SPM依赖项";
-
-/* No comment provided by engineer. */
-"HDR is disabled" = "HDR已禁用";
-
-/* No comment provided by engineer. */
-"HDR is enabled." = "HDR已启用。";
 
 /* No comment provided by engineer. */
 "Hide Desktop." = "隐藏桌面。";
@@ -79,8 +92,14 @@
 /* Logs tab title */
 "Logs" = "日志";
 
+/* Monday weekday option */
+"Monday" = "星期一";
+
 /* No comment provided by engineer. */
 "Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" = "监控Xcode高CPU使用率。（超过100%，持续30秒。）";
+
+/* Shows when the next update will occur */
+"Next update: %@" = "下一个更新：%@";
 
 /* No comment provided by engineer. */
 "No Logs" = "无日志";
@@ -94,7 +113,7 @@
 /* OK button */
 "OK" = "确定";
 
-/* Button to open the main application window from popover */
+/* Menu item to open the main application window */
 "Open Main App" = "打开主应用程序";
 
 /* Shell operation takes too long time. */
@@ -127,6 +146,9 @@
 /* No comment provided by engineer. */
 "Run in Background" = "后台运行";
 
+/* Saturday weekday option */
+"Saturday" = "星期六";
+
 /* No comment provided by engineer. */
 "Sleep Shortcut:" = "睡眠快捷键：";
 
@@ -142,17 +164,51 @@
 /* No comment provided by engineer. */
 "started" = "已启动";
 
-/* No comment provided by engineer. */
-"Switch HDR Status" = "切换HDR状态";
+/* Sunday weekday option */
+"Sunday" = "周日";
 
 /* No comment provided by engineer. */
 "System Sleep" = "系统睡眠";
 
-/* Button to toggle system color theme */
+/* Thursday weekday option */
+"Thursday" = "星期四";
+
+/* Next update today at specific time */
+"Today at %@" = "今天在%@";
+
+/* Button to toggle system color theme
+Menu item to toggle system appearance */
 "Toggle System Color Theme" = "切换系统颜色主题";
+
+/* Next update tomorrow at specific time */
+"Tomorrow at %@" = "明天在%@";
+
+/* Tuesday weekday option */
+"Tuesday" = "星期二";
+
+/* Unknown next update time */
+"Unknown" = "未知数";
+
+/* Label for weekday selection */
+"Update Day" = "更新日";
+
+/* Label for update frequency selection */
+"Update Frequency" = "更新频率";
+
+/* Label for time selection */
+"Update Time" = "更新时间";
 
 /* No comment provided by engineer. */
 "Upgrade" = "升级";
+
+/* Wednesday weekday option */
+"Wednesday" = "星期三";
+
+/* Update frequency option for weekly */
+"Weekly" = "每周";
+
+/* Header for weekly update settings */
+"Weekly Update Settings" = "每周更新设置";
 
 /* Xcode tab title */
 "Xcode" = "Xcode";
