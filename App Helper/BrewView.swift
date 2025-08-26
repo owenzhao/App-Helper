@@ -20,9 +20,8 @@ class BrewUpdateObserver: ObservableObject {
   @Published var showBrewUpgradeAlert: Bool = false // 添加升级提示状态
   @Published var brewUpgradeResult: String? = nil // 添加升级结果
 
-  // 修改计时器相关属性
-  private var autoCheckTimer: Timer?
-  private var scheduledCheckTimer: Timer?
+  // 修改计时器相关属性 - 简化为单一计时器
+  private var minuteTimer: Timer?
   // 添加当前任务的取消令牌
   private var currentCheckTask: Task<Void, Never>?
 
@@ -191,7 +190,7 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
-  // 重写自动检查启动方法
+  // 重写自动检查启动方法 - 统一使用分钟级检测
   private func startAutoCheckIfEnabled() {
     // 先停止已有的计时器
     stopAllTimers()
@@ -199,21 +198,13 @@ class BrewUpdateObserver: ObservableObject {
     // 只有在启用自动更新时才创建计时器
     guard Defaults[.enableBrewAutoUpdate] else { return }
 
-    let frequency = Defaults[.brewUpdateFrequency]
-
-    switch frequency {
-    case .hourly:
-      startHourlyTimer()
-    case .daily:
-      startDailyTimer()
-    case .weekly:
-      startWeeklyTimer()
-    }
+    // 启动每分钟检测的计时器
+    startMinuteTimer()
   }
 
-  private func startHourlyTimer() {
-    autoCheckTimer = Timer.scheduledTimer(
-      withTimeInterval: 60 * 60, // 60分钟
+  private func startMinuteTimer() {
+    minuteTimer = Timer.scheduledTimer(
+      withTimeInterval: 60, // 每分钟检测一次
       repeats: true
     ) { [weak self] _ in
       guard let self = self else { return }
@@ -224,123 +215,100 @@ class BrewUpdateObserver: ObservableObject {
         return
       }
 
-      print("自动检查Brew更新：\(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
-
-      Task {
-        await self.checkForUpdates(background: true)
+      // 检查是否需要执行更新 - 在主线程上执行
+      Task { @MainActor in
+        self.checkAndPerformUpdateIfNeeded()
       }
     }
 
-    if let timer = autoCheckTimer {
+    if let timer = minuteTimer {
       RunLoop.main.add(timer, forMode: .common)
     }
   }
 
-  private func startDailyTimer() {
-    scheduleNextCheck(for: .daily)
-  }
+  // 新的核心检测方法
+  private func checkAndPerformUpdateIfNeeded() {
+    let frequency = Defaults[.brewUpdateFrequency]
+    let lastUpdateDate = Defaults[.lastBrewUpdateCheck]
 
-  private func startWeeklyTimer() {
-    scheduleNextCheck(for: .weekly)
-  }
+    if shouldPerformUpdateNow(lastUpdate: lastUpdateDate, frequency: frequency) {
+      print("定时检测到需要执行更新：\(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
 
-  private func scheduleNextCheck(for frequency: BrewUpdateFrequency) {
-    let nextCheckDate = calculateNextCheckDate(for: frequency)
-    let timeInterval = nextCheckDate.timeIntervalSinceNow
-
-    guard timeInterval > 0 else {
-      // 如果计算出的时间已经过了，立即执行一次检查，然后重新计算下次时间
       Task {
         await checkForUpdates(background: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-          self.scheduleNextCheck(for: frequency)
-        }
       }
-      return
-    }
-
-    scheduledCheckTimer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { [weak self] _ in
-      guard let self = self else { return }
-      guard Defaults[.enableBrewAutoUpdate] else {
-        Task { @MainActor in
-          self.stopAllTimers()
-        }
-        return
-      }
-
-      print("定时检查Brew更新：\(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
-
-      Task {
-        await self.checkForUpdates(background: true)
-        // 检查完成后，安排下次检查
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-          self.scheduleNextCheck(for: frequency)
-        }
-      }
-    }
-
-    if let timer = scheduledCheckTimer {
-      RunLoop.main.add(timer, forMode: .common)
     }
   }
 
-  private func calculateNextCheckDate(for frequency: BrewUpdateFrequency) -> Date {
+  // 重构判断逻辑 - 基于当前时间点判断是否应该立即执行更新
+  private func shouldPerformUpdateNow(lastUpdate: Date, frequency: BrewUpdateFrequency) -> Bool {
     let calendar = Calendar.current
     let now = Date()
     let scheduledTime = Defaults[.brewUpdateTime]
-
-    // 获取设定的小时和分钟
     let timeComponents = calendar.dateComponents([.hour, .minute], from: scheduledTime)
+
+    // 如果从未更新过，则需要更新
+    if lastUpdate == Date.distantPast {
+      return true
+    }
 
     switch frequency {
     case .hourly:
-      // 小时频率不应该到这里，但为了安全起见
-      return calendar.date(byAdding: .hour, value: 1, to: now) ?? now
+      // 小时频率：如果距离上次更新超过1小时，则需要更新
+      return now.timeIntervalSince(lastUpdate) >= 60 * 60
 
     case .daily:
-      // 计算今天的检查时间
-      var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
-      todayComponents.hour = timeComponents.hour
-      todayComponents.minute = timeComponents.minute
-      todayComponents.second = 0
+      // 每日频率：检查今天是否应该更新且还没有更新
+      let today = calendar.startOfDay(for: now)
+      let lastUpdateDay = calendar.startOfDay(for: lastUpdate)
 
-      guard let todayCheckTime = calendar.date(from: todayComponents) else { return now }
-
-      // 如果今天的检查时间还没到，就返回今天的时间；否则返回明天的时间
-      if todayCheckTime > now {
-        return todayCheckTime
-      } else {
-        return calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
+      // 如果今天已经更新过了，不需要再更新
+      if calendar.isDate(lastUpdate, inSameDayAs: now) {
+        return false
       }
+
+      // 构建今天的更新时间点
+      var todayUpdateComponents = calendar.dateComponents([.year, .month, .day], from: today)
+      todayUpdateComponents.hour = timeComponents.hour
+      todayUpdateComponents.minute = timeComponents.minute
+      todayUpdateComponents.second = 0
+
+      guard let todayUpdateTime = calendar.date(from: todayUpdateComponents) else { return false }
+
+      // 如果今天的更新时间已经过了，且今天还没更新过，则需要更新
+      return now >= todayUpdateTime
 
     case .weekly:
-      // 获取用户选择的星期几
       let selectedWeekday = Defaults[.brewUpdateWeekday]
 
-      // 计算本周选择日期的检查时间
-      var weekdayComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
-      weekdayComponents.weekday = selectedWeekday.rawValue
-      weekdayComponents.hour = timeComponents.hour
-      weekdayComponents.minute = timeComponents.minute
-      weekdayComponents.second = 0
+      // 检查本周是否应该更新且还没有更新
+      let thisWeekInterval = calendar.dateInterval(of: .weekOfYear, for: now)
+      let lastUpdateWeekInterval = calendar.dateInterval(of: .weekOfYear, for: lastUpdate)
 
-      guard let thisWeekDate = calendar.date(from: weekdayComponents) else { return now }
-
-      // 如果本周的检查时间还没到，就返回本周的时间；否则返回下周的时间
-      if thisWeekDate > now {
-        return thisWeekDate
-      } else {
-        return calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
+      // 如果本周已经更新过了，不需要再更新
+      if let thisWeek = thisWeekInterval, let lastWeek = lastUpdateWeekInterval,
+         thisWeek.start == lastWeek.start {
+        return false
       }
+
+      // 构建本周的更新时间点
+      var thisWeekUpdateComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
+      thisWeekUpdateComponents.weekday = selectedWeekday.rawValue
+      thisWeekUpdateComponents.hour = timeComponents.hour
+      thisWeekUpdateComponents.minute = timeComponents.minute
+      thisWeekUpdateComponents.second = 0
+
+      guard let thisWeekUpdateTime = calendar.date(from: thisWeekUpdateComponents) else { return false }
+
+      // 如果本周的更新时间已经过了，且本周还没更新过，则需要更新
+      return now >= thisWeekUpdateTime
     }
   }
 
   // 添加停止所有计时器的方法
   private func stopAllTimers() {
-    autoCheckTimer?.invalidate()
-    autoCheckTimer = nil
-    scheduledCheckTimer?.invalidate()
-    scheduledCheckTimer = nil
+    minuteTimer?.invalidate()
+    minuteTimer = nil
   }
 
   // 添加公共方法来处理设置变化
