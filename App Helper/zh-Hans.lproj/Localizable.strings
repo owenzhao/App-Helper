@@ -1,17 +1,14 @@
-/* No comment provided by engineer. */
-"上次更新：" = "上次更新：";
-
 /* Main app window title */
 "App Helper" = "应用程序助手";
 
-/* Preposition before time */
-"at" = "在";
-
-/* No comment provided by engineer. */
+/* Toggle for enabling automatic brew updates */
 "Brew" = "Brew";
 
 /* No comment provided by engineer. */
 "Brew has no updates." = "Brew没有更新。";
+
+/* Title for brew settings sheet */
+"Brew Settings" = "Brew设置";
 
 /* No comment provided by engineer. */
 "Brew Upgrade" = "更新Brew";
@@ -40,24 +37,24 @@
 /* No comment provided by engineer. */
 "Commands" = "命令";
 
+/* Subtitle for brew settings */
+"Configure automatic update schedule" = "配置自动更新计划";
+
 /* No comment provided by engineer. */
 "Confirm" = "确认";
 
 /* Update frequency option for daily */
 "Daily" = "每日";
 
-/* Header for daily update settings */
-"Daily Update Settings" = "每日更新设置";
-
 /* Display section title
 Display section title in status menu */
 "Display" = "显示器";
 
+/* Done button in settings */
+"Done" = "完成";
+
 /* Prompt for project drag-and-drop */
 "Drag your project file here" = "将您的项目文件拖到这里";
-
-/* Toggle for enabling automatic brew updates */
-"Enable Auto Update" = "启用自动更新";
 
 /* No comment provided by engineer. */
 "Enable Sleep Watching" = "允许监控睡眠";
@@ -77,6 +74,9 @@ Display section title in status menu */
 /* No comment provided by engineer. */
 "Force Quitting SourceKitService When Xcode Quits" = "Xcode退出时强制退出SourceKitService";
 
+/* Notification body for Homebrew updates */
+"Found %d packages to update: %@" = "找到要更新的 %1$d 软件包：%2$@";
+
 /* Friday weekday option */
 "Friday" = "星期五";
 
@@ -86,8 +86,14 @@ Display section title in status menu */
 /* No comment provided by engineer. */
 "Hide Desktop." = "隐藏桌面。";
 
+/* Notification title for Homebrew updates */
+"Homebrew Update Available" = "Homebrew更新可用";
+
 /* Permission prompt for app management */
 "If the system prompts for App management (update or delete other applications) permission, please allow." = "如果系统提示需要应用管理（更新或删除其他应用程序）权限，请允许。";
+
+/* Label for last update time */
+"Last Updated:" = "上次更新：";
 
 /* Logs tab title */
 "Logs" = "日志";
@@ -98,8 +104,8 @@ Display section title in status menu */
 /* No comment provided by engineer. */
 "Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" = "监控Xcode高CPU使用率。（超过100%，持续30秒。）";
 
-/* Shows when the next update will occur */
-"Next update: %@" = "下一个更新：%@";
+/* Next update time display */
+"Next Update: %@" = "下次更新：%@";
 
 /* No comment provided by engineer. */
 "No Logs" = "无日志";
@@ -149,6 +155,9 @@ Display section title in status menu */
 /* Saturday weekday option */
 "Saturday" = "星期六";
 
+/* Label for next scheduled update */
+"Scheduled for" = "计划于";
+
 /* No comment provided by engineer. */
 "Sleep Shortcut:" = "睡眠快捷键：";
 
@@ -174,14 +183,14 @@ Display section title in status menu */
 "Thursday" = "星期四";
 
 /* Next update today at specific time */
-"Today at %@" = "今天在%@";
+"Today %@" = "今天%@";
 
 /* Button to toggle system color theme
 Menu item to toggle system appearance */
 "Toggle System Color Theme" = "切换系统颜色主题";
 
 /* Next update tomorrow at specific time */
-"Tomorrow at %@" = "明天在%@";
+"Tomorrow %@" = "明天%@";
 
 /* Tuesday weekday option */
 "Tuesday" = "星期二";
@@ -189,13 +198,16 @@ Menu item to toggle system appearance */
 /* Unknown next update time */
 "Unknown" = "未知数";
 
-/* Label for weekday selection */
+/* No comment provided by engineer. */
 "Update Day" = "更新日";
 
-/* Label for update frequency selection */
+/* No comment provided by engineer. */
 "Update Frequency" = "更新频率";
 
-/* Label for time selection */
+/* Update frequency display */
+"Update Frequency: %@" = "更新频率：%@";
+
+/* No comment provided by engineer. */
 "Update Time" = "更新时间";
 
 /* No comment provided by engineer. */
@@ -206,9 +218,6 @@ Menu item to toggle system appearance */
 
 /* Update frequency option for weekly */
 "Weekly" = "每周";
-
-/* Header for weekly update settings */
-"Weekly Update Settings" = "每周更新设置";
 
 /* Xcode tab title */
 "Xcode" = "Xcode";

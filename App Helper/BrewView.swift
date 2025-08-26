@@ -9,32 +9,32 @@ import Defaults
 import SwiftUI
 import UserNotifications
 
-// 创建一个 ObservableObject 来处理系统通知
+// Create an ObservableObject to handle system notifications
 @MainActor
 class BrewUpdateObserver: ObservableObject {
-  static let shared = BrewUpdateObserver() // 转换为单例
+  static let shared = BrewUpdateObserver() // Convert to singleton
   private var notificationCenter: NotificationCenter
-  @Published var updateAppList: [String] = [] // 添加此属性
-  @Published var isLoading: Bool = false // 添加加载状态
-  @Published var showBrewHasNoUpdate: Bool = false // 添加无更新提示状态
-  @Published var showBrewUpgradeAlert: Bool = false // 添加升级提示状态
-  @Published var brewUpgradeResult: String? = nil // 添加升级结果
+  @Published var updateAppList: [String] = [] // Add this property
+  @Published var isLoading: Bool = false // Add loading state
+  @Published var showBrewHasNoUpdate: Bool = false // Add no update prompt state
+  @Published var showBrewUpgradeAlert: Bool = false // Add upgrade prompt state
+  @Published var brewUpgradeResult: String? = nil // Add upgrade result
 
-  // 修改计时器相关属性 - 简化为单一计时器
+  // Modify timer related properties - simplify to single timer
   private var minuteTimer: Timer?
-  // 添加当前任务的取消令牌
+  // Add current task cancellation token
   private var currentCheckTask: Task<Void, Never>?
 
   private init() {
     notificationCenter = NSWorkspace.shared.notificationCenter
     setupObservers()
 
-    // 初始化时启动自动检查
+    // Start auto check on initialization
     startAutoCheckIfEnabled()
   }
 
   private func setupObservers() {
-    // 监听系统唤醒
+    // Listen for system wake
     notificationCenter.addObserver(
       self,
       selector: #selector(handleSystemWake),
@@ -46,11 +46,11 @@ class BrewUpdateObserver: ObservableObject {
   @objc private func handleSystemWake() {
     print("Awake at: \(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
 
-    // 重启自动检查，确保系统休眠后继续正常工作
+    // Restart auto check to ensure normal operation after system sleep
     startAutoCheckIfEnabled()
   }
 
-  // 添加更新检查方法
+  // Add update check method
   // First, create a custom global actor for background operations
   @globalActor actor BrewBackgroundActor {
     static let shared = BrewBackgroundActor()
@@ -59,12 +59,12 @@ class BrewUpdateObserver: ObservableObject {
 
   // Modified checkForUpdates function
   func checkForUpdates(background: Bool = false) async {
-    // 如果是后台检查且自动更新已禁用，则直接返回
+    // If it's a background check and auto update is disabled, return directly
     if background && !Defaults[.enableBrewAutoUpdate] {
       return
     }
 
-    // 取消之前的任务
+    // Cancel previous task
     currentCheckTask?.cancel()
 
     let task = Task.detached {
@@ -82,17 +82,17 @@ class BrewUpdateObserver: ObservableObject {
       do {
         try await Task.sleep(nanoseconds: 1000)
 
-        // 检查任务是否被取消
+        // Check if task is cancelled
         if Task.isCancelled {
           return
         }
 
-        // 在后台线程执行 brew 操作
+        // Execute brew operations in background thread
         let updates = await Task.detached {
           BrewService.shared.checkBrewUpdate()
         }.value
 
-        // 再次检查任务是否被取消
+        // Check again if task is cancelled
         if Task.isCancelled {
           return
         }
@@ -105,7 +105,7 @@ class BrewUpdateObserver: ObservableObject {
         }
       } catch {
         if !Task.isCancelled {
-          print("检查更新时发生错误: \(error)")
+          print("Error checking for updates: \(error)")
         }
       }
     }
@@ -125,7 +125,7 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
-  // 添加升级方法
+  // Add upgrade method
   func performUpgrade() async {
     await MainActor.run { isLoading = true }
 
@@ -138,7 +138,7 @@ class BrewUpdateObserver: ObservableObject {
     do {
       try await Task.sleep(nanoseconds: 1000)
 
-      // 在后台线程执行 brew upgrade 操作
+      // Execute brew upgrade operation in background thread
       let result = await Task.detached {
         BrewService.shared.upgradeBrew()
       }.value
@@ -156,7 +156,7 @@ class BrewUpdateObserver: ObservableObject {
         }
       }
     } catch {
-      print("升级时发生错误: \(error)")
+      print("Error during upgrade: \(error)")
 
       await MainActor.run {
         brewUpgradeResult = error.localizedDescription
@@ -167,8 +167,8 @@ class BrewUpdateObserver: ObservableObject {
 
   private func sendUpdateNotification(packages: [String]) {
     let content = UNMutableNotificationContent()
-    content.title = "Homebrew更新可用"
-    content.body = "发现\(packages.count)个包需要更新：\(packages.joined(separator: ", "))"
+    content.title = NSLocalizedString("Homebrew Update Available", comment: "Notification title for Homebrew updates")
+    content.body = String(format: NSLocalizedString("Found %d packages to update: %@", comment: "Notification body for Homebrew updates"), packages.count, packages.joined(separator: ", "))
     content.sound = .default
 
     let request = UNNotificationRequest(
@@ -179,26 +179,26 @@ class BrewUpdateObserver: ObservableObject {
 
     UNUserNotificationCenter.current().add(request) { error in
       if let error = error {
-        print("发送通知失败: \(error.localizedDescription)")
+        print("Failed to send notification: \(error.localizedDescription)")
       }
     }
   }
 
-  // 重写自动检查启动方法 - 统一使用分钟级检测
+  // Rewrite auto check startup method - unified use of minute-level detection
   private func startAutoCheckIfEnabled() {
-    // 先停止已有的计时器
+    // Stop existing timers first
     stopAllTimers()
 
-    // 只有在启用自动更新时才创建计时器
+    // Only create timer when auto update is enabled
     guard Defaults[.enableBrewAutoUpdate] else { return }
 
-    // 启动每分钟检测的计时器
+    // Start minute-level detection timer
     startMinuteTimer()
   }
 
   private func startMinuteTimer() {
     minuteTimer = Timer.scheduledTimer(
-      withTimeInterval: 60, // 每分钟检测一次
+      withTimeInterval: 60, // Check every minute
       repeats: true
     ) { [weak self] _ in
       guard let self = self else { return }
@@ -209,7 +209,7 @@ class BrewUpdateObserver: ObservableObject {
         return
       }
 
-      // 检查是否需要执行更新 - 在主线程上执行
+      // Check if update is needed - execute on main thread
       Task { @MainActor in
         self.checkAndPerformUpdateIfNeeded()
       }
@@ -220,13 +220,13 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
-  // 新的核心检测方法
+  // New core detection method
   private func checkAndPerformUpdateIfNeeded() {
     let frequency = Defaults[.brewUpdateFrequency]
     let lastUpdateDate = Defaults[.lastBrewUpdateCheck]
 
     if shouldPerformUpdateNow(lastUpdate: lastUpdateDate, frequency: frequency) {
-      print("定时检测到需要执行更新：\(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
+      print("Scheduled check detected update needed: \(DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .medium))")
 
       Task {
         await checkForUpdates(background: true)
@@ -234,33 +234,33 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
-  // 重构判断逻辑 - 基于当前时间点判断是否应该立即执行更新
+  // Refactor judgment logic - determine whether to execute update immediately based on current time point
   private func shouldPerformUpdateNow(lastUpdate: Date, frequency: BrewUpdateFrequency) -> Bool {
     let calendar = Calendar.current
     let now = Date()
     let scheduledTime = Defaults[.brewUpdateTime]
     let timeComponents = calendar.dateComponents([.hour, .minute], from: scheduledTime)
 
-    // 如果从未更新过，则需要更新
+    // If never updated before, need to update
     if lastUpdate == Date.distantPast {
       return true
     }
 
     switch frequency {
     case .hourly:
-      // 小时频率：如果距离上次更新超过1小时，则需要更新
+      // Hourly frequency: if more than 1 hour since last update, need to update
       return now.timeIntervalSince(lastUpdate) >= 60 * 60
 
     case .daily:
-      // 每日频率：检查今天是否应该更新且还没有更新
+      // Daily frequency: check if should update today and haven't updated yet
       let today = calendar.startOfDay(for: now)
 
-      // 如果今天已经更新过了，不需要再更新
+      // If already updated today, no need to update again
       if calendar.isDate(lastUpdate, inSameDayAs: now) {
         return false
       }
 
-      // 构建今天的更新时间点
+      // Build today's update time point
       var todayUpdateComponents = calendar.dateComponents([.year, .month, .day], from: today)
       todayUpdateComponents.hour = timeComponents.hour
       todayUpdateComponents.minute = timeComponents.minute
@@ -268,23 +268,23 @@ class BrewUpdateObserver: ObservableObject {
 
       guard let todayUpdateTime = calendar.date(from: todayUpdateComponents) else { return false }
 
-      // 如果今天的更新时间已经过了，且今天还没更新过，则需要更新
+      // If today's update time has passed and haven't updated today, need to update
       return now >= todayUpdateTime
 
     case .weekly:
       let selectedWeekday = Defaults[.brewUpdateWeekday]
 
-      // 检查本周是否应该更新且还没有更新
+      // Check if should update this week and haven't updated yet
       let thisWeekInterval = calendar.dateInterval(of: .weekOfYear, for: now)
       let lastUpdateWeekInterval = calendar.dateInterval(of: .weekOfYear, for: lastUpdate)
 
-      // 如果本周已经更新过了，不需要再更新
+      // If already updated this week, no need to update again
       if let thisWeek = thisWeekInterval, let lastWeek = lastUpdateWeekInterval,
          thisWeek.start == lastWeek.start {
         return false
       }
 
-      // 构建本周的更新时间点
+      // Build this week's update time point
       var thisWeekUpdateComponents = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)
       thisWeekUpdateComponents.weekday = selectedWeekday.rawValue
       thisWeekUpdateComponents.hour = timeComponents.hour
@@ -293,28 +293,28 @@ class BrewUpdateObserver: ObservableObject {
 
       guard let thisWeekUpdateTime = calendar.date(from: thisWeekUpdateComponents) else { return false }
 
-      // 如果本周的更新时间已经过了，且本周还没更新过，则需要更新
+      // If this week's update time has passed and haven't updated this week, need to update
       return now >= thisWeekUpdateTime
     }
   }
 
-  // 添加停止所有计时器的方法
+  // Add stop all timers method
   private func stopAllTimers() {
     minuteTimer?.invalidate()
     minuteTimer = nil
   }
 
-  // 添加公共方法来处理设置变化
+  // Add public methods to handle setting changes
   func handleAutoUpdateSettingChange() {
     if Defaults[.enableBrewAutoUpdate] {
       startAutoCheckIfEnabled()
     } else {
       stopAllTimers()
-      // 取消当前正在进行的检查任务
+      // Cancel current check task
       currentCheckTask?.cancel()
       currentCheckTask = nil
 
-      // 如果当前正在加载，停止加载状态
+      // Stop loading state if currently loading
       Task { @MainActor in
         if isLoading {
           isLoading = false
@@ -323,17 +323,17 @@ class BrewUpdateObserver: ObservableObject {
     }
   }
 
-  // 添加处理频率变化的方法
+  // Add method to handle frequency changes
   func handleFrequencyChange() {
-    // 如果自动更新启用，重新启动检查
+    // Restart check if auto update is enabled
     if Defaults[.enableBrewAutoUpdate] {
       startAutoCheckIfEnabled()
     }
   }
 
-  // 添加处理时间变化的方法
+  // Add method to handle time changes
   func handleTimeChange() {
-    // 如果自动更新启用且不是小时频率，重新启动检查
+    // Restart check if auto update is enabled and not hourly frequency
     if Defaults[.enableBrewAutoUpdate] && Defaults[.brewUpdateFrequency] != .hourly {
       startAutoCheckIfEnabled()
     }
@@ -341,8 +341,8 @@ class BrewUpdateObserver: ObservableObject {
 
   deinit {
     notificationCenter.removeObserver(self)
-    // 在对象释放时，由于使用了 [weak self]，Timer 回调会安全地提前返回
-    // 当应用退出时，所有 Timer 都会被系统自动清理
+    // When object is released, Timer callback will safely return early due to [weak self]
+    // All Timers are automatically cleaned up by system when app exits
     currentCheckTask?.cancel()
     currentCheckTask = nil
   }
@@ -355,22 +355,22 @@ struct BrewView: View {
     BrewContentView(observer: observer)
       .onAppear {
         requestNotificationPermission()
-        // 移除强制检测，让定时器根据时间规则自动判断
+        // Remove forced detection, let timer automatically judge based on time rules
       }
   }
 
   private func requestNotificationPermission() {
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
       if granted {
-        print("通知权限已获取")
+        print("Notification permission granted")
       } else if let error = error {
-        print("请求通知权限失败: \(error.localizedDescription)")
+        print("Failed to request notification permission: \(error.localizedDescription)")
       }
     }
   }
 }
 
-// 将视图逻辑分离到子视图中
+// Separate view logic into subview
 private struct BrewContentView: View {
   @ObservedObject var observer: BrewUpdateObserver
   @Default(.enableBrewAutoUpdate) private var isAutoUpdateEnabled
@@ -385,7 +385,7 @@ private struct BrewContentView: View {
       brewToggleWithSettingsView
 
       if observer.updateAppList.isEmpty {
-        // 合并的左侧内容区域
+        // Combined left content area
         combinedLeftContentView
       } else {
         updateInfoView
@@ -510,10 +510,10 @@ private struct BrewContentView: View {
 
   private var combinedLeftContentView: some View {
     HStack(spacing: 8) {
-      // 检查更新按钮
+      // Check update button
       checkUpdateButton
 
-      // 最后更新时间
+      // Last update time
       if observer.isLoading {
         ProgressView()
           .controlSize(.small)
@@ -528,14 +528,14 @@ private struct BrewContentView: View {
 
       Spacer()
 
-      // 简单的更新设置信息
+      // Simple update setting information
       if isAutoUpdateEnabled {
         VStack(alignment: .trailing, spacing: 2) {
-          Text("更新频率：\(updateFrequency.localizedTitle)", comment: "Update frequency display")
+          Text("Update Frequency: \(updateFrequency.localizedTitle)", comment: "Update frequency display")
             .font(.subheadline)
             .foregroundColor(.primary)
 
-          Text("下次更新时间：\(nextUpdateTimeString)", comment: "Next update time display")
+          Text("Next Update: \(nextUpdateTimeString)", comment: "Next update time display")
             .font(.subheadline)
             .foregroundColor(.secondary)
         }
@@ -554,7 +554,7 @@ private struct BrewContentView: View {
 
     switch updateFrequency {
     case .hourly:
-      return NSLocalizedString("每小时", comment: "Next update time for hourly frequency")
+      return NSLocalizedString("Every hour", comment: "Next update time for hourly frequency")
 
     case .daily:
       var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
@@ -563,7 +563,7 @@ private struct BrewContentView: View {
       todayComponents.second = 0
 
       guard let todayCheckTime = calendar.date(from: todayComponents) else {
-        return NSLocalizedString("未知", comment: "Unknown next update time")
+        return NSLocalizedString("Unknown", comment: "Unknown next update time")
       }
 
       let nextUpdate = todayCheckTime > now ? todayCheckTime : calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
@@ -571,12 +571,12 @@ private struct BrewContentView: View {
       let formatter = DateFormatter()
       if calendar.isDateInToday(nextUpdate) {
         formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("今天%@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
+        return String(format: NSLocalizedString("Today %@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
       } else if calendar.isDateInTomorrow(nextUpdate) {
         formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("明天%@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
+        return String(format: NSLocalizedString("Tomorrow %@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
       } else {
-        formatter.dateFormat = "MM月dd日 HH:mm"
+        formatter.dateFormat = "MMM dd HH:mm"
         return formatter.string(from: nextUpdate)
       }
 
@@ -588,13 +588,13 @@ private struct BrewContentView: View {
       weekdayComponents.second = 0
 
       guard let thisWeekDate = calendar.date(from: weekdayComponents) else {
-        return NSLocalizedString("未知", comment: "Unknown next update time")
+        return NSLocalizedString("Unknown", comment: "Unknown next update time")
       }
 
       let nextUpdate = thisWeekDate > now ? thisWeekDate : calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
 
       let formatter = DateFormatter()
-      formatter.dateFormat = "EEEE MM月dd日 HH:mm"
+      formatter.dateFormat = "EEEE MMM dd HH:mm"
       return formatter.string(from: nextUpdate)
     }
   }
@@ -613,7 +613,7 @@ struct BrewSettingsView: View {
   var body: some View {
     NavigationStack {
       VStack(spacing: 0) {
-        // 主要设置内容区域
+        // Main settings content area
         ScrollView {
           VStack(alignment: .leading, spacing: 24) {
             settingsHeaderView
@@ -635,7 +635,7 @@ struct BrewSettingsView: View {
 
         Spacer()
 
-        // 底部固定按钮
+        // Bottom fixed button
         bottomActionView
       }
       .navigationTitle("")
@@ -878,7 +878,7 @@ struct BrewSettingsView: View {
 
     switch updateFrequency {
     case .hourly:
-      return NSLocalizedString("每小时", comment: "Next update time for hourly frequency")
+      return NSLocalizedString("Every hour", comment: "Next update time for hourly frequency")
 
     case .daily:
       var todayComponents = calendar.dateComponents([.year, .month, .day], from: now)
@@ -887,7 +887,7 @@ struct BrewSettingsView: View {
       todayComponents.second = 0
 
       guard let todayCheckTime = calendar.date(from: todayComponents) else {
-        return NSLocalizedString("未知", comment: "Unknown next update time")
+        return NSLocalizedString("Unknown", comment: "Unknown next update time")
       }
 
       let nextUpdate = todayCheckTime > now ? todayCheckTime : calendar.date(byAdding: .day, value: 1, to: todayCheckTime) ?? todayCheckTime
@@ -895,12 +895,12 @@ struct BrewSettingsView: View {
       let formatter = DateFormatter()
       if calendar.isDateInToday(nextUpdate) {
         formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("今天%@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
+        return String(format: NSLocalizedString("Today %@", comment: "Next update today at specific time"), formatter.string(from: nextUpdate))
       } else if calendar.isDateInTomorrow(nextUpdate) {
         formatter.dateFormat = "HH:mm"
-        return String(format: NSLocalizedString("明天%@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
+        return String(format: NSLocalizedString("Tomorrow %@", comment: "Next update tomorrow at specific time"), formatter.string(from: nextUpdate))
       } else {
-        formatter.dateFormat = "MM月dd日 HH:mm"
+        formatter.dateFormat = "MMM dd HH:mm"
         return formatter.string(from: nextUpdate)
       }
 
@@ -912,13 +912,13 @@ struct BrewSettingsView: View {
       weekdayComponents.second = 0
 
       guard let thisWeekDate = calendar.date(from: weekdayComponents) else {
-        return NSLocalizedString("未知", comment: "Unknown next update time")
+        return NSLocalizedString("Unknown", comment: "Unknown next update time")
       }
 
       let nextUpdate = thisWeekDate > now ? thisWeekDate : calendar.date(byAdding: .weekOfYear, value: 1, to: thisWeekDate) ?? thisWeekDate
 
       let formatter = DateFormatter()
-      formatter.dateFormat = "EEEE MM月dd日 HH:mm"
+      formatter.dateFormat = "EEEE MMM dd HH:mm"
       return formatter.string(from: nextUpdate)
     }
   }
