@@ -1,9 +1,6 @@
 /* Main app window title */
 "App Helper" = "应用程序助手";
 
-/* Toggle for enabling automatic brew updates */
-"Brew" = "Brew";
-
 /* No comment provided by engineer. */
 "Brew has no updates." = "Brew没有更新。";
 
@@ -56,9 +53,6 @@ Display section title in status menu */
 /* Prompt for project drag-and-drop */
 "Drag your project file here" = "将您的项目文件拖到这里";
 
-/* No comment provided by engineer. */
-"Enable Sleep Watching" = "允许监控睡眠";
-
 /* Next update time for hourly frequency */
 "Every hour" = "每小时";
 
@@ -100,6 +94,9 @@ Display section title in status menu */
 
 /* Monday weekday option */
 "Monday" = "星期一";
+
+/* No comment provided by engineer. */
+"Monitor System Sleep" = "监控系统睡眠";
 
 /* No comment provided by engineer. */
 "Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" = "监控Xcode高CPU使用率。（超过100%，持续30秒。）";
@@ -176,9 +173,6 @@ Display section title in status menu */
 /* Sunday weekday option */
 "Sunday" = "周日";
 
-/* No comment provided by engineer. */
-"System Sleep" = "系统睡眠";
-
 /* Thursday weekday option */
 "Thursday" = "星期四";
 
@@ -197,6 +191,9 @@ Menu item to toggle system appearance */
 
 /* Unknown next update time */
 "Unknown" = "未知数";
+
+/* Toggle for enabling automatic brew updates */
+"Update Brew" = "更新Brew";
 
 /* No comment provided by engineer. */
 "Update Day" = "更新日";

@@ -416,7 +416,7 @@ private struct BrewContentView: View {
   private var brewToggleWithSettingsView: some View {
     HStack {
       Toggle(isOn: $isAutoUpdateEnabled) {
-        Text("Brew", comment: "Toggle for enabling automatic brew updates")
+        Text("Update Brew", comment: "Toggle for enabling automatic brew updates")
           .font(.title.bold())
       }
       .toggleStyle(SwitchToggleStyle())

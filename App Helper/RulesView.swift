@@ -242,7 +242,8 @@ extension RulesView {
 
   private var systemSleepSection: some View {
     Section {
-      Text("System Sleep")
+      Toggle("Monitor System Sleep", isOn: $enableSleepWatching)
+        .toggleStyle(.switch)
         .font(.title.bold())
 
       HStack {
@@ -255,8 +256,7 @@ extension RulesView {
       }
       .disabled(!enableSleepWatching)
 
-      Toggle("Enable Sleep Watching", isOn: $enableSleepWatching)
-        .toggleStyle(.switch)
+      Divider()
     }
   }
 }
