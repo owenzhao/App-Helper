@@ -26,6 +26,7 @@
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
 		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
 		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
+		DCB3C9432E9071C400C557CA /* CodeCleanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB3C9422E9071C400C557CA /* CodeCleanerView.swift */; };
 		DCC5E45E2A30B796003D5813 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC13DC562945482E005D28E9 /* ServiceManagement.framework */; };
 		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
 		DCFC3AF22D69D05300B6B2BD /* BrewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFC3AF12D69D05300B6B2BD /* BrewService.swift */; };
@@ -57,6 +58,7 @@
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
+		DCB3C9422E9071C400C557CA /* CodeCleanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCleanerView.swift; sourceTree = "<group>"; };
 		DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
 		DCFC3AF12D69D05300B6B2BD /* BrewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,7 +111,7 @@
 				DCFC3AF12D69D05300B6B2BD /* BrewService.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
 				DCA5960E29C710EE00E1DAB3 /* LogView.swift */,
-				DC6DF5142E402A9C00A50C27 /* XcodeView.swift */,
+				DCB3C9412E9071A900C557CA /* Xcode */,
 				DCA5961329C7178400E1DAB3 /* Model */,
 				DC13DC65294566D3005D28E9 /* Tools */,
 				DC13DC5C29454958005D28E9 /* Defaults */,
@@ -165,6 +167,15 @@
 				DCA5961429C717A400E1DAB3 /* LogProvider.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		DCB3C9412E9071A900C557CA /* Xcode */ = {
+			isa = PBXGroup;
+			children = (
+				DC6DF5142E402A9C00A50C27 /* XcodeView.swift */,
+				DCB3C9422E9071C400C557CA /* CodeCleanerView.swift */,
+			);
+			path = Xcode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +273,7 @@
 				DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */,
 				DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */,
 				DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */,
+				DCB3C9432E9071C400C557CA /* CodeCleanerView.swift in Sources */,
 				DCFC3AF22D69D05300B6B2BD /* BrewService.swift in Sources */,
 				DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */,
 				DC6DF5152E402A9C00A50C27 /* XcodeView.swift in Sources */,

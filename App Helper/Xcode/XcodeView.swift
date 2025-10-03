@@ -141,14 +141,23 @@ struct XcodeView: View {
   @State private var spmResult: String?
   
   var body: some View {
-    VStack(alignment: .leading) {
-      Text("Xcode integration features", comment: "Xcode tab description")
-        .font(.title.bold())
-      fileDropArea
-      spmDependencyButton
-      Spacer()
+    ScrollView {
+      VStack(alignment: .leading) {
+        Text("Xcode integration features", comment: "Xcode tab description")
+          .font(.title.bold())
+        fileDropArea
+        spmDependencyButton
+
+        Divider()
+
+        Text("Code Cleaner", comment: "Code Cleaner section title")
+          .font(.title.bold())
+        CodeCleanerView()
+          .frame(minHeight: 300)
+        Spacer()
+      }
+      .padding()
     }
-    .padding()
   }
 }
 
