@@ -8,21 +8,52 @@
 import SwiftUI
 import Defaults
 
-struct CodeCleanerView: View {
-  @State private var codeText: String = ""
+struct TabSpaceSettingView: View {
   @Default(.tabSpace) private var tabSpace
 
   var body: some View {
-    TextEditor(text: $codeText)
-      .textEditorStyle(.plain)
-      .padding(Style.dropAreaCornerRadius)
-      .background(Style.dropAreaBackground)
-      .cornerRadius(Style.dropAreaCornerRadius)
-      .onChange(of: codeText) {
-        run()
+    HStack {
+      Text("Tab width", comment: "Label for tab width setting in code cleaner")
+      Stepper(value: $tabSpace, in: 1...8) {
+        Text("\(tabSpace) spaces", comment: "Stepper value for tab width in code cleaner")
       }
+    }
+    .padding(.bottom, 8)
   }
+}
 
+struct CodeCleanerView: View {
+  @State private var codeText: String = ""
+  @Default(.tabSpace) private var tabSpace
+  @State private var showCopiedPopover = false
+
+  var body: some View {
+    VStack {
+      TabSpaceSettingView()
+      TextEditor(text: $codeText)
+        .textEditorStyle(.plain)
+        .font(.system(size: 14, design: .monospaced)) // Use monospaced font for code editing
+        .padding(Style.dropAreaCornerRadius)
+        .background(Style.dropAreaBackground)
+        .cornerRadius(Style.dropAreaCornerRadius)
+        .onChange(of: codeText) {
+          run()
+        }
+        .onChange(of: tabSpace) {
+          run()
+        }
+      Button(action: copyToClipboard, label: {
+        Text("Copy", comment: "Button to copy code text")
+          .frame(maxWidth: .infinity)
+          .padding()
+      })
+      .popover(isPresented: $showCopiedPopover) {
+        Text("Copied", comment: "Popover message after copying code")
+          .font(.system(size: 14, design: .monospaced))
+          .padding()
+      }
+    }
+  }
 
   /// 整理代码
   private func run() {
@@ -43,28 +74,25 @@ struct CodeCleanerView: View {
       return
     }
 
-    // 3+ lines: 1. 首行和尾行移除首尾空格，2. 其他行保留合理缩进，3. 统一缩进为tabSpace个空格
     let firstLine = lines.first!.trimmingCharacters(in: .whitespaces)
     let lastLine = lines.last!.trimmingCharacters(in: .whitespaces)
     let middleLines = Array(lines.dropFirst().dropLast())
     let normalizedMiddle = middleLines.map { normalizeIndentation($0, tabSpace: tabSpace) }
-    // 尾行移除所有首部缩进
     let cleanedLastLine = lastLine.replacingOccurrences(of: "^ +", with: "", options: .regularExpression)
     let resultLines = [firstLine] + normalizedMiddle + [cleanedLastLine]
-    // 移除多余的连续空行（只保留一个）
     codeText = removeConsecutiveEmptyLines(from: resultLines).joined(separator: "\n")
   }
 
   /// 统一行首缩进为tabSpace个空格
   private func normalizeIndentation(_ line: String, tabSpace: Int) -> String {
     let trimmed = line.replacingOccurrences(of: "^([ \t]+)", with: "", options: .regularExpression)
-    let indentLevel = countIndentLevel(line)
+    let indentLevel = countIndentLevel(line, tabSpace: tabSpace)
     let indent = String(repeating: " ", count: indentLevel * tabSpace)
     return indent + trimmed
   }
 
   /// 计算缩进级别（假设每tabSpace个空格或一个tab为一级）
-  private func countIndentLevel(_ line: String) -> Int {
+  private func countIndentLevel(_ line: String, tabSpace: Int) -> Int {
     var count = 0
     var i = line.startIndex
     while i < line.endIndex {
@@ -115,6 +143,16 @@ struct CodeCleanerView: View {
       }
     }
     return result
+  }
+
+  private func copyToClipboard() {
+    let pasteboard = NSPasteboard.general
+    pasteboard.clearContents()
+    pasteboard.setString(codeText, forType: .string)
+    showCopiedPopover = true
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+      showCopiedPopover = false
+    }
   }
 }
 
