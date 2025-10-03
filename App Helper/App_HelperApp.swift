@@ -251,32 +251,18 @@ struct App_HelperApp: App {
         switch currentTab {
         case .rules:
           RulesView()
-            .tabItem {
-              Label("Rules", systemImage: "ruler")
-            }
         case .logs:
           LogView()
-            .tabItem {
-              Label("Logs", systemImage: "clock")
-            }
         case .xcode:
           XcodeView()
-            .tabItem {
-              Label("Xcode", systemImage: "hammer")
-            }
+        case .codeCleaner:
+          CodeCleanerView()
         }
       }
       .environment(\.managedObjectContext, logProvider.container.viewContext)
       .toolbar {
         ToolbarItemGroup {
-          Picker(selection: $currentTab) {
-            ForEach(AHTab.allCases) { tab in
-              Text(tab.localizedString).tag(tab)
-            }
-          } label: {
-            EmptyView()
-          }
-          .pickerStyle(.segmented)
+          AHTabPicker(selection: $currentTab)
         }
       }
     }
@@ -294,6 +280,104 @@ struct App_HelperApp: App {
   }
 }
 
+// MARK: - Style utilities
+private enum AHStyle {
+  private static func accentNSColor() -> NSColor {
+    if let c = NSColor(named: "AccentColor"), c.alphaComponent > 0.05 {
+      return c
+    }
+    return NSColor.controlAccentColor
+  }
+
+  static func selectedBackground() -> Color {
+    Color(nsColor: accentNSColor())
+  }
+
+  static func selectedForeground(for scheme: ColorScheme) -> Color {
+    switch scheme {
+    case .dark:
+      return Color.white
+    default:
+      return Color.black
+    }
+  }
+
+  static var segmentStroke: Color { Color.secondary.opacity(0.25) }
+}
+
+// MARK: - Views
+struct AHTabPicker: View {
+  @Binding var selection: AHTab
+  @Environment(\.colorScheme) private var colorScheme
+
+  var body: some View {
+    HStack(spacing: 4) {
+      ForEach(AHTab.allCases) { tab in
+        segment(for: tab)
+      }
+    }
+    .padding(2)
+    .background(
+      Capsule()
+        .strokeBorder(AHStyle.segmentStroke, lineWidth: 1)
+    )
+  }
+}
+
+private extension AHTabPicker {
+  @ViewBuilder
+  func segment(for tab: AHTab) -> some View {
+    let isSelected = (tab == selection)
+
+    Button {
+      selection = tab
+    } label: {
+      HStack(spacing: 6) {
+        tab.iconView
+        Text(tab.localizedString)
+          .lineLimit(1)
+      }
+      .padding(.vertical, 4)
+      .padding(.horizontal, 10)
+      .frame(minHeight: 22)
+      .contentShape(Capsule())
+    }
+    .buttonStyle(.plain)
+    .background(
+      Capsule()
+        .fill(isSelected ? AHStyle.selectedBackground() : Color.clear)
+    )
+    .foregroundStyle(isSelected ? AHStyle.selectedForeground(for: colorScheme) : Color.primary)
+    .accessibilityLabel(Text(tab.localizedString))
+    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+  }
+}
+
+// Icon helpers for AHTab
+extension AHTab {
+  @ViewBuilder
+  var iconView: some View {
+    if NSImage(systemSymbolName: sfSymbolName, accessibilityDescription: nil) != nil {
+      Image(systemName: sfSymbolName)
+        .imageScale(.medium)
+        .help(localizedString)
+    } else {
+      Text(emoji)
+        .font(.system(size: 13))
+        .help(localizedString)
+    }
+  }
+
+  private var emoji: String {
+    switch self {
+    case .rules: return "📐"
+    case .logs: return "🕒"
+    case .xcode: return "🔨"
+    case .codeCleaner: return "✨"
+    }
+  }
+}
+
 /*
  <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by justicon - Flaticon</a>
  <a href="https://www.flaticon.com/free-icons/lion" title="lion icons">Lion icons created by Freepik - Flaticon</a>
@@ -303,6 +387,7 @@ enum AHTab: String, CaseIterable, Identifiable {
   case rules
   case logs
   case xcode
+  case codeCleaner
 
   var id: Self { self }
 
@@ -314,6 +399,21 @@ enum AHTab: String, CaseIterable, Identifiable {
       return NSLocalizedString("Logs", comment: "Logs tab title")
     case .xcode:
       return NSLocalizedString("Xcode", comment: "Xcode tab title")
+    case .codeCleaner:
+      return NSLocalizedString("Code Cleaner", comment: "Code Cleaner tab title")
+    }
+  }
+
+  var sfSymbolName: String {
+    switch self {
+    case .rules:
+      return "ruler"
+    case .logs:
+      return "clock"
+    case .xcode:
+      return "hammer"
+    case .codeCleaner:
+      return "wand.and.stars"
     }
   }
 }
