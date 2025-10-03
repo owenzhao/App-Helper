@@ -147,13 +147,6 @@ struct XcodeView: View {
           .font(.title.bold())
         fileDropArea
         spmDependencyButton
-
-        Divider()
-
-        Text("Code Cleaner", comment: "Code Cleaner section title")
-          .font(.title.bold())
-        CodeCleanerView()
-          .frame(minHeight: 300)
         Spacer()
       }
       .padding()

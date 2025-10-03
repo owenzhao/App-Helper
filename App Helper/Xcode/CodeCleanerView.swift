@@ -29,13 +29,20 @@ struct CodeCleanerView: View {
 
   var body: some View {
     VStack {
-      TabSpaceSettingView()
+      HStack(alignment: .center) {
+        Text("Code Cleaner", comment: "Code Cleaner section title")
+          .font(.title.bold())
+        Spacer()
+        TabSpaceSettingView()
+      }
+      
       TextEditor(text: $codeText)
         .textEditorStyle(.plain)
         .font(.system(size: 14, design: .monospaced)) // Use monospaced font for code editing
         .padding(Style.dropAreaCornerRadius)
         .background(Style.dropAreaBackground)
         .cornerRadius(Style.dropAreaCornerRadius)
+        .frame(minHeight: 300)
         .onChange(of: codeText) {
           run()
         }
@@ -53,6 +60,7 @@ struct CodeCleanerView: View {
           .padding()
       }
     }
+    .padding()
   }
 
   /// 整理代码
