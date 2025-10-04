@@ -83,6 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
     registerObserver()
+    showMainAppWindow()
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
     //      NSApp.hide(nil)
@@ -253,13 +254,13 @@ struct App_HelperApp: App {
           RulesView()
         case .logs:
           LogView()
+            .environment(\.managedObjectContext, logProvider.container.viewContext)
         case .xcode:
           XcodeView()
         case .codeCleaner:
           CodeCleanerView()
         }
       }
-      .environment(\.managedObjectContext, logProvider.container.viewContext)
       .toolbar {
         ToolbarItemGroup {
           AHTabPicker(selection: $currentTab)
