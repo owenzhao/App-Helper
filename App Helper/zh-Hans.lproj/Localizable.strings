@@ -1,3 +1,6 @@
+/* Stepper value for tab width in code cleaner */
+"%lld spaces" = "%lld空格";
+
 /* Main app window title */
 "App Helper" = "应用助手";
 
@@ -31,6 +34,10 @@
 /* No comment provided by engineer. */
 "Clean Up Web Content Remains When an App Quits" = "当任意应用退出时，清理对应的网页遗留。";
 
+/* Code Cleaner section title
+Code Cleaner tab title */
+"Code Cleaner" = "代码清理器";
+
 /* No comment provided by engineer. */
 "Commands" = "命令";
 
@@ -39,6 +46,12 @@
 
 /* No comment provided by engineer. */
 "Confirm" = "确认";
+
+/* Popover message after copying code */
+"Copied" = "已复制";
+
+/* Button to copy code text */
+"Copy" = "复制";
 
 /* Update frequency option for daily */
 "Daily" = "每日";
@@ -172,6 +185,9 @@ Display section title in status menu */
 
 /* Sunday weekday option */
 "Sunday" = "周日";
+
+/* Label for tab width setting in code cleaner */
+"Tab width" = "Tab宽度";
 
 /* Thursday weekday option */
 "Thursday" = "星期四";
