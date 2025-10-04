@@ -25,5 +25,6 @@ struct MainAppView: View {
         AHTabPicker(selection: $currentTab)
       }
     }
+    .navigationTitle(Text("App Helper", comment: "Main window title"))
   }
 }

@@ -84,6 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupMenubarTray()
     registerObserver()
     showMainAppWindow()
+    replaceDockerIcon()
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
     //      NSApp.hide(nil)
@@ -115,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func setAutoStart() {
-    #if !DEBUG
+#if !DEBUG
     let shouldEnable = Defaults[.autoLaunchWhenLogin]
 
     do {
@@ -127,7 +128,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     } catch {
       print(error)
     }
-    #endif
+#endif
   }
 
   private func invalidateTimerIfNeeded() {
@@ -184,6 +185,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  private func replaceDockerIcon() {
+
+    // Attempt to load the custom Dock icon from asset catalog
+    if let icon = NSImage(named: "app_icon_256") {
+      NSApplication.shared.applicationIconImage = icon
+    }
+  }
+
   // MARK: - Status Menu Builder
   private func buildStatusMenu() -> NSMenu {
     let menu = NSMenu()
@@ -226,11 +235,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func getMenuItemImageName() -> String {
-    #if DEBUG
+#if DEBUG
     return "lion_menubar_beta"
-    #else
+#else
     return "lion_menubar"
-    #endif
+#endif
   }
 
   private func setMenuItemButtonTitle(_ button: NSStatusBarButton) {
@@ -247,7 +256,7 @@ struct App_HelperApp: App {
     WindowGroup {
       MainAppView()
     }
-    .windowToolbarStyle(.unifiedCompact(showsTitle: false))
+//    .windowToolbarStyle(.unifiedCompact(showsTitle: false))
     .commands {
       CommandGroup(replacing: .newItem) {
         // 留空，这样就移除了新建相关的菜单项

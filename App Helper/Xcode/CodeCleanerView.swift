@@ -28,39 +28,41 @@ struct CodeCleanerView: View {
   @State private var showCopiedPopover = false
 
   var body: some View {
-    VStack {
-      HStack(alignment: .center) {
-        Text("Code Cleaner", comment: "Code Cleaner section title")
-          .font(.title.bold())
-        Spacer()
-        TabSpaceSettingView()
-      }
-      
-      TextEditor(text: $codeText)
-        .textEditorStyle(.plain)
-        .font(.system(size: 14, design: .monospaced)) // Use monospaced font for code editing
-        .padding(Style.dropAreaCornerRadius)
-        .background(Style.dropAreaBackground)
-        .cornerRadius(Style.dropAreaCornerRadius)
-        .frame(minHeight: 300)
-        .onChange(of: codeText) {
-          run()
+    ScrollView {
+      VStack {
+        HStack(alignment: .center) {
+          Text("Code Cleaner", comment: "Code Cleaner section title")
+            .font(.title.bold())
+          Spacer()
+          TabSpaceSettingView()
         }
-        .onChange(of: tabSpace) {
-          run()
+
+        TextEditor(text: $codeText)
+          .textEditorStyle(.plain)
+          .font(.system(size: 14, design: .monospaced)) // Use monospaced font for code editing
+          .padding(Style.dropAreaCornerRadius)
+          .background(Style.dropAreaBackground)
+          .cornerRadius(Style.dropAreaCornerRadius)
+          .frame(minHeight: 300)
+          .onChange(of: codeText) {
+            run()
+          }
+          .onChange(of: tabSpace) {
+            run()
+          }
+        Button(action: copyToClipboard, label: {
+          Text("Copy", comment: "Button to copy code text")
+            .frame(maxWidth: .infinity)
+            .padding()
+        })
+        .popover(isPresented: $showCopiedPopover) {
+          Text("Copied", comment: "Popover message after copying code")
+            .font(.system(size: 14, design: .monospaced))
+            .padding()
         }
-      Button(action: copyToClipboard, label: {
-        Text("Copy", comment: "Button to copy code text")
-          .frame(maxWidth: .infinity)
-          .padding()
-      })
-      .popover(isPresented: $showCopiedPopover) {
-        Text("Copied", comment: "Popover message after copying code")
-          .font(.system(size: 14, design: .monospaced))
-          .padding()
       }
+      .padding()
     }
-    .padding()
   }
 
   /// 整理代码
