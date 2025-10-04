@@ -21,6 +21,7 @@
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
 		DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C72A111AC100CB506A /* InfoPlist.strings */; };
 		DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93CA2A111AC100CB506A /* Localizable.strings */; };
+		DC4EFBD72E90BB4B00872933 /* MainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4EFBD62E90BB4B00872933 /* MainAppView.swift */; };
 		DC6063DE2D56EF6A002F0999 /* BrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6063DD2D56EF6A002F0999 /* BrewView.swift */; };
 		DC6DF5152E402A9C00A50C27 /* XcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6DF5142E402A9C00A50C27 /* XcodeView.swift */; };
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
@@ -53,6 +54,7 @@
 		DC2A93CB2A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC4EFBD62E90BB4B00872933 /* MainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppView.swift; sourceTree = "<group>"; };
 		DC6063DD2D56EF6A002F0999 /* BrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewView.swift; sourceTree = "<group>"; };
 		DC6DF5142E402A9C00A50C27 /* XcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeView.swift; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				DC13DC7F294572A0005D28E9 /* Credits.html */,
 				DC13DC7429457131005D28E9 /* App-Helper-Info.plist */,
 				DC13DC2C29452A49005D28E9 /* App_HelperApp.swift */,
+				DC4EFBD62E90BB4B00872933 /* MainAppView.swift */,
 				DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */,
 				DC5101D22D8E2D0F00515905 /* Keyboard Watcher */,
 				DC6063DD2D56EF6A002F0999 /* BrewView.swift */,
@@ -213,7 +216,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					DC13DC2829452A49005D28E9 = {
 						CreatedOnToolsVersion = 14.2;
@@ -268,6 +271,7 @@
 				DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */,
 				DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */,
 				DC6063DE2D56EF6A002F0999 /* BrewView.swift in Sources */,
+				DC4EFBD72E90BB4B00872933 /* MainAppView.swift in Sources */,
 				DC13DC5E29454962005D28E9 /* Defaults.Keys.Shared.swift in Sources */,
 				DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */,
 				DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */,
@@ -374,6 +378,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -433,6 +438,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};

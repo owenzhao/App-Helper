@@ -59,8 +59,8 @@ struct RulesView: View {
 
           Spacer()
         }
+        .padding()
       }
-      .padding()
     }
     .onChange(of: window) { _, window in
       if let window {

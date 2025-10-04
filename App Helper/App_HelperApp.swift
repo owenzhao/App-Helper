@@ -144,7 +144,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
                                 styleMask: [.titled, .closable, .resizable],
                                 backing: .buffered, defer: false)
-      mainWindow.contentView = NSHostingView(rootView: RulesView())
+      mainWindow.contentView = NSHostingView(rootView: MainAppView())
       mainWindow.title = NSLocalizedString("App Helper", comment: "Main app window title")
       mainWindow.center()
       window = mainWindow
@@ -242,39 +242,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 @main
 struct App_HelperApp: App {
   @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-  @StateObject private var logProvider = LogProvider.shared
-
-  @State private var currentTab: AHTab = .rules
 
   var body: some Scene {
     WindowGroup {
-      Group {
-        switch currentTab {
-        case .rules:
-          RulesView()
-        case .logs:
-          LogView()
-            .environment(\.managedObjectContext, logProvider.container.viewContext)
-        case .xcode:
-          XcodeView()
-        case .codeCleaner:
-          CodeCleanerView()
-        }
-      }
-      .toolbar {
-        ToolbarItemGroup {
-          AHTabPicker(selection: $currentTab)
-        }
-      }
+      MainAppView()
     }
     .windowToolbarStyle(.unifiedCompact(showsTitle: false))
     .commands {
-      // 替换文件菜单，移除新建窗口等不需要的命令
       CommandGroup(replacing: .newItem) {
         // 留空，这样就移除了新建相关的菜单项
       }
     }
-
     //    WindowGroup {
     //      KeyboardMonitorView()
     //    }

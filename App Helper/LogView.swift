@@ -25,7 +25,6 @@ struct LogView: View {
           Text(log.text!)
         }
       }
-      .padding()
     }
   }
 }
