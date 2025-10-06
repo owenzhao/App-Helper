@@ -1,61 +1,61 @@
 {
   "images" : [
     {
-      "filename" : "lionMacMicro_16pt.png",
+      "filename" : "icon_16pt@1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "lionMacMicro_16pt@2x.png",
+      "filename" : "icon_16pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "lionMacSmall_32pt.png",
+      "filename" : "icon_32pt@1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "lionMacSmall_32pt@2x.png",
+      "filename" : "icon_32pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "lionMacMedium_128pt.png",
+      "filename" : "icon_128pt@1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "lionMacMedium_128pt@2x.png",
+      "filename" : "icon_128pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "lionMacLarge_256pt.png",
+      "filename" : "icon_256pt@1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "lionMacLarge_256pt@2x.png",
+      "filename" : "icon_256pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "lionMacHuge_512pt.png",
+      "filename" : "icon_512pt@1x.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
     },
     {
-      "filename" : "lionMacHuge_512pt@2x.png",
+      "filename" : "icon_512pt@2x.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"

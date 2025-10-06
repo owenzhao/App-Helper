@@ -84,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     setupMenubarTray()
     registerObserver()
     showMainAppWindow()
-    replaceDockerIcon()
+//    replaceDockerIcon()
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
     //      NSApp.hide(nil)
