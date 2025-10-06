@@ -1,7 +1,9 @@
 # App Helper
 > This app is not sandboxed. As it can terminated other apps and services.
 
-![icon_256pt@2x-w256](assets/icon_256pt@2x.png)
+![icon_128pt@2x](assets/icon_128pt@2x.png)
+
+
 
 ![](assets/17597904258366.png)
 
