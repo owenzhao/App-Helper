@@ -1,7 +1,9 @@
 # App Helper
 > This app is not sandboxed. As it can terminated other apps and services.
 
-![lion-w256](assets/lion.png)
+![icon_256pt@2x-w256](assets/icon_256pt@2x.png)
+
+![](assets/17597904258366.png)
 
 
 ## How to Use
