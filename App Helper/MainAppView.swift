@@ -17,10 +17,11 @@ struct MainAppView: View {
       }
     }
     .toolbar {
-      ToolbarItemGroup {
+      ToolbarItem(placement: .automatic) {
         AHTabPicker(selection: $currentTab)
+          .fixedSize()
+          .layoutPriority(1)
       }
     }
-    .navigationTitle(Text("App Helper", comment: "Main window title"))
   }
 }

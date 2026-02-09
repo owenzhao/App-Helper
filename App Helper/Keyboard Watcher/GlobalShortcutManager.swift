@@ -8,17 +8,17 @@
 import Cocoa
 import ApplicationServices
 
-class GlobalShortcutManager {
-  private var eventMonitor: [Any]?
-  private var registeredShortcut: String?
-
-  private let specialKeyMap: [UInt16: String] = [
+struct KeyboardShortcutFormatter {
+  static let specialKeyMap: [UInt16: String] = [
     116: "Page Up",
     121: "Page Down",
     117: "Del",
     114: "Insert",
     115: "Home",
     119: "End",
+    105: "Print Screen",
+    107: "Scroll Lock",
+    113: "Pause",
     122: "F1",
     120: "F2",
     99: "F3",
@@ -32,6 +32,43 @@ class GlobalShortcutManager {
     103: "F11",
     111: "F12"
   ]
+
+  static func modifierPrefix(from modifierFlags: NSEvent.ModifierFlags) -> String {
+    var prefix = ""
+
+    if modifierFlags.contains(.function) { prefix += "Fn " }
+    if modifierFlags.contains(.command) { prefix += "⌘" }
+    if modifierFlags.contains(.option) { prefix += "⌥" }
+    if modifierFlags.contains(.control) { prefix += "⌃" }
+    if modifierFlags.contains(.shift) { prefix += "⇧" }
+
+    return prefix
+  }
+
+  static func keyStrings(for event: NSEvent) -> (key: String, legacy: String) {
+    let legacy: String = {
+      guard let key = event.characters?.uppercased() else { return "" }
+      return (key == " ") ? "Space" : key
+    }()
+
+    if let specialKey = specialKeyMap[event.keyCode] {
+      return (specialKey, legacy)
+    }
+
+    return (legacy, legacy)
+  }
+
+  static func shortcutStrings(for event: NSEvent) -> (current: String, legacy: String) {
+    let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+    let prefix = modifierPrefix(from: modifiers)
+    let keys = keyStrings(for: event)
+    return (prefix + keys.key, prefix + keys.legacy)
+  }
+}
+
+class GlobalShortcutManager {
+  private var eventMonitor: [Any]?
+  private var registeredShortcut: String?
 
   init() {
     startMonitoring()
@@ -88,31 +125,13 @@ class GlobalShortcutManager {
   private func handleKeyEvent(_ event: NSEvent) {
     guard let registeredShortcut = self.registeredShortcut else { return }
 
-    let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-    var currentShortcut = ""
-
-    if modifiers.contains(.function) { currentShortcut += "Fn " }
-    if modifiers.contains(.command) { currentShortcut += "⌘" }
-    if modifiers.contains(.option) { currentShortcut += "⌥" }
-    if modifiers.contains(.control) { currentShortcut += "⌃" }
-    if modifiers.contains(.shift) { currentShortcut += "⇧" }
-
-    if let specialKey = specialKeyMap[event.keyCode] {
-      currentShortcut += specialKey
-    } else if let key = event.characters?.uppercased() {
-      if key == " " {
-        currentShortcut += "Space"
-      } else {
-        currentShortcut += key
-      }
-    }
-
-    if currentShortcut == registeredShortcut {
+    let shortcutStrings = KeyboardShortcutFormatter.shortcutStrings(for: event)
+    if shortcutStrings.current == registeredShortcut || shortcutStrings.legacy == registeredShortcut {
       putSystemToSleep()
     }
 
 #if DEBUG
-    print("Current shortcut: \(currentShortcut)")
+    print("Current shortcut: \(shortcutStrings.current)")
 #endif
   }
 

@@ -323,7 +323,6 @@ private extension AHTabPicker {
       HStack(spacing: 6) {
         tab.iconView
         Text(tab.localizedString)
-          .lineLimit(1)
       }
       .padding(.vertical, 4)
       .padding(.horizontal, 10)
