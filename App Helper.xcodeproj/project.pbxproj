@@ -19,9 +19,9 @@
 		DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC6829456918005D28E9 /* SystemWatcher.swift */; };
 		DC13DC7D294572A0005D28E9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DC13DC7F294572A0005D28E9 /* Credits.html */; };
 		DC13DC83294592AD005D28E9 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC82294592AD005D28E9 /* Shell.swift */; };
-		DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C72A111AC100CB506A /* InfoPlist.strings */; };
-		DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93CA2A111AC100CB506A /* Localizable.strings */; };
 		DC4EFBD72E90BB4B00872933 /* MainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4EFBD62E90BB4B00872933 /* MainAppView.swift */; };
+		DC53A49C2F3AA05C009EB439 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = DC53A49B2F3A9FD6009EB439 /* Localizable.xcstrings */; };
+		DC53A4A02F3AA07C009EB439 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC53A49E2F3AA07C009EB439 /* InfoPlist.strings */; };
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
 		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
 		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
@@ -45,12 +45,12 @@
 		DC13DC7E294572A0005D28E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC80294572A2005D28E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/Credits.html; sourceTree = "<group>"; };
 		DC13DC82294592AD005D28E9 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
-		DC2A93C32A110C7D00CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
-		DC2A93C82A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		DC2A93CB2A111AC100CB506A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC4EFBD62E90BB4B00872933 /* MainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppView.swift; sourceTree = "<group>"; };
+		DC53A49B2F3A9FD6009EB439 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		DC53A49D2F3AA07C009EB439 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/Credits.html"; sourceTree = "<group>"; };
+		DC53A49F2F3AA07C009EB439 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
@@ -78,6 +78,7 @@
 		DC13DC2029452A49005D28E9 = {
 			isa = PBXGroup;
 			children = (
+				DC53A49B2F3A9FD6009EB439 /* Localizable.xcstrings */,
 				DC34007129C83EF400121B64 /* Global.xcconfig */,
 				DC13DC2B29452A49005D28E9 /* App Helper */,
 				DC13DC2A29452A49005D28E9 /* Products */,
@@ -111,8 +112,7 @@
 				DC13DC3529452A4A005D28E9 /* App_Helper.entitlements */,
 				DC13DC3229452A4A005D28E9 /* Preview Content */,
 				DC34007229C83FA100121B64 /* Info.plist */,
-				DC2A93CA2A111AC100CB506A /* Localizable.strings */,
-				DC2A93C72A111AC100CB506A /* InfoPlist.strings */,
+				DC53A49E2F3AA07C009EB439 /* InfoPlist.strings */,
 			);
 			path = "App Helper";
 			sourceTree = "<group>";
@@ -231,11 +231,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */,
 				DC13DC3429452A4A005D28E9 /* Preview Assets.xcassets in Resources */,
-				DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */,
 				DC13DC3129452A4A005D28E9 /* Assets.xcassets in Resources */,
+				DC53A49C2F3AA05C009EB439 /* Localizable.xcstrings in Resources */,
 				DC13DC7D294572A0005D28E9 /* Credits.html in Resources */,
+				DC53A4A02F3AA07C009EB439 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,25 +269,17 @@
 			children = (
 				DC13DC7E294572A0005D28E9 /* Base */,
 				DC13DC80294572A2005D28E9 /* en */,
-				DC2A93C32A110C7D00CB506A /* zh-Hans */,
+				DC53A49D2F3AA07C009EB439 /* zh-Hans */,
 			);
 			name = Credits.html;
 			sourceTree = "<group>";
 		};
-		DC2A93C72A111AC100CB506A /* InfoPlist.strings */ = {
+		DC53A49E2F3AA07C009EB439 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DC2A93C82A111AC100CB506A /* zh-Hans */,
+				DC53A49F2F3AA07C009EB439 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		DC2A93CA2A111AC100CB506A /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DC2A93CB2A111AC100CB506A /* zh-Hans */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -356,6 +348,7 @@
 				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -416,6 +409,7 @@
 				SDKROOT = macosx;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;

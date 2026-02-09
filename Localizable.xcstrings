@@ -1,0 +1,506 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "App Helper" : {
+      "comment" : "Main app window title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用助手"
+          }
+        }
+      }
+    },
+    "Can not clean up %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法清理%@。"
+          }
+        }
+      }
+    },
+    "Can not quit %@." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法退出%@。"
+          }
+        }
+      }
+    },
+    "Can't send notification!" : {
+      "comment" : "Notification not allowed alert title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法发送通知！"
+          }
+        }
+      }
+    },
+    "Clean up %@ remains." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清理%@剩余。"
+          }
+        }
+      }
+    },
+    "Clean Up Safari Remains Aggressively" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清理Safari仍然咄咄逼人"
+          }
+        }
+      }
+    },
+    "Clean Up Web Content Remains When an App Quits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当应用程序退出时，清理剩余的网页内容"
+          }
+        }
+      }
+    },
+    "Commands" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令"
+          }
+        }
+      }
+    },
+    "Confirm" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认"
+          }
+        }
+      }
+    },
+    "Daily" : {
+      "comment" : "Update frequency option for daily",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每日的"
+          }
+        }
+      }
+    },
+    "Display" : {
+      "comment" : "Display section title\nDisplay section title in status menu",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已开始"
+          }
+        }
+      }
+    },
+    "Every Hour" : {
+      "comment" : "Update frequency option for every hour",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每小时"
+          }
+        }
+      }
+    },
+    "failed" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失败的"
+          }
+        }
+      }
+    },
+    "Force Quitting Open and Save Panel Service When an App Quits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当应用程序退出时，强制退出打开和保存面板服务"
+          }
+        }
+      }
+    },
+    "Force Quitting SourceKitService When Xcode Quits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当Xcode退出时强制退出SourceKitService"
+          }
+        }
+      }
+    },
+    "Friday" : {
+      "comment" : "Friday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期五"
+          }
+        }
+      }
+    },
+    "Hide Desktop." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏桌面。"
+          }
+        }
+      }
+    },
+    "Logs" : {
+      "comment" : "Logs tab title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志"
+          }
+        }
+      }
+    },
+    "Monday" : {
+      "comment" : "Monday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期一"
+          }
+        }
+      }
+    },
+    "Monitor System Sleep" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "监控系统睡眠"
+          }
+        }
+      }
+    },
+    "Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "监控Xcode高CPU使用率。 （超过100%，持续30秒。）"
+          }
+        }
+      }
+    },
+    "No Logs" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有日志"
+          }
+        }
+      }
+    },
+    "Notification is not allowed by user. Please check your system preferences." : {
+      "comment" : "Notification not allowed alert message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用户不允许通知。 请检查您的系统偏好设置。"
+          }
+        }
+      }
+    },
+    "Notify User when a rule is matched." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当规则匹配时通知用户。"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "comment" : "OK button",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好的"
+          }
+        }
+      }
+    },
+    "Open Main App" : {
+      "comment" : "Menu item to open the main application window",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开主应用程序"
+          }
+        }
+      }
+    },
+    "Operation timeout" : {
+      "comment" : "Shell operation takes too long time.",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作超時"
+          }
+        }
+      }
+    },
+    "Preferences" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好"
+          }
+        }
+      }
+    },
+    "Prevent Screensaver." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阻止屏幕保护程序。"
+          }
+        }
+      }
+    },
+    "quit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "辞去"
+          }
+        }
+      }
+    },
+    "Quit %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出%@"
+          }
+        }
+      }
+    },
+    "Restart Monitor Control When System Preferences App Quits" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当“系统偏好设置”应用退出时，重新启动“监视器”控制"
+          }
+        }
+      }
+    },
+    "restarted" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新启动"
+          }
+        }
+      }
+    },
+    "Rule Applied" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已应用的规则"
+          }
+        }
+      }
+    },
+    "Rules" : {
+      "comment" : "Rules tab title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规则"
+          }
+        }
+      }
+    },
+    "Run in Background" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在后台运行"
+          }
+        }
+      }
+    },
+    "Saturday" : {
+      "comment" : "Saturday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期六"
+          }
+        }
+      }
+    },
+    "Sleep Shortcut:" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠快捷方式："
+          }
+        }
+      }
+    },
+    "Start other apps after self starts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自我启动后启动其他应用程序"
+          }
+        }
+      }
+    },
+    "Start SwitchHosts" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启动SwitchHosts"
+          }
+        }
+      }
+    },
+    "started" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已开始"
+          }
+        }
+      }
+    },
+    "Sunday" : {
+      "comment" : "Sunday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周日"
+          }
+        }
+      }
+    },
+    "Thursday" : {
+      "comment" : "Thursday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期四"
+          }
+        }
+      }
+    },
+    "Toggle System Color Theme" : {
+      "comment" : "Button to toggle system color theme\nMenu item to toggle system appearance",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切换系统颜色主题"
+          }
+        }
+      }
+    },
+    "Tuesday" : {
+      "comment" : "Tuesday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期二"
+          }
+        }
+      }
+    },
+    "Wednesday" : {
+      "comment" : "Wednesday weekday option",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期三"
+          }
+        }
+      }
+    },
+    "Weekly" : {
+      "comment" : "Update frequency option for weekly",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周"
+          }
+        }
+      }
+    },
+    "Xcode uses high CPU!" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode使用高CPU！"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
