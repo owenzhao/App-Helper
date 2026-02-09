@@ -70,16 +70,6 @@ extension Defaults.Keys {
 
   static let startSwitchHosts = Defaults.Key<Bool>("startSwitchHosts", default: false)
 
-  static let lastBrewUpdateCheck = Defaults.Key<Date>("LastBrewUpdateCheck", default: Date.distantPast)
-  static let enableBrewAutoUpdate = Defaults.Key<Bool>("EnableBrewAutoUpdate", default: true)
-  static let brewUpdateFrequency = Defaults.Key<BrewUpdateFrequency>("BrewUpdateFrequency", default: .hourly)
-  static let brewUpdateTime = Defaults.Key<Date>("BrewUpdateTime", default: {
-    let calendar = Calendar.current
-    let components = DateComponents(hour: 9, minute: 0) // Default to 9:00 AM
-    return calendar.date(from: components) ?? Date()
-  }())
-  static let brewUpdateWeekday = Defaults.Key<BrewUpdateWeekday>("BrewUpdateWeekday", default: .monday)
-
   static let sleepShortcut = Key<String>("sleepShortcut", default: "Fn ⌃F12")
   static let enableSleepWatching = Key<Bool>("enableSleepWatching", default: true)
 

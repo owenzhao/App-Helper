@@ -22,13 +22,11 @@
 		DC2A93C92A111AC100CB506A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93C72A111AC100CB506A /* InfoPlist.strings */; };
 		DC2A93CC2A111AC100CB506A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2A93CA2A111AC100CB506A /* Localizable.strings */; };
 		DC4EFBD72E90BB4B00872933 /* MainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4EFBD62E90BB4B00872933 /* MainAppView.swift */; };
-		DC6063DE2D56EF6A002F0999 /* BrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6063DD2D56EF6A002F0999 /* BrewView.swift */; };
 		DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5960E29C710EE00E1DAB3 /* LogView.swift */; };
 		DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961029C7111D00E1DAB3 /* Model.xcdatamodeld */; };
 		DCA5961529C717A400E1DAB3 /* LogProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5961429C717A400E1DAB3 /* LogProvider.swift */; };
 		DCC5E45E2A30B796003D5813 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC13DC562945482E005D28E9 /* ServiceManagement.framework */; };
 		DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */; };
-		DCFC3AF22D69D05300B6B2BD /* BrewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCFC3AF12D69D05300B6B2BD /* BrewService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,12 +51,10 @@
 		DC34007129C83EF400121B64 /* Global.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Global.xcconfig; sourceTree = "<group>"; };
 		DC34007229C83FA100121B64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC4EFBD62E90BB4B00872933 /* MainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppView.swift; sourceTree = "<group>"; };
-		DC6063DD2D56EF6A002F0999 /* BrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewView.swift; sourceTree = "<group>"; };
 		DCA5960E29C710EE00E1DAB3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		DCA5961129C7111D00E1DAB3 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		DCA5961429C717A400E1DAB3 /* LogProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogProvider.swift; sourceTree = "<group>"; };
 		DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
-		DCFC3AF12D69D05300B6B2BD /* BrewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -106,8 +102,6 @@
 				DC4EFBD62E90BB4B00872933 /* MainAppView.swift */,
 				DCD7CBB429BCA9B40060B5E5 /* RulesView.swift */,
 				DC5101D22D8E2D0F00515905 /* Keyboard Watcher */,
-				DC6063DD2D56EF6A002F0999 /* BrewView.swift */,
-				DCFC3AF12D69D05300B6B2BD /* BrewService.swift */,
 				DC13DC6829456918005D28E9 /* SystemWatcher.swift */,
 				DCA5960E29C710EE00E1DAB3 /* LogView.swift */,
 				DCA5961329C7178400E1DAB3 /* Model */,
@@ -256,14 +250,12 @@
 				DC13DC83294592AD005D28E9 /* Shell.swift in Sources */,
 				DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */,
 				DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */,
-				DC6063DE2D56EF6A002F0999 /* BrewView.swift in Sources */,
 				DC4EFBD72E90BB4B00872933 /* MainAppView.swift in Sources */,
 				DC13DC5E29454962005D28E9 /* Defaults.Keys.Shared.swift in Sources */,
 				DCD7CBB529BCA9B40060B5E5 /* RulesView.swift in Sources */,
 				DC13DC2D29452A49005D28E9 /* App_HelperApp.swift in Sources */,
 				DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */,
 				DCA5961229C7111D00E1DAB3 /* Model.xcdatamodeld in Sources */,
-				DCFC3AF22D69D05300B6B2BD /* BrewService.swift in Sources */,
 				DCA5960F29C710EE00E1DAB3 /* LogView.swift in Sources */,
 				DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */,
 			);

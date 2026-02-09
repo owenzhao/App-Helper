@@ -46,7 +46,6 @@ struct RulesView: View {
       ScrollView {
         VStack(alignment: .leading) {
           rulesSection
-          brewSection
           commandsSection
           autoStartSection
           displaySection
@@ -229,13 +228,6 @@ extension RulesView {
 
   private var displaySection: some View {
     DisplaySectionView()
-  }
-
-  private var brewSection: some View {
-    Section {
-      BrewView()
-      Divider()
-    }
   }
 
   private var systemSleepSection: some View {
