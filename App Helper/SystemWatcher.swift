@@ -183,25 +183,6 @@ class SystemWatcher {
       }
     }
 
-    if Defaults[.startNightOwl] {
-      let appURL = URL(filePath: "/Applications/NightOwl.app/")
-      let ws = NSWorkspace.shared
-
-      if ws.runningApplications.filter({ $0.bundleURL == appURL }).isEmpty {
-        let result = ws.open(appURL)
-
-        if Defaults[.notifyUser] {
-          ruleApplied(name: "NightOwl", action: result ? .restart : .failed)
-        }
-
-        if result {
-          addLog("NightOwl \(AHAction.start.localizedString)")
-        } else {
-          addLog("NightOwl \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
-        }
-      }
-    }
-
     if Defaults[.monitorXcodeHighCPUUsage] {
       if xcodeUseHighCPU() {
         xcodeUseHighCPUCount += 5

@@ -25,7 +25,6 @@ struct RulesView: View {
   @Default(.notifyUser) private var notifyUser
 
   @Default(.startSwitchHosts) private var startSwitchHosts
-  @Default(.startNightOwl) private var startNightOwl
 
   @Default(.enableSleepWatching) private var enableSleepWatching
   @Default(.sleepShortcut) private var sleepShortcut
@@ -211,7 +210,6 @@ extension RulesView {
       Text("Start other apps after self starts")
         .font(.title.bold())
       Toggle("Start SwitchHosts", isOn: $startSwitchHosts)
-      Toggle("Start NightOwl", isOn: $startNightOwl)
       Divider()
     }
   }
