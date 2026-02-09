@@ -360,8 +360,6 @@ extension AHTab {
     switch self {
     case .rules: return "📐"
     case .logs: return "🕒"
-    case .xcode: return "🔨"
-    case .codeCleaner: return "✨"
     }
   }
 }
@@ -374,8 +372,6 @@ extension AHTab {
 enum AHTab: String, CaseIterable, Identifiable {
   case rules
   case logs
-  case xcode
-  case codeCleaner
 
   var id: Self { self }
 
@@ -385,10 +381,6 @@ enum AHTab: String, CaseIterable, Identifiable {
       return NSLocalizedString("Rules", comment: "Rules tab title")
     case .logs:
       return NSLocalizedString("Logs", comment: "Logs tab title")
-    case .xcode:
-      return NSLocalizedString("Xcode", comment: "Xcode tab title")
-    case .codeCleaner:
-      return NSLocalizedString("Code Cleaner", comment: "Code Cleaner tab title")
     }
   }
 
@@ -398,10 +390,6 @@ enum AHTab: String, CaseIterable, Identifiable {
       return "ruler"
     case .logs:
       return "clock"
-    case .xcode:
-      return "hammer"
-    case .codeCleaner:
-      return "wand.and.stars"
     }
   }
 }

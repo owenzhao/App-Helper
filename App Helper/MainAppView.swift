@@ -14,10 +14,6 @@ struct MainAppView: View {
       case .logs:
         LogView()
           .environment(\.managedObjectContext, logProvider.container.viewContext)
-      case .xcode:
-        XcodeView()
-      case .codeCleaner:
-        CodeCleanerView()
       }
     }
     .toolbar {
