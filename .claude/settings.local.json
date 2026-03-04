@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(plutil:*)",
+      "Bash(python3:*)",
+      "mcp__MiniMax__web_search",
+      "Bash(xcodebuild:*)",
+      "Bash(defaults read:*)",
+      "mcp__MiniMax__understand_image"
+    ]
+  }
+}
