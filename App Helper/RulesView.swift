@@ -359,7 +359,7 @@ struct MyError: Identifiable {
   }
 }
 
-private extension Notification.Name {
+extension Notification.Name {
   static let ahHDRDisplayDidChange = Notification.Name("ahHDRDisplayDidChange")
 }
 

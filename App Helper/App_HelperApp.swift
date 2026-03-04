@@ -113,6 +113,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.setupMenubarTray()
       }
     }
+
+    // HDR状态变化时更新菜单栏图标
+    NotificationCenter.default.addObserver(forName: .ahHDRDisplayDidChange, object: nil, queue: nil) { [weak self] _ in
+      self?.updateMenubarIconForHDR()
+    }
   }
 
   private func setAutoStart() {
@@ -158,12 +163,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     invalidateTimerIfNeeded()
 
     if self.statusItem == nil {
-      self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+      self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     }
 
     guard let button = self.statusItem?.button else {
       fatalError()
     }
+
+    // 设置按钮宽度以容纳文本
+    button.controlSize = .regular
 
     // Build and assign a native NSMenu for the status item
     let menu = buildStatusMenu()
@@ -181,7 +189,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
       })
     } else {
-      setMenuItemButtonImage(button)
+      // 检查HDR状态并更新图标
+      updateMenubarIconForHDR()
     }
   }
 
@@ -245,6 +254,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func setMenuItemButtonTitle(_ button: NSStatusBarButton) {
     button.image = nil
     button.title = "🍺"
+  }
+
+  // 根据HDR状态更新菜单栏图标
+  private func updateMenubarIconForHDR() {
+    guard let button = statusItem?.button else { return }
+
+    // 如果有brew更新显示，暂时跳过
+    if hasBrewUpdates { return }
+
+    let isHDROn = checkHDRStatus()
+    if isHDROn {
+      button.image = nil
+      button.title = "HDR"
+    } else {
+      button.title = ""
+      let image = NSImage(imageLiteralResourceName: getMenuItemImageName())
+      button.image = image
+    }
+  }
+
+  // 检测HDR状态（使用与RulesView相同的私有API）
+  private func checkHDRStatus() -> Bool {
+    typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
+
+    let skyLightHandle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
+    guard let slsSupportsHDRMode = skyLightHandle.flatMap({ dlsym($0, "SLSDisplaySupportsHDRMode") }),
+          let slsIsHDRModeEnabled = skyLightHandle.flatMap({ dlsym($0, "SLSDisplayIsHDRModeEnabled") }) else {
+      return false
+    }
+
+    let supportsHDR = unsafeBitCast(slsSupportsHDRMode, to: HDRBoolFunction.self)
+    let isHDREnabled = unsafeBitCast(slsIsHDRModeEnabled, to: HDRBoolFunction.self)
+
+    guard let screen = NSScreen.main ?? NSScreen.screens.first,
+          let screenNumber = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+      return false
+    }
+
+    let displayID = CGDirectDisplayID(screenNumber.uint32Value)
+
+    if supportsHDR(displayID) == false {
+      return false
+    }
+
+    return isHDREnabled(displayID)
   }
 }
 

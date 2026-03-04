@@ -44,7 +44,15 @@
       }
     },
     "Checking..." : {
-      "comment" : "Initial HDR status"
+      "comment" : "Initial HDR status",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查..."
+          }
+        }
+      }
     },
     "Clean up %@ remains." : {
       "localizations" : {
@@ -113,7 +121,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已开始"
+            "value" : "显示器"
           }
         }
       }
@@ -171,7 +179,15 @@
       }
     },
     "HDR Status: %@" : {
-      "comment" : "HDR status label"
+      "comment" : "HDR status label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HDR 状态：%@"
+          }
+        }
+      }
     },
     "Hide Desktop." : {
       "localizations" : {
@@ -226,7 +242,15 @@
       }
     },
     "No Display" : {
-      "comment" : "No display available for HDR check"
+      "comment" : "No display available for HDR check",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有显示"
+          }
+        }
+      }
     },
     "No Logs" : {
       "localizations" : {
@@ -239,7 +263,15 @@
       }
     },
     "Not Supported" : {
-      "comment" : "Display does not support HDR"
+      "comment" : "Display does not support HDR",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不支持"
+          }
+        }
+      }
     },
     "Notification is not allowed by user. Please check your system preferences." : {
       "comment" : "Notification not allowed alert message",
@@ -263,7 +295,15 @@
       }
     },
     "Off" : {
-      "comment" : "HDR mode disabled"
+      "comment" : "HDR mode disabled",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
+          }
+        }
+      }
     },
     "OK" : {
       "comment" : "OK button",
@@ -277,7 +317,15 @@
       }
     },
     "On" : {
-      "comment" : "HDR mode enabled"
+      "comment" : "HDR mode enabled",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启"
+          }
+        }
+      }
     },
     "Open Main App" : {
       "comment" : "Menu item to open the main application window",
@@ -342,7 +390,14 @@
       }
     },
     "Refresh HDR Status" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新HDR状态"
+          }
+        }
+      }
     },
     "Restart Monitor Control When System Preferences App Quits" : {
       "localizations" : {
@@ -491,7 +546,15 @@
       }
     },
     "Unavailable" : {
-      "comment" : "Private HDR API unavailable"
+      "comment" : "Private HDR API unavailable",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不存在"
+          }
+        }
+      }
     },
     "Wednesday" : {
       "comment" : "Wednesday weekday option",
