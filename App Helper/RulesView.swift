@@ -7,6 +7,7 @@
 
 import AppleScriptObjC
 import AVFoundation
+import Darwin
 import Defaults
 import IOKit.pwr_mgt
 import SwiftUI
@@ -34,9 +35,13 @@ struct RulesView: View {
   @State private var hideDesktop = false
   @State private var assertionID: IOPMAssertionID = 0
   @State private var sleepDisabled = false
+  @State private var hdrStatus = NSLocalizedString("Checking...", comment: "Initial HDR status")
+  @State private var currentHDRMode: Bool?
 
   private let notificatonErrorPublisher = NotificationCenter.default.publisher(for: .notificationError)
   private let notificationAuthorizeDeniedPublisher = NotificationCenter.default.publisher(for: .notificationAuthorizeDenied)
+  private let screenParametersChangedPublisher = NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+  private let hdrDisplayChangedPublisher = NotificationCenter.default.publisher(for: .ahHDRDisplayDidChange)
 
   @State private var error: MyError?
   @State private var showNotificationAuthorizeDeniedAlert = false
@@ -70,6 +75,19 @@ struct RulesView: View {
       if let userInfo = notification.userInfo as? [String: Error], let error = userInfo["error"] {
         self.error = MyError(error)
       }
+    }
+    .onAppear {
+      HDRDisplayChangeNotifier.shared.start()
+      refreshHDRStatus()
+    }
+    .onDisappear {
+      HDRDisplayChangeNotifier.shared.stop()
+    }
+    .onReceive(screenParametersChangedPublisher) { _ in
+      refreshHDRStatus()
+    }
+    .onReceive(hdrDisplayChangedPublisher) { _ in
+      refreshHDRStatus()
     }
     .onReceive(notificationAuthorizeDeniedPublisher, perform: { _ in
       showNotificationAuthorizeDeniedAlert = true
@@ -214,6 +232,9 @@ extension RulesView {
   }
 
   struct DisplaySectionView: View {
+    let hdrStatus: String
+    let onRefreshHDRStatus: () -> Void
+
     var body: some View {
       Section {
         Text("Display", comment: "Display section title")
@@ -221,13 +242,18 @@ extension RulesView {
         Button(action: RulesView.toggleSystemAppearance) {
           Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
         }
+        Text(String.localizedStringWithFormat(NSLocalizedString("HDR Status: %@", comment: "HDR status label"), hdrStatus))
+        Button("Refresh HDR Status", action: onRefreshHDRStatus)
         Divider()
       }
     }
   }
 
   private var displaySection: some View {
-    DisplaySectionView()
+    DisplaySectionView(
+      hdrStatus: hdrStatus,
+      onRefreshHDRStatus: refreshHDRStatus
+    )
   }
 
   private var systemSleepSection: some View {
@@ -251,6 +277,66 @@ extension RulesView {
   }
 }
 
+private extension RulesView {
+  typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
+
+  enum HDRReader {
+    private static let skyLightHandle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
+    private static let slsSupportsHDRMode = loadFunction(named: "SLSDisplaySupportsHDRMode", in: skyLightHandle)
+    private static let slsIsHDRModeEnabled = loadFunction(named: "SLSDisplayIsHDRModeEnabled", in: skyLightHandle)
+
+    private static let coreGraphicsHandle = dlopen("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", RTLD_LAZY)
+    private static let cgsIsHDRSupported = loadFunction(named: "CGSIsHDRSupported", in: coreGraphicsHandle)
+    private static let cgsIsHDREnabled = loadFunction(named: "CGSIsHDREnabled", in: coreGraphicsHandle)
+
+    private static func loadFunction(named symbol: String, in handle: UnsafeMutableRawPointer?) -> HDRBoolFunction? {
+      guard let handle, let raw = dlsym(handle, symbol) else {
+        return nil
+      }
+
+      return unsafeBitCast(raw, to: HDRBoolFunction.self)
+    }
+
+    static func hdrState(displayID: CGDirectDisplayID) -> (status: String, mode: Bool?) {
+      if let slsSupportsHDRMode, let slsIsHDRModeEnabled {
+        if slsSupportsHDRMode(displayID) == false {
+          return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
+        }
+
+        return slsIsHDRModeEnabled(displayID)
+          ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
+          : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
+      }
+
+      guard let cgsIsHDRSupported, let cgsIsHDREnabled else {
+        return (NSLocalizedString("Unavailable", comment: "Private HDR API unavailable"), nil)
+      }
+
+      if cgsIsHDRSupported(displayID) == false {
+        return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
+      }
+
+      return cgsIsHDREnabled(displayID)
+        ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
+        : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
+    }
+  }
+
+  func refreshHDRStatus() {
+    guard let screen = NSScreen.main ?? NSScreen.screens.first,
+          let screenNumber = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+      hdrStatus = NSLocalizedString("No Display", comment: "No display available for HDR check")
+      currentHDRMode = nil
+      return
+    }
+
+    let displayID = CGDirectDisplayID(screenNumber.uint32Value)
+    let result = HDRReader.hdrState(displayID: displayID)
+    hdrStatus = result.status
+    currentHDRMode = result.mode
+  }
+}
+
 struct RulesView_Previews: PreviewProvider {
   static var previews: some View {
     RulesView()
@@ -270,5 +356,42 @@ struct MyError: Identifiable {
 
   init(_ error: Error) {
     self.error = error
+  }
+}
+
+private extension Notification.Name {
+  static let ahHDRDisplayDidChange = Notification.Name("ahHDRDisplayDidChange")
+}
+
+private let hdrDisplayReconfigurationCallback: CGDisplayReconfigurationCallBack = { _, _, _ in
+  DispatchQueue.main.async {
+    NotificationCenter.default.post(name: .ahHDRDisplayDidChange, object: nil)
+  }
+}
+
+private final class HDRDisplayChangeNotifier {
+  static let shared = HDRDisplayChangeNotifier()
+  private var isRegistered = false
+
+  private init() {}
+
+  func start() {
+    guard isRegistered == false else {
+      return
+    }
+
+    let result = CGDisplayRegisterReconfigurationCallback(hdrDisplayReconfigurationCallback, nil)
+    isRegistered = result == .success
+  }
+
+  func stop() {
+    guard isRegistered else {
+      return
+    }
+
+    let result = CGDisplayRemoveReconfigurationCallback(hdrDisplayReconfigurationCallback, nil)
+    if result == .success {
+      isRegistered = false
+    }
   }
 }

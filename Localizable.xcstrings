@@ -43,6 +43,9 @@
         }
       }
     },
+    "Checking..." : {
+      "comment" : "Initial HDR status"
+    },
     "Clean up %@ remains." : {
       "localizations" : {
         "zh-Hans" : {
@@ -167,6 +170,9 @@
         }
       }
     },
+    "HDR Status: %@" : {
+      "comment" : "HDR status label"
+    },
     "Hide Desktop." : {
       "localizations" : {
         "zh-Hans" : {
@@ -219,6 +225,9 @@
         }
       }
     },
+    "No Display" : {
+      "comment" : "No display available for HDR check"
+    },
     "No Logs" : {
       "localizations" : {
         "zh-Hans" : {
@@ -228,6 +237,9 @@
           }
         }
       }
+    },
+    "Not Supported" : {
+      "comment" : "Display does not support HDR"
     },
     "Notification is not allowed by user. Please check your system preferences." : {
       "comment" : "Notification not allowed alert message",
@@ -250,6 +262,9 @@
         }
       }
     },
+    "Off" : {
+      "comment" : "HDR mode disabled"
+    },
     "OK" : {
       "comment" : "OK button",
       "localizations" : {
@@ -260,6 +275,9 @@
           }
         }
       }
+    },
+    "On" : {
+      "comment" : "HDR mode enabled"
     },
     "Open Main App" : {
       "comment" : "Menu item to open the main application window",
@@ -322,6 +340,9 @@
           }
         }
       }
+    },
+    "Refresh HDR Status" : {
+
     },
     "Restart Monitor Control When System Preferences App Quits" : {
       "localizations" : {
@@ -468,6 +489,9 @@
           }
         }
       }
+    },
+    "Unavailable" : {
+      "comment" : "Private HDR API unavailable"
     },
     "Wednesday" : {
       "comment" : "Wednesday weekday option",
