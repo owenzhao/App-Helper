@@ -5,8 +5,7 @@
 "CFBundleName" = "应用助手";
 
 /* Privacy - AppleEvents Sending Usage Description */
-"NSAppleEventsUsageDescription" = "应用需要修改系统颜色主题。";
+"NSAppleEventsUsageDescription" = "应用需要自动化权限来控制“系统事件”，用于执行睡眠和外观切换。";
 
 /* Copyright (human-readable) */
 "NSHumanReadableCopyright" = "肇鑫";
-

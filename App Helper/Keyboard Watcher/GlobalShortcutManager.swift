@@ -143,6 +143,13 @@ class GlobalShortcutManager {
   }
 
   private func putSystemToSleep() {
+    // 先测试并请求 Automation 权限
+    if !checkAutomationPermission() {
+      // 权限检查失败，checkAutomationPermission 会弹出系统对话框
+      return
+    }
+
+    // 权限已授予，执行睡眠
     let script = """
         tell application "System Events" to sleep
         """
@@ -154,6 +161,61 @@ class GlobalShortcutManager {
       if let error = error {
         print("Error executing sleep command: \(error)")
       }
+    }
+  }
+
+  /// 检查 Automation 权限，如果未授予则弹出系统对话框请求
+  /// 返回 true 表示已授权，false 表示未授权或用户拒绝
+  private func checkAutomationPermission() -> Bool {
+    // 先用一个小测试来触发权限检查
+    let testScript = """
+        tell application "System Events" to return name
+        """
+
+    guard let appleScript = NSAppleScript(source: testScript) else {
+      return false
+    }
+
+    var error: NSDictionary?
+    appleScript.executeAndReturnError(&error)
+
+    if let error = error {
+      let errorNumber = error[NSAppleScript.errorNumber] as? Int ?? 0
+
+      // -1743 表示没有 Automation 权限
+      if errorNumber == -1743 {
+        // 尝试通过打开系统设置来让用户手动授权
+        DispatchQueue.main.async {
+          NSApp.activate(ignoringOtherApps: true)
+
+          let alert = NSAlert()
+          alert.messageText = "Permission Required"
+          alert.informativeText = "App Helper needs Automation permission to put your Mac to sleep.\n\nClick 'Open System Settings' and enable App Helper in the Automation section."
+          alert.alertStyle = .warning
+          alert.addButton(withTitle: "Open System Settings")
+          alert.addButton(withTitle: "Cancel")
+
+          let response = alert.runModal()
+
+          if response == .alertFirstButtonReturn {
+            self.openAutomationSettings()
+          }
+        }
+        return false
+      }
+
+      print("Automation permission test failed: \(error)")
+      return false
+    }
+
+    return true
+  }
+
+  /// 打开系统偏好设置的自动化权限页面
+  private func openAutomationSettings() {
+    // 打开自动化设置页面
+    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation") {
+      NSWorkspace.shared.open(url)
     }
   }
 }

@@ -422,7 +422,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = $APP_BUILD;
+				CURRENT_PROJECT_VERSION = 84;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -431,14 +431,14 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "The application needs to modify the system color theme.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "App Helper needs Automation permission to control System Events for sleep and appearance actions.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = $APP_VERSION;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper-Beta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -455,7 +455,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Helper/App_Helper.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = $APP_BUILD;
+				CURRENT_PROJECT_VERSION = 84;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"App Helper/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -464,14 +464,14 @@
 				INFOPLIST_FILE = "App Helper/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "The application needs to modify the system color theme.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "App Helper needs Automation permission to control System Events for sleep and appearance actions.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = $APP_VERSION;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parussoft.App-Helper";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
