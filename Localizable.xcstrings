@@ -12,17 +12,6 @@
         }
       }
     },
-    "App Helper" : {
-      "comment" : "Main app window title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "应用助手"
-          }
-        }
-      }
-    },
     "Are you sure you want to remove %@?" : {
       "comment" : "Remove app confirmation message",
       "localizations" : {
@@ -66,7 +55,14 @@
       }
     },
     "Cancel" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        }
+      }
     },
     "Checking..." : {
       "comment" : "Initial HDR status",

@@ -146,14 +146,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func showMainAppWindow() {
     NSApp.setActivationPolicy(.regular) // Show Dock icon when main window is shown
     if window == nil {
-      // Create and show main window if not initialized
-      let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
-                                styleMask: [.titled, .closable, .resizable],
-                                backing: .buffered, defer: false)
-      mainWindow.contentView = NSHostingView(rootView: MainAppView())
-      mainWindow.title = NSLocalizedString("App Helper", comment: "Main app window title")
-      mainWindow.center()
-      window = mainWindow
+      window = NSApp.windows.first(where: \.canBecomeMain)
     }
     window?.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
