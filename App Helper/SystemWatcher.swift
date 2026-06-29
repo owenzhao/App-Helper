@@ -164,23 +164,8 @@ class SystemWatcher {
   }
 
   private func timerRules() {
-    if Defaults[.startSwitchHosts] {
-      let appURL = URL(filePath: "/Applications/SwitchHosts.app/")
-      let ws = NSWorkspace.shared
-
-      if ws.runningApplications.filter({ $0.bundleURL == appURL }).isEmpty {
-        let result = ws.open(appURL)
-
-        if Defaults[.notifyUser] {
-          ruleApplied(name: "SwitchHosts", action: result ? .restart : .failed)
-        }
-
-        if result {
-          addLog("SwitchHosts \(AHAction.start.localizedString)")
-        } else {
-          addLog("SwitchHosts \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
-        }
-      }
+    for app in autoStartApps() {
+      startAppIfNeeded(app)
     }
 
     if Defaults[.monitorXcodeHighCPUUsage] {
@@ -199,6 +184,80 @@ class SystemWatcher {
       } else if xcodeUseHighCPUCount != 0  {
         xcodeUseHighCPUCount = 0
       }
+    }
+  }
+
+  private func autoStartApps() -> [AHApp] {
+    var apps = Defaults[.autoStartApps]
+
+    if Defaults[.startClashVerge] {
+      apps.append(
+        AHApp(
+          name: "Clash Verge",
+          url: URL(filePath: "/Applications/Clash Verge.app/"),
+          bundleID: Bundle(url: URL(filePath: "/Applications/Clash Verge.app/"))?.bundleIdentifier ?? ""
+        )
+      )
+    }
+
+    if Defaults[.startSwitchHosts] {
+      apps.append(
+        AHApp(
+          name: "SwitchHosts",
+          url: URL(filePath: "/Applications/SwitchHosts.app/"),
+          bundleID: Bundle(url: URL(filePath: "/Applications/SwitchHosts.app/"))?.bundleIdentifier ?? ""
+        )
+      )
+    }
+
+    var uniqueApps: [AHApp] = []
+
+    for app in apps {
+      let duplicate = uniqueApps.contains { existing in
+        if app.bundleID.isEmpty == false, existing.bundleID == app.bundleID {
+          return true
+        }
+
+        return existing.url == app.url
+      }
+
+      if duplicate == false {
+        uniqueApps.append(app)
+      }
+    }
+
+    return uniqueApps.filter(\.enabled)
+  }
+
+  private func startAppIfNeeded(_ app: AHApp) {
+    guard FileManager.default.fileExists(atPath: app.url.path) else {
+      return
+    }
+
+    let ws = NSWorkspace.shared
+    let isRunning: Bool
+
+    if app.bundleID.isEmpty == false {
+      isRunning = NSRunningApplication.runningApplications(withBundleIdentifier: app.bundleID).isEmpty == false
+    } else {
+      isRunning = ws.runningApplications.contains { $0.bundleURL == app.url }
+    }
+
+    guard isRunning == false else {
+      return
+    }
+
+    let result = ws.open(app.url)
+    let name = app.name ?? app.url.deletingPathExtension().lastPathComponent
+
+    if Defaults[.notifyUser] {
+      ruleApplied(name: name, action: result ? .restart : .failed)
+    }
+
+    if result {
+      addLog("\(name) \(AHAction.start.localizedString)")
+    } else {
+      addLog("\(name) \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
     }
   }
 

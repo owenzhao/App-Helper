@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Add App" : {
+      "comment" : "Auto start app picker confirm button",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加应用"
+          }
+        }
+      }
+    },
     "App Helper" : {
       "comment" : "Main app window title",
       "localizations" : {
@@ -8,6 +19,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "应用助手"
+          }
+        }
+      }
+    },
+    "Are you sure you want to remove %@?" : {
+      "comment" : "Remove app confirmation message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确定要移除 %@ 吗？"
           }
         }
       }
@@ -43,6 +65,9 @@
         }
       }
     },
+    "Cancel" : {
+
+    },
     "Checking..." : {
       "comment" : "Initial HDR status",
       "localizations" : {
@@ -50,6 +75,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "检查..."
+          }
+        }
+      }
+    },
+    "Choose an app to start automatically." : {
+      "comment" : "Auto start app picker message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择一个要自动启动的应用。"
+          }
+        }
+      }
+    },
+    "Choose App" : {
+      "comment" : "Auto start app picker title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择应用"
           }
         }
       }
@@ -241,6 +288,16 @@
         }
       }
     },
+    "No apps added." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有添加应用。"
+          }
+        }
+      }
+    },
     "No Display" : {
       "comment" : "No display available for HDR check",
       "localizations" : {
@@ -399,6 +456,27 @@
         }
       }
     },
+    "Remove" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除"
+          }
+        }
+      }
+    },
+    "Remove App" : {
+      "comment" : "Remove app confirmation title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除应用"
+          }
+        }
+      }
+    },
     "Restart Monitor Control When System Preferences App Quits" : {
       "localizations" : {
         "zh-Hans" : {
@@ -477,16 +555,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自我启动后启动其他应用程序"
-          }
-        }
-      }
-    },
-    "Start SwitchHosts" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "启动SwitchHosts"
           }
         }
       }

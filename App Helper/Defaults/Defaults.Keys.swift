@@ -68,6 +68,8 @@ extension Defaults.Keys {
 
   static let notifyUser = Defaults.Key<Bool>("Notify User when a rule is matched", default: true)
 
+  static let autoStartApps = Defaults.Key<[AHApp]>("autoStartApps", default: [])
+  static let startClashVerge = Defaults.Key<Bool>("startClashVerge", default: false)
   static let startSwitchHosts = Defaults.Key<Bool>("startSwitchHosts", default: false)
 
   static let sleepShortcut = Key<String>("sleepShortcut", default: "Fn ⌃F12")

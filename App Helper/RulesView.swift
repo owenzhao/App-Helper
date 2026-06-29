@@ -6,6 +6,7 @@
 //
 
 import AppleScriptObjC
+import AppKit
 import AVFoundation
 import Darwin
 import Defaults
@@ -25,6 +26,8 @@ struct RulesView: View {
 
   @Default(.notifyUser) private var notifyUser
 
+  @Default(.autoStartApps) private var autoStartApps
+  @Default(.startClashVerge) private var startClashVerge
   @Default(.startSwitchHosts) private var startSwitchHosts
 
   @Default(.enableSleepWatching) private var enableSleepWatching
@@ -45,6 +48,7 @@ struct RulesView: View {
 
   @State private var error: MyError?
   @State private var showNotificationAuthorizeDeniedAlert = false
+  @State private var pendingRemovalApp: AHApp?
 
   var body: some View {
     WindowBinder(window: $window) {
@@ -78,6 +82,7 @@ struct RulesView: View {
     }
     .onAppear {
       HDRDisplayChangeNotifier.shared.start()
+      migrateLegacyAutoStartAppsIfNeeded()
       refreshHDRStatus()
     }
     .onDisappear {
@@ -92,6 +97,35 @@ struct RulesView: View {
     .onReceive(notificationAuthorizeDeniedPublisher, perform: { _ in
       showNotificationAuthorizeDeniedAlert = true
     })
+    .confirmationDialog(
+      Text("Remove App", comment: "Remove app confirmation title"),
+      isPresented: Binding(
+        get: { pendingRemovalApp != nil },
+        set: { isPresented in
+          if isPresented == false {
+            pendingRemovalApp = nil
+          }
+        }
+      ),
+      titleVisibility: .visible
+    ) {
+      Button("Remove", role: .destructive) {
+        if let pendingRemovalApp {
+          removeAutoStartApp(pendingRemovalApp)
+          self.pendingRemovalApp = nil
+        }
+      }
+      Button("Cancel", role: .cancel) {
+        pendingRemovalApp = nil
+      }
+    } message: {
+      if let pendingRemovalApp {
+        Text(String.localizedStringWithFormat(
+          NSLocalizedString("Are you sure you want to remove %@?", comment: "Remove app confirmation message"),
+          pendingRemovalApp.name ?? pendingRemovalApp.url.deletingPathExtension().lastPathComponent
+        ))
+      }
+    }
     .alert(item: $error) { error in
       Alert(title: Text(error.error.localizedDescription), message: nil, dismissButton: Alert.Button.default(Text("OK")))
     }
@@ -226,7 +260,28 @@ extension RulesView {
     Section {
       Text("Start other apps after self starts")
         .font(.title.bold())
-      Toggle("Start SwitchHosts", isOn: $startSwitchHosts)
+      Button("Add App", action: chooseAutoStartApp)
+
+      if autoStartApps.isEmpty {
+        Text("No apps added.")
+          .foregroundStyle(.secondary)
+      } else {
+        ForEach($autoStartApps) { $app in
+          HStack {
+            Toggle(isOn: $app.enabled) {
+              Text(app.name ?? app.url.deletingPathExtension().lastPathComponent)
+            }
+            .help(app.url.path)
+            Button(role: .destructive) {
+              pendingRemovalApp = app
+            } label: {
+              Image(systemName: "minus.circle")
+            }
+            .buttonStyle(.borderless)
+          }
+        }
+      }
+
       Divider()
     }
   }
@@ -278,6 +333,81 @@ extension RulesView {
 }
 
 private extension RulesView {
+  func chooseAutoStartApp() {
+    let panel = NSOpenPanel()
+    panel.title = NSLocalizedString("Choose App", comment: "Auto start app picker title")
+    panel.message = NSLocalizedString("Choose an app to start automatically.", comment: "Auto start app picker message")
+    panel.prompt = NSLocalizedString("Add App", comment: "Auto start app picker confirm button")
+    panel.directoryURL = URL(filePath: "/Applications")
+    panel.canChooseFiles = true
+    panel.canChooseDirectories = false
+    panel.allowsMultipleSelection = false
+    panel.allowedFileTypes = ["app"]
+
+    guard panel.runModal() == .OK, let url = panel.url else {
+      return
+    }
+
+    appendAutoStartApp(
+      AHApp(
+        name: url.deletingPathExtension().lastPathComponent,
+        url: url,
+        bundleID: Bundle(url: url)?.bundleIdentifier ?? "",
+        enabled: true
+      )
+    )
+  }
+
+  func appendAutoStartApp(_ app: AHApp) {
+    if let index = autoStartApps.firstIndex(where: { existing in
+      if app.bundleID.isEmpty == false, existing.bundleID == app.bundleID {
+        return true
+      }
+
+      return existing.url == app.url
+    }) {
+      autoStartApps[index] = app
+    } else {
+      autoStartApps.append(app)
+    }
+  }
+
+  func removeAutoStartApp(_ app: AHApp) {
+    autoStartApps.removeAll { existing in
+      if app.bundleID.isEmpty == false, existing.bundleID == app.bundleID {
+        return true
+      }
+
+      return existing.url == app.url
+    }
+  }
+
+  func migrateLegacyAutoStartAppsIfNeeded() {
+    if startClashVerge {
+      appendAutoStartApp(
+        AHApp(
+          name: "Clash Verge",
+          url: URL(filePath: "/Applications/Clash Verge.app/"),
+          bundleID: Bundle(url: URL(filePath: "/Applications/Clash Verge.app/"))?.bundleIdentifier ?? "",
+          enabled: true
+        )
+      )
+      startClashVerge = false
+    }
+
+    if startSwitchHosts {
+      appendAutoStartApp(
+        AHApp(
+          name: "SwitchHosts",
+          url: URL(filePath: "/Applications/SwitchHosts.app/"),
+          bundleID: Bundle(url: URL(filePath: "/Applications/SwitchHosts.app/"))?.bundleIdentifier ?? "",
+          enabled: true
+        )
+      )
+      startSwitchHosts = false
+    }
+  }
+
   typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
 
   enum HDRReader {
@@ -344,10 +474,33 @@ struct RulesView_Previews: PreviewProvider {
 }
 
 struct AHApp: Codable, Defaults.Serializable, Identifiable, Equatable, Hashable {
-  var id: String { return bundleID }
+  enum CodingKeys: String, CodingKey {
+    case name
+    case url
+    case bundleID
+    case enabled
+  }
+
+  var id: String { bundleID.isEmpty ? url.path : bundleID }
   let name: String?
   let url: URL
   let bundleID: String
+  var enabled: Bool
+
+  init(name: String?, url: URL, bundleID: String, enabled: Bool = true) {
+    self.name = name
+    self.url = url
+    self.bundleID = bundleID
+    self.enabled = enabled
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    name = try container.decodeIfPresent(String.self, forKey: .name)
+    url = try container.decode(URL.self, forKey: .url)
+    bundleID = try container.decode(String.self, forKey: .bundleID)
+    enabled = try container.decodeIfPresent(Bool.self, forKey: .enabled) ?? true
+  }
 }
 
 struct MyError: Identifiable {
