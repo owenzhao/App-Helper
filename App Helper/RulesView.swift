@@ -13,8 +13,12 @@ import Defaults
 import IOKit.pwr_mgt
 import SwiftUI
 import SwiftUIWindowBinder
+import UniformTypeIdentifiers
 
 struct RulesView: View {
+  private let xcodeHighCPUThreshold = 1.0
+  private let xcodeHighCPUSeconds = 30
+
   @State private var window: SwiftUIWindowBinder.Window?
 
   @Default(.restartMonitorControl) private var restartMonitorControl
@@ -212,7 +216,7 @@ extension RulesView {
       Text("Rules")
         .font(.title.bold())
       Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
-      Toggle("Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)", isOn: $monitorXcodeHighCPUUsage)
+      Toggle(xcodeHighCPUTitle, isOn: $monitorXcodeHighCPUUsage)
       Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
       Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
       Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
@@ -333,6 +337,16 @@ extension RulesView {
 }
 
 private extension RulesView {
+  var xcodeHighCPUTitle: String {
+    let threshold = xcodeHighCPUThreshold.formatted(.percent.precision(.fractionLength(0)))
+    let seconds = xcodeHighCPUSeconds.formatted()
+    return String.localizedStringWithFormat(
+      NSLocalizedString("Monitor Xcode High CPU Usage. (Over %@ and lasts %@ seconds.)", comment: "Rule title for Xcode high CPU monitoring"),
+      threshold,
+      seconds
+    )
+  }
+
   func chooseAutoStartApp() {
     let panel = NSOpenPanel()
     panel.title = NSLocalizedString("Choose App", comment: "Auto start app picker title")
@@ -342,7 +356,7 @@ private extension RulesView {
     panel.canChooseFiles = true
     panel.canChooseDirectories = false
     panel.allowsMultipleSelection = false
-    panel.allowedFileTypes = ["app"]
+    panel.allowedContentTypes = [.applicationBundle]
 
     guard panel.runModal() == .OK, let url = panel.url else {
       return

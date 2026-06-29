@@ -278,12 +278,13 @@
         }
       }
     },
-    "Monitor Xcode High CPU Usage. (Over 100% and lasts 30 seconds.)" : {
+    "Monitor Xcode High CPU Usage. (Over %@ and lasts %@ seconds.)" : {
+      "comment" : "Rule title for Xcode high CPU monitoring",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "监控Xcode高CPU使用率。 （超过100%，持续30秒。）"
+            "value" : "监控 Xcode 高 CPU 使用率。（超过 %@，持续 %@ 秒。）"
           }
         }
       }
