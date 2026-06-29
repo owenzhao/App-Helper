@@ -462,7 +462,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "App Helper/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "App Helper Beta";
+				INFOPLIST_KEY_CFBundleDisplayName = "App Helper";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "App Helper needs Automation permission to control System Events for sleep and appearance actions.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Zhao Xin";
