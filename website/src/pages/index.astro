@@ -1,0 +1,280 @@
+---
+import "../styles/global.css";
+
+const baseUrl = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const fromBase = (path) => `${baseUrl}${path.replace(/^\//, "")}`;
+const repoUrl = "https://github.com/owenzhao/App-Helper";
+const authorGithubUrl = "https://github.com/owenzhao";
+const authorXUrl = "https://x.com/owenzhao";
+const rulesScreenshot = {
+  light: "/images/app-helper-rules-light.png",
+  dark: "/images/app-helper-rules-dark.png"
+};
+
+const navItems = [
+  { href: "features", label: "Features" },
+  { href: "screenshots", label: "Screenshots" },
+  { href: "details", label: "Details" },
+  { href: "about", label: "About" }
+];
+
+const featureCards = [
+  {
+    href: "rules",
+    eyebrow: "Rules",
+    title: "Clean up after apps quit",
+    body: "Run selected rules in the background to restart helpers, quit leftover services, and keep common macOS app remains under control."
+  },
+  {
+    href: "xcode",
+    eyebrow: "Xcode",
+    title: "Recover from noisy developer tools",
+    body: "Watch Xcode CPU usage, notify when it stays high, and clean up SourceKitService after Xcode exits."
+  },
+  {
+    href: "cleaner",
+    eyebrow: "Cleaner",
+    title: "Remove stubborn helper processes",
+    body: "Target Open and Save Panel Service, Web Content processes, and Safari remains when the owning app has already closed."
+  },
+  {
+    href: "autostart",
+    eyebrow: "Auto Start",
+    title: "Keep your companion apps running",
+    body: "Pick apps that should launch after App Helper starts, with per-app toggles and duplicate protection."
+  },
+  {
+    href: "display-sleep",
+    eyebrow: "Display",
+    title: "Fast display and sleep controls",
+    body: "Toggle the system color theme, check HDR status, prevent display sleep, hide the desktop, and set a sleep shortcut."
+  },
+  {
+    href: "background",
+    eyebrow: "Menu Bar",
+    title: "Quiet background mode",
+    body: "Move the app out of the Dock, keep it reachable from the menu bar, and use notifications and logs to see what happened."
+  }
+];
+
+const screenshotTiles = [
+  {
+    title: "Rules and preferences",
+    body: "The rules view keeps cleanup switches, commands, auto-start apps, display controls, and sleep monitoring in one place.",
+    light: "/images/app-helper-rules-light.png",
+    dark: "/images/app-helper-rules-dark.png",
+    alt: "App Helper rules screen in the selected system appearance."
+  },
+  {
+    title: "Logs",
+    body: "The logs view records what App Helper started, quit, restarted, or flagged for attention.",
+    light: "/images/app-helper-logs-light.png",
+    dark: "/images/app-helper-logs-dark.png",
+    alt: "App Helper logs screen showing rule history."
+  },
+  {
+    title: "Menu bar access",
+    body: "A compact menu keeps display actions and the main window close while the app runs in the background.",
+    light: "/images/app-helper-menu-light.png",
+    dark: "/images/app-helper-menu-dark.png",
+    alt: "App Helper menu bar popover with display and open app actions.",
+    fit: "contain"
+  }
+];
+
+const deepDives = [
+  {
+    id: "rules",
+    title: "Rules Automation",
+    body: "Enable only the rules you want. App Helper listens for app termination events and applies the matching cleanup after a short delay so it can avoid interrupting normal app shutdown."
+  },
+  {
+    id: "xcode",
+    title: "Xcode Helper",
+    body: "Developer machines can accumulate SourceKitService or high CPU sessions. App Helper can watch Xcode, record the event, and notify you when attention is needed."
+  },
+  {
+    id: "cleaner",
+    title: "Cleaner Rules",
+    body: "Cleaner rules focus on common leftover macOS helper processes, including Web Content, Open and Save Panel Service, QuickLookUIService, and Safari-related remains."
+  },
+  {
+    id: "autostart",
+    title: "Auto-Start Apps",
+    body: "Use App Helper as a small launch companion. Add applications from the Applications folder, toggle them individually, and let the background watcher reopen missing enabled apps."
+  },
+  {
+    id: "display-sleep",
+    title: "Display and Sleep Tools",
+    body: "Quick commands cover theme switching, HDR status checks, display sleep prevention, desktop visibility, and a configurable shortcut for sleep monitoring."
+  },
+  {
+    id: "background",
+    title: "Background Mode",
+    body: "When you click Run in Background, App Helper hides the main window and moves into an accessory-style menu bar workflow so it can keep working quietly."
+  },
+  {
+    id: "logs",
+    title: "Logs and Notifications",
+    body: "Matched rules can send local notifications and write Core Data logs, giving you a simple record of what App Helper started, restarted, quit, or could not complete."
+  }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="App Helper is a small macOS utility that watches app behavior, cleans up leftover services, and keeps useful companion tools close from the menu bar."
+    />
+    <title>App Helper | macOS helper utility</title>
+    <link rel="icon" href={fromBase("/images/app-icon.png")} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={fromBase("/")}>
+        <img src={fromBase("/images/app-icon.png")} width="34" height="34" alt="" />
+        <span>App Helper</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        {navItems.map((item) => <a href={fromBase(`/#${item.href}`)}>{item.label}</a>)}
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <picture class="hero-backdrop">
+          <source media="(prefers-color-scheme: light)" srcset={fromBase(rulesScreenshot.light)} />
+          <img src={fromBase(rulesScreenshot.dark)} alt="" />
+        </picture>
+        <div class="hero-content">
+          <div class="hero-copy">
+            <p class="eyebrow">macOS utility for background cleanup and small system tasks</p>
+            <h1 id="hero-title">App Helper</h1>
+            <p class="lede">
+              Keep your Mac a little calmer with rule-based app cleanup, Xcode helpers, display controls,
+              auto-start companions, menu bar access, notifications, and logs.
+            </p>
+            <div class="actions" aria-label="Project actions">
+              <a class="button primary" href={repoUrl}>View on GitHub</a>
+              <a class="button secondary" href={fromBase("/#features")}>Explore features</a>
+            </div>
+            <p class="meta">Open source macOS app. Current project version: 2.5.1. Minimum deployment target: macOS 14.</p>
+          </div>
+          <aside class="security-note" aria-label="Security note">
+            <strong>Security note</strong>
+            <span>App Helper is not sandboxed because it can manage other apps and services.</span>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section intro" aria-labelledby="intro-title">
+        <div class="section-heading">
+          <p class="eyebrow">What it does</p>
+          <h2 id="intro-title">A compact control room for everyday macOS friction.</h2>
+        </div>
+        <p>
+          App Helper is designed for people who notice that helper processes, app leftovers, display settings,
+          and companion utilities often need the same small fixes. Turn on the rules you trust, send the app to
+          the background, and let it handle those repeat chores.
+        </p>
+      </section>
+
+      <section id="features" class="section" aria-labelledby="features-title">
+        <div class="section-heading wide">
+          <p class="eyebrow">Features</p>
+          <h2 id="features-title">Focused tools, grouped by the work they actually do.</h2>
+        </div>
+        <div class="feature-grid">
+          {featureCards.map((feature) => (
+            <a class="feature-card" href={fromBase(`/#${feature.href}`)}>
+              <span>{feature.eyebrow}</span>
+              <h3>{feature.title}</h3>
+              <p>{feature.body}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="screenshots" class="section screenshots" aria-labelledby="screenshots-title">
+        <div class="section-heading">
+          <p class="eyebrow">Screenshots</p>
+          <h2 id="screenshots-title">One main window, several practical work areas.</h2>
+        </div>
+        <figure class="main-shot">
+          <picture>
+            <source media="(prefers-color-scheme: light)" srcset={fromBase(rulesScreenshot.light)} />
+            <img src={fromBase(rulesScreenshot.dark)} alt="App Helper rules screen showing rules, commands, auto-start apps, display tools, and sleep monitoring." />
+          </picture>
+          <figcaption>
+            Main rules view. Screenshots are provided in both light and dark appearances and follow the viewer's system theme.
+          </figcaption>
+        </figure>
+        <div class="shot-grid">
+          {screenshotTiles.map((tile) => (
+            <article class="shot-tile">
+              <div class={tile.fit === "contain" ? "shot-window is-contain" : "shot-window"}>
+                <picture>
+                  <source media="(prefers-color-scheme: light)" srcset={fromBase(tile.light)} />
+                  <img src={fromBase(tile.dark)} alt={tile.alt} />
+                </picture>
+              </div>
+              <h3>{tile.title}</h3>
+              <p>{tile.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="details" class="section details" aria-labelledby="details-title">
+        <div class="section-heading wide">
+          <p class="eyebrow">Deep dives</p>
+          <h2 id="details-title">Reserved space for feature-by-feature explanations.</h2>
+        </div>
+        <div class="detail-list">
+          {deepDives.map((item) => (
+            <article id={item.id} class="detail-item">
+              <div>
+                <p class="eyebrow">Feature detail</p>
+                <h3>{item.title}</h3>
+              </div>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="about" class="section about" aria-labelledby="about-title">
+        <div class="section-heading">
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">Built by Owen Zhao for the small macOS chores that keep coming back.</h2>
+        </div>
+        <div class="about-layout">
+          <p>
+            I build App Helper around the tiny fixes I want my Mac to remember for me: cleaning up leftover
+            services, keeping companion apps nearby, and making useful controls reachable from the menu bar.
+            The project is open source, practical, and intentionally small.
+          </p>
+          <div class="about-links" aria-label="Author links">
+            <a class="button secondary" href={authorGithubUrl}>GitHub</a>
+            <a class="button secondary" href={authorXUrl}>X</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>App Helper</span>
+      <a href={repoUrl}>Project</a>
+      <a href={authorGithubUrl}>GitHub</a>
+      <a href={authorXUrl}>X</a>
+      <a href={`${repoUrl}/issues`}>Issues</a>
+      <a href={fromBase("/#hero-title")}>Back to top</a>
+    </footer>
+  </body>
+</html>

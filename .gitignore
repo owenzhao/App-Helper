@@ -89,3 +89,9 @@ fastlane/test_output
 
 iOSInjectionProject/
 .DS_Store
+
+# Astro website
+/.pnpm-store/
+/website/node_modules/
+/website/dist/
+/website/.astro/
