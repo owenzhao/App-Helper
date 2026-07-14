@@ -87,6 +87,7 @@ struct RulesView: View {
     .onAppear {
       HDRDisplayChangeNotifier.shared.start()
       migrateLegacyAutoStartAppsIfNeeded()
+      refreshDesktopVisibility()
       refreshHDRStatus()
     }
     .onDisappear {
@@ -154,6 +155,13 @@ struct RulesView: View {
     }
 
     print(shell("killall Finder"))
+  }
+
+  func refreshDesktopVisibility() {
+    let createDesktop = shell("defaults read com.apple.finder CreateDesktop")
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+      .lowercased()
+    hideDesktop = createDesktop == "0" || createDesktop == "false"
   }
 
   func enableScreenSleep() {
@@ -248,14 +256,13 @@ extension RulesView {
             enableScreenSleep()
           }
         }
-      Toggle("Hide Desktop.", isOn: $hideDesktop)
-        .onChange(of: hideDesktop) {
-          if hideDesktop {
-            showDesktop(false)
-          } else {
-            showDesktop(true)
-          }
+      Toggle("Hide Desktop.", isOn: Binding(
+        get: { hideDesktop },
+        set: { hideDesktop in
+          self.hideDesktop = hideDesktop
+          showDesktop(!hideDesktop)
         }
+      ))
       Divider()
     }
   }
