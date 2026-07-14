@@ -83,9 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
     registerObserver()
-    DispatchQueue.main.async { [weak self] in
-      self?.showMainAppWindow()
-    }
+    showMainAppWindow()
 //    replaceDockerIcon()
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
@@ -148,8 +146,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func showMainAppWindow() {
     NSApp.setActivationPolicy(.regular) // Show Dock icon when main window is shown
     NSApp.unhide(nil)
-    if window == nil {
-      window = NSApp.windows.first(where: \.canBecomeMain)
+
+    if let existingMainWindow = NSApp.windows.first(where: \.canBecomeMain) {
+      window = existingMainWindow
+    } else if NSApp.windows.count < 2 {
+      // Login-item launches create the status-item window but not SwiftUI's WindowGroup window.
+      let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
+                                styleMask: [.titled, .closable, .resizable],
+                                backing: .buffered,
+                                defer: false)
+      mainWindow.contentView = NSHostingView(rootView: MainAppView())
+      mainWindow.title = NSLocalizedString("App Helper", comment: "Main app window title")
+      mainWindow.center()
+      window = mainWindow
     }
     window?.makeKeyAndOrderFront(nil)
     NSApp.activate(ignoringOtherApps: true)
