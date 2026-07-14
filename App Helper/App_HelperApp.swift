@@ -83,7 +83,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ notification: Notification) {
     setupMenubarTray()
     registerObserver()
-    showMainAppWindow()
+    DispatchQueue.main.async { [weak self] in
+      self?.showMainAppWindow()
+    }
 //    replaceDockerIcon()
 
     //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
@@ -145,6 +147,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private func showMainAppWindow() {
     NSApp.setActivationPolicy(.regular) // Show Dock icon when main window is shown
+    NSApp.unhide(nil)
     if window == nil {
       window = NSApp.windows.first(where: \.canBecomeMain)
     }
