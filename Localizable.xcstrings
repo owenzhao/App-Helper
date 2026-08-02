@@ -67,6 +67,9 @@
         }
       }
     },
+    "Check for Updates…" : {
+      "comment" : "Check for updates menu item"
+    },
     "Checking..." : {
       "comment" : "Initial HDR status",
       "localizations" : {

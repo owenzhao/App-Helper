@@ -8,6 +8,7 @@
 import AppKit
 import Defaults
 import ServiceManagement
+import Sparkle
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -22,6 +23,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private let shortcutManager = GlobalShortcutManager()
   private var statusMenu: NSMenu? // retain the menu
   private var observationTasks: [Task<Void, Never>] = []
+  private let updaterController = SPUStandardUpdaterController(
+    startingUpdater: true,
+    updaterDelegate: nil,
+    userDriverDelegate: nil
+  )
 
   func registerObserver() {
     // Register current values at launch
@@ -230,6 +236,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     openMainItem.target = self
     menu.addItem(openMainItem)
 
+    menu.addItem(.separator())
+
+    let checkForUpdatesItem = NSMenuItem(
+      title: NSLocalizedString("Check for Updates…", comment: "Check for updates menu item"),
+      action: #selector(checkForUpdatesMenuAction(_:)),
+      keyEquivalent: ""
+    )
+    checkForUpdatesItem.target = self
+    menu.addItem(checkForUpdatesItem)
+
     return menu
   }
 
@@ -240,6 +256,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc private func openMainAppMenuAction(_ sender: Any?) {
     showMainAppWindow()
+  }
+
+  @objc private func checkForUpdatesMenuAction(_ sender: Any?) {
+    checkForUpdates()
+  }
+
+  func checkForUpdates() {
+    updaterController.checkForUpdates(nil)
   }
 
   private func setMenuItemButtonImage(_ button: NSStatusBarButton) {
@@ -317,6 +341,11 @@ struct App_HelperApp: App {
     }
 //    .windowToolbarStyle(.unifiedCompact(showsTitle: false))
     .commands {
+      CommandGroup(after: .appInfo) {
+        Button(NSLocalizedString("Check for Updates…", comment: "Check for updates menu item")) {
+          appDelegate.checkForUpdates()
+        }
+      }
       CommandGroup(replacing: .newItem) {
         // 留空，这样就移除了新建相关的菜单项
       }

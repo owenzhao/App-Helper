@@ -14,6 +14,7 @@
 		DC13DC3F2945308B005D28E9 /* Defaults.Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC3E2945308B005D28E9 /* Defaults.Keys.swift */; };
 		DC13DC5E29454962005D28E9 /* Defaults.Keys.Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC5D29454962005D28E9 /* Defaults.Keys.Shared.swift */; };
 		DC13DC6229456518005D28E9 /* SwiftUIWindowBinder in Frameworks */ = {isa = PBXBuildFile; productRef = DC13DC6129456518005D28E9 /* SwiftUIWindowBinder */; };
+		DCAAB0012F4D0001005D28E9 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = DCAAB0022F4D0001005D28E9 /* Sparkle */; };
 		DC13DC64294565F3005D28E9 /* WindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC63294565F3005D28E9 /* WindowDelegate.swift */; };
 		DC13DC67294566DB005D28E9 /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC66294566DB005D28E9 /* Notification.Name.swift */; };
 		DC13DC6929456918005D28E9 /* SystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13DC6829456918005D28E9 /* SystemWatcher.swift */; };
@@ -67,6 +68,7 @@
 			files = (
 				DCC5E45E2A30B796003D5813 /* ServiceManagement.framework in Frameworks */,
 				DC13DC6229456518005D28E9 /* SwiftUIWindowBinder in Frameworks */,
+				DCAAB0012F4D0001005D28E9 /* Sparkle in Frameworks */,
 				DC13DC3D29453060005D28E9 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,6 +183,7 @@
 			packageProductDependencies = (
 				DC13DC3C29453060005D28E9 /* Defaults */,
 				DC13DC6129456518005D28E9 /* SwiftUIWindowBinder */,
+				DCAAB0022F4D0001005D28E9 /* Sparkle */,
 			);
 			productName = "App Helper";
 			productReference = DC13DC2929452A49005D28E9 /* App Helper.app */;
@@ -214,6 +217,7 @@
 			packageReferences = (
 				DC13DC3B29453060005D28E9 /* XCRemoteSwiftPackageReference "Defaults" */,
 				DC13DC6029456518005D28E9 /* XCRemoteSwiftPackageReference "SwiftUIWindowBinder" */,
+				DCAAB0032F4D0001005D28E9 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = DC13DC2A29452A49005D28E9 /* Products */;
 			projectDirPath = "";
@@ -516,6 +520,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		DCAAB0032F4D0001005D28E9 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -528,6 +540,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC13DC6029456518005D28E9 /* XCRemoteSwiftPackageReference "SwiftUIWindowBinder" */;
 			productName = SwiftUIWindowBinder;
+		};
+		DCAAB0022F4D0001005D28E9 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCAAB0032F4D0001005D28E9 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 
