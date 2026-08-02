@@ -13,7 +13,15 @@
       }
     },
     "App Helper" : {
-      "comment" : "Main app window title"
+      "comment" : "Main app window title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用助手"
+          }
+        }
+      }
     },
     "Are you sure you want to remove %@?" : {
       "comment" : "Remove app confirmation message",
@@ -68,7 +76,15 @@
       }
     },
     "Check for Updates…" : {
-      "comment" : "Check for updates menu item"
+      "comment" : "Check for updates menu item",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新..."
+          }
+        }
+      }
     },
     "Checking..." : {
       "comment" : "Initial HDR status",
