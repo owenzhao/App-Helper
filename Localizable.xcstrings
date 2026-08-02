@@ -12,6 +12,9 @@
         }
       }
     },
+    "App Helper" : {
+      "comment" : "Main app window title"
+    },
     "Are you sure you want to remove %@?" : {
       "comment" : "Remove app confirmation message",
       "localizations" : {
