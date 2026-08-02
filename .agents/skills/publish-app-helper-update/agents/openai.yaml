@@ -1,0 +1,4 @@
+interface:
+  display_name: "Publish App Helper Update"
+  short_description: "Create and publish a signed App Helper update."
+  default_prompt: "Use $publish-app-helper-update to prepare and publish an App Helper update."
