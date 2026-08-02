@@ -1,9 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
-  <channel>
-    <title>App Helper Updates</title>
-    <link>https://owenzhao.github.io/App-Helper/</link>
-    <description>Updates for App Helper.</description>
-    <language>en</language>
-  </channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>App Helper Updates</title>
+        <link>https://owenzhao.github.io/App-Helper/</link>
+        <description>Updates for App Helper.</description>
+        <language>en</language>
+        <item>
+            <title>2.6.1</title>
+            <pubDate>Sun, 02 Aug 2026 12:13:29 +0800</pubDate>
+            <link>https://owenzhao.github.io/App-Helper/</link>
+            <sparkle:version>91</sparkle:version>
+            <sparkle:shortVersionString>2.6.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%832.6.1/App.Helper.zip" length="2382729" type="application/octet-stream" sparkle:edSignature="FvIYON2bE1aCJWpyEOOdBH+Ca9ICuurXAFQMdqpqOPixuCyQH0DWdQbpI0Yz+jbzWVaB0x2bH8YUQVSEkCWaAQ=="/>
+        </item>
+    </channel>
 </rss>
