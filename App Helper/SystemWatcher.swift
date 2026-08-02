@@ -234,31 +234,42 @@ class SystemWatcher {
       return
     }
 
-    let ws = NSWorkspace.shared
-    let isRunning: Bool
-
-    if app.bundleID.isEmpty == false {
-      isRunning = NSRunningApplication.runningApplications(withBundleIdentifier: app.bundleID).isEmpty == false
-    } else {
-      isRunning = ws.runningApplications.contains { $0.bundleURL == app.url }
-    }
-
-    guard isRunning == false else {
+    guard isAppRunning(app) == false else {
       return
     }
 
-    let result = ws.open(app.url)
-    let name = app.name ?? app.url.deletingPathExtension().lastPathComponent
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) { [weak self] in
+      guard let self,
+            timer?.isValid == true,
+            isAppRunning(app) == false
+      else {
+        return
+      }
 
-    if Defaults[.notifyUser] {
-      ruleApplied(name: name, action: result ? .restart : .failed)
+      let result = NSWorkspace.shared.open(app.url)
+      let name = app.name ?? app.url.deletingPathExtension().lastPathComponent
+
+      if Defaults[.notifyUser] {
+        ruleApplied(name: name, action: result ? .restart : .failed)
+      }
+
+      if result {
+        addLog("\(name) \(AHAction.start.localizedString)")
+      } else {
+        addLog("\(name) \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
+      }
+    }
+  }
+
+  private func isAppRunning(_ app: AHApp) -> Bool {
+    let runningApplications = NSWorkspace.shared.runningApplications
+
+    if app.bundleID.isEmpty == false {
+      return NSRunningApplication.runningApplications(withBundleIdentifier: app.bundleID).isEmpty == false
+        || runningApplications.contains { $0.bundleIdentifier == app.bundleID }
     }
 
-    if result {
-      addLog("\(name) \(AHAction.start.localizedString)")
-    } else {
-      addLog("\(name) \(AHAction.start.localizedString) \(AHAction.failed.localizedString)")
-    }
+    return runningApplications.contains { $0.bundleURL == app.url }
   }
 
   private func restartApp(check checkApp: AHApp, restart restartApp: AHApp) {
