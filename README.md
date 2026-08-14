@@ -1,5 +1,5 @@
 # App Helper
-> This app is not sandboxed. As it can terminated other apps and services.
+> This app is not sandboxed because it can terminate and relaunch other apps and services.
 
 Project website: https://owenzhao.github.io/App-Helper/
 
@@ -13,8 +13,42 @@ Project website: https://owenzhao.github.io/App-Helper/
 </picture>
 
 
+## What It Does
+
+App Helper is a small, open-source macOS utility for the recurring maintenance tasks
+that are easy to forget: cleaning up helper processes after an app quits, watching
+for problematic developer-tool activity, keeping companion apps available, and
+providing a few useful display and sleep controls. It can run quietly from the menu
+bar while applying only the rules that you enable.
+
+## Features
+
+- **Rule-based app cleanup.** Listen for app termination events and, after a short
+  delay, restart selected helpers or clean up processes left behind by Xcode, Safari,
+  and other applications. The built-in rules include SourceKitService, Open and Save
+  Panel Service, QuickLookUIService, Web Content, and Safari-related processes.
+- **Xcode monitoring.** Watch for sustained high CPU usage by Xcode and record the
+  event or send a local notification when it needs attention. App Helper can also
+  clean up SourceKitService after Xcode exits.
+- **Auto-start companion apps.** Add applications from the Applications folder,
+  enable or disable them individually, and let App Helper reopen an enabled app when
+  it is no longer running. Duplicate entries are avoided by bundle identifier or
+  application path.
+- **Display and sleep tools.** Toggle the system color theme, inspect HDR status,
+  prevent the display from sleeping, hide or show the desktop, and configure a
+  keyboard shortcut for sleep monitoring.
+- **Menu bar background mode.** Run without keeping a normal Dock presence, open the
+  main window when needed, and access common display actions from the menu bar.
+- **Notifications and logs.** Optionally receive a local notification when a rule
+  matches. Actions are also recorded in the in-app logs so it is possible to see
+  what was started, restarted, terminated, or could not be completed.
+
+App Helper is intentionally focused on local macOS automation. It does not require a
+server or an account. Because it manages other applications and system services, the
+app is not sandboxed and some actions may require the relevant macOS permissions.
+
 ## How to Use
-1. Enabled the rules you want to apply.
+1. Enable the rules you want to apply.
 2. Click "Run in Background".
 
 That's all. 
