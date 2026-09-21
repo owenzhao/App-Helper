@@ -18,6 +18,7 @@ import UniformTypeIdentifiers
 struct RulesView: View {
   private let xcodeHighCPUThreshold = 1.0
   private let xcodeHighCPUSeconds = 30
+  private let ruleCount = 6
 
   @State private var window: SwiftUIWindowBinder.Window?
 
@@ -56,22 +57,17 @@ struct RulesView: View {
 
   var body: some View {
     WindowBinder(window: $window) {
-      ScrollView {
-        VStack(alignment: .leading) {
-          rulesSection
-          commandsSection
-          autoStartSection
-          displaySection
-          systemSleepSection
-
-          Button("Run in Background") {
-            NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
-          }
-
-          Spacer()
-        }
-        .padding()
+      Form {
+        rulesSection
+        preferencesSection
+        commandsSection
+        autoStartSection
+        displaySection
+        systemSleepSection
+        footerSection
       }
+      .formStyle(.grouped)
+      .frame(minWidth: 560, minHeight: 520)
     }
     .onChange(of: window) { _, window in
       if let window {
@@ -221,129 +217,324 @@ struct RulesView: View {
 extension RulesView {
   private var rulesSection: some View {
     Section {
-      Text("Rules")
-        .font(.title.bold())
-      Toggle("Restart Monitor Control When System Preferences App Quits", isOn: $restartMonitorControl)
-      Toggle(xcodeHighCPUTitle, isOn: $monitorXcodeHighCPUUsage)
-      Toggle("Force Quitting SourceKitService When Xcode Quits", isOn: $forceQuitSourceKitService)
-      Toggle("Force Quitting Open and Save Panel Service When an App Quits", isOn: $forceQuitOpenAndSavePanelService)
-      Toggle("Clean Up Web Content Remains When an App Quits", isOn: $cleanUpWebContentRemains)
-      Toggle("Clean Up Safari Remains Aggressively", isOn: $cleanUpSafariRemainsAggressively)
-      Divider()
+      AHRuleToggle(
+        title: NSLocalizedString("Restart Monitor Control When System Preferences App Quits", comment: "Rule: restart Monitor Control when a system settings app quits"),
+        subtitle: NSLocalizedString("Restart Monitor Control after a system settings app quits.", comment: "Rule subtitle: restart Monitor Control"),
+        systemImage: "arrow.triangle.2.circlepath",
+        isOn: $restartMonitorControl
+      )
 
-      preferencesSection
+      AHRuleToggle(
+        title: xcodeHighCPUTitle,
+        subtitle: NSLocalizedString("Watch Xcode's CPU usage and clean up when it stays above the threshold.", comment: "Rule subtitle: Xcode high CPU"),
+        systemImage: "cpu",
+        isOn: $monitorXcodeHighCPUUsage
+      )
+
+      AHRuleToggle(
+        title: NSLocalizedString("Force Quitting SourceKitService When Xcode Quits", comment: "Rule: quit SourceKitService when Xcode quits"),
+        subtitle: NSLocalizedString("Kill SourceKitService as soon as Xcode quits.", comment: "Rule subtitle: SourceKitService"),
+        systemImage: "hammer",
+        isOn: $forceQuitSourceKitService
+      )
+
+      AHRuleToggle(
+        title: NSLocalizedString("Force Quitting Open and Save Panel Service When an App Quits", comment: "Rule: quit the Open and Save panel service"),
+        subtitle: NSLocalizedString("Kill the Open and Save panel service when any app quits.", comment: "Rule subtitle: Open and Save panel service"),
+        systemImage: "xmark.octagon",
+        isOn: $forceQuitOpenAndSavePanelService
+      )
+
+      AHRuleToggle(
+        title: NSLocalizedString("Clean Up Web Content Remains When an App Quits", comment: "Rule: clean up Web Content remains"),
+        subtitle: NSLocalizedString("Remove leftover Web Content processes when an app quits.", comment: "Rule subtitle: Web Content remains"),
+        systemImage: "trash",
+        isOn: $cleanUpWebContentRemains
+      )
+
+      AHRuleToggle(
+        title: NSLocalizedString("Clean Up Safari Remains Aggressively", comment: "Rule: clean up Safari remains aggressively"),
+        subtitle: NSLocalizedString("Also clean up Safari-related leftovers more aggressively.", comment: "Rule subtitle: Safari remains"),
+        systemImage: "safari",
+        isOn: $cleanUpSafariRemainsAggressively
+      )
+    } header: {
+      Text("Rules", comment: "Rules section title")
+    } footer: {
+      Text(rulesSummary)
     }
   }
 
   private var preferencesSection: some View {
     Section {
-      Text("Preferences")
-        .font(.title2.bold())
-      Toggle("Notify User when a rule is matched.", isOn: $notifyUser)
-      Divider()
+      AHRuleToggle(
+        title: NSLocalizedString("Notify User when a rule is matched.", comment: "Preference: notify user when a rule is matched"),
+        subtitle: NSLocalizedString("Send a system notification when a rule fires.", comment: "Preference subtitle: notification"),
+        systemImage: "bell.badge",
+        isOn: $notifyUser
+      )
+    } header: {
+      Text("Preferences", comment: "Preferences section title")
     }
   }
 
   private var commandsSection: some View {
     Section {
-      Text("Commands")
-        .font(.title.bold())
-      Toggle("Prevent Screensaver.", isOn: $preventScreensaver)
-        .onChange(of: preventScreensaver) {
-          if preventScreensaver {
-            disableScreenSleep()
-          } else {
-            enableScreenSleep()
+      AHRuleToggle(
+        title: NSLocalizedString("Prevent Screensaver.", comment: "Command: prevent the screensaver from starting"),
+        subtitle: NSLocalizedString("Only applies until App Helper quits.", comment: "Command subtitle: session-only state"),
+        systemImage: "eye",
+        isOn: $preventScreensaver
+      )
+      .onChange(of: preventScreensaver) {
+        if preventScreensaver {
+          disableScreenSleep()
+        } else {
+          enableScreenSleep()
+        }
+      }
+
+      AHRuleToggle(
+        title: NSLocalizedString("Hide Desktop.", comment: "Command: hide the desktop icons"),
+        subtitle: NSLocalizedString("Writes to Finder settings and persists.", comment: "Command subtitle: persisted state"),
+        systemImage: "eye.slash",
+        isOn: Binding(
+          get: { hideDesktop },
+          set: { hideDesktop in
+            self.hideDesktop = hideDesktop
+            showDesktop(!hideDesktop)
           }
-        }
-      Toggle("Hide Desktop.", isOn: Binding(
-        get: { hideDesktop },
-        set: { hideDesktop in
-          self.hideDesktop = hideDesktop
-          showDesktop(!hideDesktop)
-        }
-      ))
-      Divider()
+        )
+      )
+    } header: {
+      Text("Commands", comment: "Commands section title")
     }
   }
 
   private var autoStartSection: some View {
     Section {
-      Text("Start other apps after self starts")
-        .font(.title.bold())
-      Button("Add App", action: chooseAutoStartApp)
-
       if autoStartApps.isEmpty {
-        Text("No apps added.")
+        Text("No apps added.", comment: "Empty state for the auto start app list")
           .foregroundStyle(.secondary)
       } else {
         ForEach($autoStartApps) { $app in
-          HStack {
-            Toggle(isOn: $app.enabled) {
-              Text(app.name ?? app.url.deletingPathExtension().lastPathComponent)
-            }
-            .help(app.url.path)
-            Button(role: .destructive) {
-              pendingRemovalApp = app
-            } label: {
-              Image(systemName: "minus.circle")
-            }
-            .buttonStyle(.borderless)
+          AHAppRow(app: $app) {
+            pendingRemovalApp = app
           }
         }
       }
-
-      Divider()
-    }
-  }
-
-  struct DisplaySectionView: View {
-    let hdrStatus: String
-    let onRefreshHDRStatus: () -> Void
-
-    var body: some View {
-      Section {
-        Text("Display", comment: "Display section title")
-          .font(.title.bold())
-        Button(action: RulesView.toggleSystemAppearance) {
-          Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
+    } header: {
+      HStack {
+        Text("Start other apps after self starts", comment: "Auto start section title")
+        Spacer()
+        Button(action: chooseAutoStartApp) {
+          Image(systemName: "plus")
         }
-        Text(String.localizedStringWithFormat(NSLocalizedString("HDR Status: %@", comment: "HDR status label"), hdrStatus))
-        Button("Refresh HDR Status", action: onRefreshHDRStatus)
-        Divider()
+        .buttonStyle(.borderless)
+        .help(NSLocalizedString("Add App", comment: "Auto start app picker confirm button"))
+        .accessibilityLabel(Text("Add App", comment: "Auto start app picker confirm button"))
       }
     }
   }
 
   private var displaySection: some View {
-    DisplaySectionView(
-      hdrStatus: hdrStatus,
-      onRefreshHDRStatus: refreshHDRStatus
-    )
+    Section {
+      Button {
+        RulesView.toggleSystemAppearance()
+      } label: {
+        Label {
+          Text("Toggle System Color Theme", comment: "Button to toggle system color theme")
+        } icon: {
+          Image(systemName: "circle.lefthalf.filled")
+        }
+      }
+      .buttonStyle(.borderless)
+      .foregroundStyle(.tint)
+
+      LabeledContent {
+        HStack(spacing: 8) {
+          AHStatusBadge(status: hdrStatus, mode: currentHDRMode)
+
+          Button(action: refreshHDRStatus) {
+            Image(systemName: "arrow.clockwise")
+          }
+          .buttonStyle(.borderless)
+          .help(NSLocalizedString("Refresh HDR Status", comment: "Button to refresh HDR status"))
+          .accessibilityLabel(Text("Refresh HDR Status", comment: "Button to refresh HDR status"))
+        }
+      } label: {
+        Label {
+          Text("HDR Status", comment: "HDR status row label")
+        } icon: {
+          Image(systemName: "display")
+        }
+      }
+    } header: {
+      Text("Display", comment: "Display section title")
+    }
   }
 
   private var systemSleepSection: some View {
     Section {
-      Toggle("Monitor System Sleep", isOn: $enableSleepWatching)
-        .toggleStyle(.switch)
-        .font(.title.bold())
+      AHRuleToggle(
+        title: NSLocalizedString("Monitor System Sleep", comment: "Toggle: monitor system sleep"),
+        subtitle: NSLocalizedString("Run the shortcut below when the system is about to sleep.", comment: "System sleep toggle subtitle"),
+        systemImage: "moon.zzz",
+        isOn: $enableSleepWatching
+      )
 
-      HStack {
-        Text("Sleep Shortcut:")
+      LabeledContent {
         KeyboardShortcutView(
           shortcut: $sleepShortcut,
           isRecording: $isRecordingShortcut,
           specialKeysEnabled: true
         )
+      } label: {
+        Text("Sleep Shortcut", comment: "Sleep shortcut row label")
       }
       .disabled(!enableSleepWatching)
+    } header: {
+      Text("System Sleep", comment: "System sleep section title")
+    }
+  }
 
-      Divider()
+  private var footerSection: some View {
+    Section {
+      Button {
+        NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
+      } label: {
+        Label {
+          Text("Run in Background", comment: "Button to hide the window and keep running in the background")
+        } icon: {
+          Image(systemName: "arrow.down.right.and.arrow.up.left")
+        }
+      }
+      .buttonStyle(.borderless)
+      .foregroundStyle(.tint)
     }
   }
 }
 
+// MARK: - Row Components
+private struct AHRuleToggle: View {
+  let title: String
+  let subtitle: String
+  let systemImage: String
+  @Binding var isOn: Bool
+
+  var body: some View {
+    Toggle(isOn: $isOn) {
+      HStack(alignment: .firstTextBaseline, spacing: 8) {
+        Image(systemName: systemImage)
+          .imageScale(.medium)
+          .foregroundStyle(.secondary)
+          .frame(width: 16, alignment: .center)
+
+        VStack(alignment: .leading, spacing: 2) {
+          Text(title)
+            .fixedSize(horizontal: false, vertical: true)
+
+          Text(subtitle)
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+      }
+    }
+    .toggleStyle(.switch)
+  }
+}
+
+private struct AHStatusBadge: View {
+  let status: String
+  let mode: Bool?
+
+  private var tint: Color {
+    switch mode {
+    case .some(true):
+      return .green
+    case .some(false):
+      return .secondary
+    case .none:
+      return .orange
+    }
+  }
+
+  var body: some View {
+    HStack(spacing: 5) {
+      Circle()
+        .fill(tint)
+        .frame(width: 7, height: 7)
+
+      Text(status)
+        .font(.callout.weight(.medium))
+        .foregroundStyle(mode == nil ? Color.secondary : Color.primary)
+    }
+    .padding(.horizontal, 8)
+    .padding(.vertical, 2)
+    .background(
+      Capsule().fill(tint.opacity(0.15))
+    )
+    .accessibilityElement(children: .combine)
+  }
+}
+
+private struct AHAppRow: View {
+  @Binding var app: AHApp
+  let onRemove: () -> Void
+
+  @State private var isHovering = false
+
+  private var displayName: String {
+    app.name ?? app.url.deletingPathExtension().lastPathComponent
+  }
+
+  var body: some View {
+    HStack(spacing: 6) {
+      Toggle(isOn: $app.enabled) {
+        HStack(spacing: 8) {
+          Image(nsImage: NSWorkspace.shared.icon(forFile: app.url.path))
+            .resizable()
+            .frame(width: 16, height: 16)
+
+          Text(displayName)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+      }
+      .toggleStyle(.switch)
+
+      Button(role: .destructive, action: onRemove) {
+        Image(systemName: "minus.circle.fill")
+      }
+      .buttonStyle(.borderless)
+      .foregroundStyle(isHovering ? Color.red : Color.secondary)
+      .opacity(isHovering ? 1 : 0.35)
+      .help(NSLocalizedString("Remove App", comment: "Remove app confirmation title"))
+      .accessibilityLabel(Text("Remove App", comment: "Remove app confirmation title"))
+    }
+    .help(app.url.path)
+    .onHover { isHovering = $0 }
+  }
+}
+
 private extension RulesView {
+  var rulesSummary: String {
+    let enabled = [
+      restartMonitorControl,
+      monitorXcodeHighCPUUsage,
+      forceQuitSourceKitService,
+      forceQuitOpenAndSavePanelService,
+      cleanUpWebContentRemains,
+      cleanUpSafariRemainsAggressively,
+    ].filter { $0 }.count
+
+    return String.localizedStringWithFormat(
+      NSLocalizedString("%lld of %lld rules enabled", comment: "Rules section footer summary"),
+      Int64(enabled),
+      Int64(ruleCount)
+    )
+  }
+
   var xcodeHighCPUTitle: String {
     let threshold = xcodeHighCPUThreshold.formatted(.percent.precision(.fractionLength(0)))
     let seconds = xcodeHighCPUSeconds.formatted()

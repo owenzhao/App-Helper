@@ -17,10 +17,21 @@ struct MainAppView: View {
       }
     }
     .toolbar {
-      ToolbarItem(placement: .automatic) {
-        AHTabPicker(selection: $currentTab)
-          .fixedSize()
-          .layoutPriority(1)
+      ToolbarItem(placement: .principal) {
+        Picker(selection: $currentTab) {
+          ForEach(AHTab.allCases) { tab in
+            // `.segmented` renders a `Label` as icon-only on macOS; use the
+            // localized title so the two tabs stay unambiguous.
+            Text(tab.localizedString)
+              .tag(tab)
+          }
+        } label: {
+          EmptyView()
+        }
+        .pickerStyle(.segmented)
+        .labelsHidden()
+        .fixedSize()
+        .layoutPriority(1)
       }
     }
   }

@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld of %lld rules enabled" : {
+      "comment" : "Rules section footer summary",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用 %lld / %lld 条规则"
+          }
+        }
+      }
+    },
     "Add App" : {
       "comment" : "Auto start app picker confirm button",
       "localizations" : {
@@ -8,6 +19,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "添加应用"
+          }
+        }
+      }
+    },
+    "Also clean up Safari-related leftovers more aggressively." : {
+      "comment" : "Rule subtitle: Safari remains",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更激进地清理 Safari 相关残留。"
           }
         }
       }
@@ -66,6 +88,7 @@
       }
     },
     "Cancel" : {
+      "comment" : "Cancel button",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -130,6 +153,7 @@
       }
     },
     "Clean Up Safari Remains Aggressively" : {
+      "comment" : "Rule: clean up Safari remains aggressively",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -140,6 +164,7 @@
       }
     },
     "Clean Up Web Content Remains When an App Quits" : {
+      "comment" : "Rule: clean up Web Content remains",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -149,7 +174,41 @@
         }
       }
     },
+    "Clear" : {
+      "comment" : "Clear button in the clear-logs confirmation",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空"
+          }
+        }
+      }
+    },
+    "Clear All Logs?" : {
+      "comment" : "Clear logs confirmation title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空所有日志？"
+          }
+        }
+      }
+    },
+    "Clear Logs" : {
+      "comment" : "Button that deletes every log entry",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空日志"
+          }
+        }
+      }
+    },
     "Commands" : {
+      "comment" : "Commands section title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -203,16 +262,18 @@
       }
     },
     "failed" : {
+      "comment" : "Log action: an action failed",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "失败的"
+            "value" : "失败"
           }
         }
       }
     },
     "Force Quitting Open and Save Panel Service When an App Quits" : {
+      "comment" : "Rule: quit the Open and Save panel service",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -223,6 +284,7 @@
       }
     },
     "Force Quitting SourceKitService When Xcode Quits" : {
+      "comment" : "Rule: quit SourceKitService when Xcode quits",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -243,23 +305,46 @@
         }
       }
     },
-    "HDR Status: %@" : {
-      "comment" : "HDR status label",
+    "HDR Status" : {
+      "comment" : "HDR status row label",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "HDR 状态：%@"
+            "value" : "HDR 状态"
           }
         }
       }
     },
     "Hide Desktop." : {
+      "comment" : "Command: hide the desktop icons",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏桌面。"
+          }
+        }
+      }
+    },
+    "Kill SourceKitService as soon as Xcode quits." : {
+      "comment" : "Rule subtitle: SourceKitService",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode 一退出就结束 SourceKitService。"
+          }
+        }
+      }
+    },
+    "Kill the Open and Save panel service when any app quits." : {
+      "comment" : "Rule subtitle: Open and Save panel service",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任意应用退出后结束打开与存储面板服务。"
           }
         }
       }
@@ -271,6 +356,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日志"
+          }
+        }
+      }
+    },
+    "Matched rules and cleanup events will show up here." : {
+      "comment" : "Empty state message for the log list",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规则命中与清理事件会显示在这里。"
           }
         }
       }
@@ -287,6 +383,7 @@
       }
     },
     "Monitor System Sleep" : {
+      "comment" : "Toggle: monitor system sleep",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -308,6 +405,7 @@
       }
     },
     "No apps added." : {
+      "comment" : "Empty state for the auto start app list",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -329,11 +427,23 @@
       }
     },
     "No Logs" : {
+      "comment" : "Empty state title when there are no log entries",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "没有日志"
+          }
+        }
+      }
+    },
+    "No matching logs." : {
+      "comment" : "Empty state title when a search matches nothing",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有匹配的日志。"
           }
         }
       }
@@ -361,6 +471,7 @@
       }
     },
     "Notify User when a rule is matched." : {
+      "comment" : "Preference: notify user when a rule is matched",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -403,6 +514,17 @@
         }
       }
     },
+    "Only applies until App Helper quits." : {
+      "comment" : "Command subtitle: session-only state",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在 App Helper 退出前有效。"
+          }
+        }
+      }
+    },
     "Open Main App" : {
       "comment" : "Menu item to open the main application window",
       "localizations" : {
@@ -426,6 +548,7 @@
       }
     },
     "Preferences" : {
+      "comment" : "Preferences section title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -436,6 +559,7 @@
       }
     },
     "Prevent Screensaver." : {
+      "comment" : "Command: prevent the screensaver from starting",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -446,11 +570,12 @@
       }
     },
     "quit" : {
+      "comment" : "Log action: a process quit",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "辞去"
+            "value" : "已退出"
           }
         }
       }
@@ -466,6 +591,7 @@
       }
     },
     "Refresh HDR Status" : {
+      "comment" : "Button to refresh HDR status",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -476,6 +602,7 @@
       }
     },
     "Remove" : {
+      "comment" : "Remove button",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -496,7 +623,30 @@
         }
       }
     },
+    "Remove leftover Web Content processes when an app quits." : {
+      "comment" : "Rule subtitle: Web Content remains",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用退出后清理残留的 Web Content 进程。"
+          }
+        }
+      }
+    },
+    "Restart Monitor Control after a system settings app quits." : {
+      "comment" : "Rule subtitle: restart Monitor Control",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统设置类应用退出后自动重启 Monitor Control。"
+          }
+        }
+      }
+    },
     "Restart Monitor Control When System Preferences App Quits" : {
+      "comment" : "Rule: restart Monitor Control when a system settings app quits",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -507,11 +657,12 @@
       }
     },
     "restarted" : {
+      "comment" : "Log action: an app was restarted",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重新启动"
+            "value" : "已重启"
           }
         }
       }
@@ -521,13 +672,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已应用的规则"
+            "value" : "规则已生效"
           }
         }
       }
     },
     "Rules" : {
-      "comment" : "Rules tab title",
+      "comment" : "Rules section title\nRules tab title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -538,11 +689,23 @@
       }
     },
     "Run in Background" : {
+      "comment" : "Button to hide the window and keep running in the background",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "在后台运行"
+          }
+        }
+      }
+    },
+    "Run the shortcut below when the system is about to sleep." : {
+      "comment" : "System sleep toggle subtitle",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统即将休眠时执行下方的快捷键。"
           }
         }
       }
@@ -558,17 +721,41 @@
         }
       }
     },
-    "Sleep Shortcut:" : {
+    "Search logs" : {
+      "comment" : "Log search field placeholder",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "睡眠快捷方式："
+            "value" : "搜索日志"
+          }
+        }
+      }
+    },
+    "Send a system notification when a rule fires." : {
+      "comment" : "Preference subtitle: notification",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "规则命中时发送系统通知。"
+          }
+        }
+      }
+    },
+    "Sleep Shortcut" : {
+      "comment" : "Sleep shortcut row label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "睡眠快捷键"
           }
         }
       }
     },
     "Start other apps after self starts" : {
+      "comment" : "Auto start section title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -579,11 +766,12 @@
       }
     },
     "started" : {
+      "comment" : "Log action: an app or service started",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已开始"
+            "value" : "已启动"
           }
         }
       }
@@ -599,6 +787,28 @@
         }
       }
     },
+    "System Sleep" : {
+      "comment" : "System sleep section title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统休眠"
+          }
+        }
+      }
+    },
+    "This deletes every log entry and cannot be undone." : {
+      "comment" : "Clear logs confirmation message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这将删除全部日志记录，且无法撤销。"
+          }
+        }
+      }
+    },
     "Thursday" : {
       "comment" : "Thursday weekday option",
       "localizations" : {
@@ -610,6 +820,17 @@
         }
       }
     },
+    "Today" : {
+      "comment" : "Log section header for today",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
+          }
+        }
+      }
+    },
     "Toggle System Color Theme" : {
       "comment" : "Button to toggle system color theme\nMenu item to toggle system appearance",
       "localizations" : {
@@ -617,6 +838,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "切换系统颜色主题"
+          }
+        }
+      }
+    },
+    "Try a different search term." : {
+      "comment" : "Empty state message when a search matches nothing",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "换个关键词试试。"
           }
         }
       }
@@ -643,6 +875,17 @@
         }
       }
     },
+    "Watch Xcode's CPU usage and clean up when it stays above the threshold." : {
+      "comment" : "Rule subtitle: Xcode high CPU",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "持续监控 Xcode 的 CPU 占用，超过阈值后自动清理。"
+          }
+        }
+      }
+    },
     "Wednesday" : {
       "comment" : "Wednesday weekday option",
       "localizations" : {
@@ -665,12 +908,34 @@
         }
       }
     },
+    "Writes to Finder settings and persists." : {
+      "comment" : "Command subtitle: persisted state",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写入 Finder 设置并保持。"
+          }
+        }
+      }
+    },
     "Xcode uses high CPU!" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Xcode使用高CPU！"
+          }
+        }
+      }
+    },
+    "Yesterday" : {
+      "comment" : "Log section header for yesterday",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨天"
           }
         }
       }
