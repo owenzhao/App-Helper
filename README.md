@@ -12,6 +12,11 @@ Project website: https://owenzhao.github.io/App-Helper/
   <img src="website/public/images/app-helper-rules-light.png" alt="App Helper rules screen">
 </picture>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="website/public/images/app-helper-logs-dark.png">
+  <img src="website/public/images/app-helper-logs-light.png" alt="App Helper logs screen">
+</picture>
+
 
 ## What It Does
 

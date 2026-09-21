@@ -6,6 +6,15 @@
         <description>Updates for App Helper.</description>
         <language>en</language>
         <item>
+            <title>3.0.0</title>
+            <pubDate>Tue, 22 Sep 2026 07:21:47 +0800</pubDate>
+            <link>https://owenzhao.github.io/App-Helper/</link>
+            <sparkle:version>100</sparkle:version>
+            <sparkle:shortVersionString>3.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.0.0/App.Helper.zip" length="2455731" type="application/octet-stream" sparkle:edSignature="1eoiGEHouKbuz5jFBN6t8HVM30UedZNSd8qVucwAogyeutiqlpdQCL2nPYtdtXcn7E1ZbSTwNhKl31R1JVeaCg=="/>
+        </item>
+        <item>
             <title>2.6.2</title>
             <pubDate>Sun, 02 Aug 2026 13:45:08 +0800</pubDate>
             <link>https://owenzhao.github.io/App-Helper/</link>
