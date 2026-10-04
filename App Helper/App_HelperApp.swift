@@ -179,8 +179,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if popover.isShown {
       popover.performClose(sender)
     } else {
-      popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
       NSApp.activate(ignoringOtherApps: true)
+      popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+      DispatchQueue.main.async { [weak self] in
+        self?.popover.contentViewController?.view.window?.makeKey()
+      }
     }
   }
 

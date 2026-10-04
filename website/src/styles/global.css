@@ -364,60 +364,39 @@ p {
   width: min(1280px, calc(100% - 40px));
 }
 
-.main-shot {
-  margin: 34px 0 0;
-  overflow: hidden;
-}
-
-.main-shot picture,
-.main-shot img {
-  width: 100%;
-}
-
-.main-shot img {
-  background: #10131d;
-}
-
-.main-shot figcaption {
-  padding: 16px 18px 18px;
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
 .shot-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  margin-top: 34px;
 }
 
 .shot-tile {
+  width: min(100%, 700px);
+  margin-inline: auto;
   overflow: hidden;
 }
 
 .shot-window {
-  height: 260px;
+  height: 680px;
   overflow: hidden;
-  background: #111521;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--surface-solid) 70%, var(--bg));
 }
 
-.shot-window picture,
+.shot-window picture {
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .shot-window img {
-  width: 100%;
-  height: 100%;
-}
-
-.shot-window img {
-  object-fit: cover;
-}
-
-.shot-window.is-contain {
-  background: #050507;
-}
-
-.shot-window.is-contain img {
-  padding: 22px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 680px;
   object-fit: contain;
 }
 
@@ -575,7 +554,11 @@ p {
   }
 
   .shot-window {
-    height: 220px;
+    height: 560px;
+  }
+
+  .shot-window img {
+    max-height: 560px;
   }
 
   .detail-item,
