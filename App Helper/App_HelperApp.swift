@@ -12,8 +12,8 @@ import Sparkle
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  private var window: NSWindow?
   private var statusItem: NSStatusItem?
+  private let popover = NSPopover()
   private var watcher = SystemWatcher.shared
 
   private var hasBrewUpdates = false
@@ -21,7 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var showBrewUpdates = false
 
   private let shortcutManager = GlobalShortcutManager()
-  private var statusMenu: NSMenu? // retain the menu
   private var observationTasks: [Task<Void, Never>] = []
   private let updaterController = SPUStandardUpdaterController(
     startingUpdater: true,
@@ -87,14 +86,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationDidFinishLaunching(_ notification: Notification) {
+    NSApp.setActivationPolicy(.accessory)
     setupMenubarTray()
     registerObserver()
-    showMainAppWindow()
-//    replaceDockerIcon()
-
-    //    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-    //      NSApp.hide(nil)
-    //    }
+    popover.behavior = .transient
+    popover.contentSize = NSSize(width: 560, height: 700)
+    popover.contentViewController = NSHostingController(
+      rootView: MainAppView(
+        onCheckForUpdates: { [weak self] in self?.checkForUpdates() },
+        onQuit: { NSApp.terminate(nil) }
+      )
+    )
   }
 
   func applicationWillTerminate(_ notification: Notification) {
@@ -103,16 +105,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func registerNotification() {
-    NotificationCenter.default.addObserver(forName: .simulatedWindowClose, object: nil, queue: nil) { _ in
-      NSApp.hide(nil)
-      NSApp.setActivationPolicy(.accessory) // Hide Dock icon when main window is closed
-    }
-    NotificationCenter.default.addObserver(forName: .updateWindow, object: nil, queue: nil) { notification in
-      if let userInfo = notification.userInfo as? [String: NSWindow], let window = userInfo["window"] {
-        self.window = window
-      }
-    }
-
     NotificationCenter.default.addObserver(forName: .hasBrewUpdates, object: nil, queue: nil) { notification in
       if let userInfo = notification.userInfo as? [String: Bool], let hasBrewUpdates = userInfo["hasBrewUpdates"] {
         self.hasBrewUpdates = hasBrewUpdates
@@ -149,27 +141,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
-  private func showMainAppWindow() {
-    NSApp.setActivationPolicy(.regular) // Show Dock icon when main window is shown
-    NSApp.unhide(nil)
-
-    if let existingMainWindow = NSApp.windows.first(where: \.canBecomeMain) {
-      window = existingMainWindow
-    } else if NSApp.windows.count < 2 {
-      // Login-item launches create the status-item window but not SwiftUI's WindowGroup window.
-      let mainWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 800, height: 600),
-                                styleMask: [.titled, .closable, .resizable],
-                                backing: .buffered,
-                                defer: false)
-      mainWindow.contentView = NSHostingView(rootView: MainAppView())
-      mainWindow.title = NSLocalizedString("App Helper", comment: "Main app window title")
-      mainWindow.center()
-      window = mainWindow
-    }
-    window?.makeKeyAndOrderFront(nil)
-    NSApp.activate(ignoringOtherApps: true)
-  }
-
   private func setupMenubarTray() {
     invalidateTimerIfNeeded()
 
@@ -184,10 +155,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // 设置按钮宽度以容纳文本
     button.controlSize = .regular
 
-    // Build and assign a native NSMenu for the status item
-    let menu = buildStatusMenu()
-    self.statusMenu = menu
-    self.statusItem?.menu = menu
+    button.target = self
+    button.action = #selector(togglePopover(_:))
 
     if hasBrewUpdates {
       self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
@@ -205,61 +174,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
-  private func replaceDockerIcon() {
-
-    // Attempt to load the custom Dock icon from asset catalog
-    if let icon = NSImage(named: "app_icon_256") {
-      NSApplication.shared.applicationIconImage = icon
+  @objc private func togglePopover(_ sender: Any?) {
+    guard let button = statusItem?.button else { return }
+    if popover.isShown {
+      popover.performClose(sender)
+    } else {
+      popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+      NSApp.activate(ignoringOtherApps: true)
     }
-  }
-
-  // MARK: - Status Menu Builder
-  private func buildStatusMenu() -> NSMenu {
-    let menu = NSMenu()
-
-    // Display section
-    let displayTitle = NSLocalizedString("Display", comment: "Display section title in status menu")
-    let displayHeader = NSMenuItem(title: displayTitle, action: nil, keyEquivalent: "")
-    displayHeader.isEnabled = false
-    menu.addItem(displayHeader)
-
-    let appearanceTitle = NSLocalizedString("Toggle System Color Theme", comment: "Menu item to toggle system appearance")
-    let appearanceItem = NSMenuItem(title: appearanceTitle, action: #selector(toggleAppearanceMenuAction(_:)), keyEquivalent: "")
-    appearanceItem.target = self
-    menu.addItem(appearanceItem)
-
-    menu.addItem(.separator())
-
-    // Open main app
-    let openMainTitle = NSLocalizedString("Open Main App", comment: "Menu item to open the main application window")
-    let openMainItem = NSMenuItem(title: openMainTitle, action: #selector(openMainAppMenuAction(_:)), keyEquivalent: "")
-    openMainItem.target = self
-    menu.addItem(openMainItem)
-
-    menu.addItem(.separator())
-
-    let checkForUpdatesItem = NSMenuItem(
-      title: NSLocalizedString("Check for Updates…", comment: "Check for updates menu item"),
-      action: #selector(checkForUpdatesMenuAction(_:)),
-      keyEquivalent: ""
-    )
-    checkForUpdatesItem.target = self
-    menu.addItem(checkForUpdatesItem)
-
-    return menu
-  }
-
-  // MARK: - Menu Actions
-  @objc private func toggleAppearanceMenuAction(_ sender: Any?) {
-    RulesView.toggleSystemAppearance()
-  }
-
-  @objc private func openMainAppMenuAction(_ sender: Any?) {
-    showMainAppWindow()
-  }
-
-  @objc private func checkForUpdatesMenuAction(_ sender: Any?) {
-    checkForUpdates()
   }
 
   func checkForUpdates() {
@@ -336,10 +258,9 @@ struct App_HelperApp: App {
   @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
   var body: some Scene {
-    WindowGroup {
-      MainAppView()
+    Settings {
+      EmptyView()
     }
-//    .windowToolbarStyle(.unifiedCompact(showsTitle: false))
     .commands {
       CommandGroup(after: .appInfo) {
         Button(NSLocalizedString("Check for Updates…", comment: "Check for updates menu item")) {
@@ -350,9 +271,6 @@ struct App_HelperApp: App {
         // 留空，这样就移除了新建相关的菜单项
       }
     }
-    //    WindowGroup {
-    //      KeyboardMonitorView()
-    //    }
   }
 }
 

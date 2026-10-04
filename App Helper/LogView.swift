@@ -17,34 +17,16 @@ struct LogView: View {
   @State private var showClearConfirmation = false
 
   var body: some View {
-    Group {
-      if logs.isEmpty {
-        AHLogEmptyState(
-          systemImage: "tray",
-          title: NSLocalizedString("No Logs", comment: "Empty state title when there are no log entries"),
-          message: NSLocalizedString("Matched rules and cleanup events will show up here.", comment: "Empty state message for the log list")
-        )
-      } else if dayGroups.isEmpty {
-        AHLogEmptyState(
-          systemImage: "magnifyingglass",
-          title: NSLocalizedString("No matching logs.", comment: "Empty state title when a search matches nothing"),
-          message: NSLocalizedString("Try a different search term.", comment: "Empty state message when a search matches nothing")
-        )
-      } else {
-        logList
-      }
-    }
-    .frame(minWidth: 560, minHeight: 520)
-    .toolbar {
-      ToolbarItem(placement: .automatic) {
+    VStack(spacing: 0) {
+      HStack {
         AHLogSearchField(
           text: $searchText,
           placeholder: NSLocalizedString("Search logs", comment: "Log search field placeholder")
         )
         .frame(width: 200)
-      }
 
-      ToolbarItem(placement: .automatic) {
+        Spacer()
+
         Button {
           showClearConfirmation = true
         } label: {
@@ -57,7 +39,30 @@ struct LogView: View {
         .disabled(logs.isEmpty)
         .help(NSLocalizedString("Clear Logs", comment: "Button that deletes every log entry"))
       }
+      .padding(12)
+
+      Divider()
+
+      Group {
+        if logs.isEmpty {
+          AHLogEmptyState(
+            systemImage: "tray",
+            title: NSLocalizedString("No Logs", comment: "Empty state title when there are no log entries"),
+            message: NSLocalizedString("Matched rules and cleanup events will show up here.", comment: "Empty state message for the log list")
+          )
+        } else if dayGroups.isEmpty {
+          AHLogEmptyState(
+            systemImage: "magnifyingglass",
+            title: NSLocalizedString("No matching logs.", comment: "Empty state title when a search matches nothing"),
+            message: NSLocalizedString("Try a different search term.", comment: "Empty state message when a search matches nothing")
+          )
+        } else {
+          logList
+        }
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+    .frame(minWidth: 560, minHeight: 520)
     .confirmationDialog(
       Text("Clear All Logs?", comment: "Clear logs confirmation title"),
       isPresented: $showClearConfirmation,
