@@ -7,15 +7,7 @@ Project website: https://owenzhao.github.io/App-Helper/
 
 
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/public/images/app-helper-rules-dark.png">
-  <img src="website/public/images/app-helper-rules-light.png" alt="App Helper rules screen">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="website/public/images/app-helper-logs-dark.png">
-  <img src="website/public/images/app-helper-logs-light.png" alt="App Helper logs screen">
-</picture>
+![App Helper 3.1.0 menu bar popover with commands, auto-start apps, display controls, and sleep monitoring](website/public/images/app-helper-popover.png)
 
 
 ## What It Does
@@ -42,8 +34,8 @@ bar while applying only the rules that you enable.
 - **Display and sleep tools.** Toggle the system color theme, inspect HDR status,
   prevent the display from sleeping, hide or show the desktop, and configure a
   keyboard shortcut for sleep monitoring.
-- **Menu bar background mode.** Run without keeping a normal Dock presence, open the
-  main window when needed, and access common display actions from the menu bar.
+- **Menu bar popover.** Open rules and logs from the menu bar icon, with display
+  appearance, update, and quit actions in the same compact panel.
 - **Notifications and logs.** Optionally receive a local notification when a rule
   matches. Actions are also recorded in the in-app logs so it is possible to see
   what was started, restarted, terminated, or could not be completed.
@@ -53,8 +45,9 @@ server or an account. Because it manages other applications and system services,
 app is not sandboxed and some actions may require the relevant macOS permissions.
 
 ## How to Use
-1. Enable the rules you want to apply.
-2. Click "Run in Background".
+1. Click the App Helper icon in the menu bar to open its popover.
+2. Enable the rules you want to apply; App Helper keeps running from the menu bar.
+3. Switch to **Logs** to search or clear recorded actions.
 
 That's all. 
 

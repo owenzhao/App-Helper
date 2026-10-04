@@ -8,10 +8,7 @@ const fromBase = (path) => `${baseUrl}${path.replace(/^\//, "")}`;
 const repoUrl = "https://github.com/owenzhao/App-Helper";
 const authorGithubUrl = "https://github.com/owenzhao";
 const authorXUrl = "https://x.com/owenzhao";
-const rulesScreenshot = {
-  light: "/images/app-helper-rules-light.png",
-  dark: "/images/app-helper-rules-dark.png"
-};
+const popoverScreenshot = "/images/app-helper-popover.png";
 
 const navItems = [
   { href: "features", label: "Features" },
@@ -54,33 +51,17 @@ const featureCards = [
   {
     href: "background",
     eyebrow: "Menu Bar",
-    title: "Quiet background mode",
-    body: "Move the app out of the Dock, keep it reachable from the menu bar, and use notifications and logs to see what happened."
+    title: "Rules and logs from the menu bar",
+    body: "Open the compact popover from the status icon to change rules, review logs, switch appearance, check for updates, or quit."
   }
 ];
 
 const screenshotTiles = [
   {
-    title: "Rules and preferences",
-    body: "The rules view keeps cleanup switches, commands, auto-start apps, display controls, and sleep monitoring in one place.",
-    light: "/images/app-helper-rules-light.png",
-    dark: "/images/app-helper-rules-dark.png",
-    alt: "App Helper rules screen in the selected system appearance."
-  },
-  {
-    title: "Logs",
-    body: "The logs view records what App Helper started, quit, restarted, or flagged for attention.",
-    light: "/images/app-helper-logs-light.png",
-    dark: "/images/app-helper-logs-dark.png",
-    alt: "App Helper logs screen showing rule history."
-  },
-  {
-    title: "Menu bar access",
-    body: "A compact menu keeps display actions and the main window close while the app runs in the background.",
-    light: "/images/app-helper-menu-light.png",
-    dark: "/images/app-helper-menu-dark.png",
-    alt: "App Helper menu bar popover with display and open app actions.",
-    fit: "contain"
+    title: "One menu bar popover",
+    body: "Change rules, manage companion apps, check display and sleep settings, or open activity logs from the status icon.",
+    image: popoverScreenshot,
+    alt: "App Helper 3.1.0 menu bar popover showing commands, auto-start apps, display controls, and sleep monitoring."
   }
 ];
 
@@ -112,8 +93,8 @@ const deepDives = [
   },
   {
     id: "background",
-    title: "Background Mode",
-    body: "When you click Run in Background, App Helper hides the main window and moves into an accessory-style menu bar workflow so it can keep working quietly."
+    title: "Menu Bar Popover",
+    body: "App Helper runs as a menu bar app. Click its status icon to open the rules and logs, adjust appearance, check for updates, or quit."
   },
   {
     id: "logs",
@@ -149,8 +130,7 @@ const deepDives = [
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <picture class="hero-backdrop">
-          <source media="(prefers-color-scheme: light)" srcset={fromBase(rulesScreenshot.light)} />
-          <img src={fromBase(rulesScreenshot.dark)} alt="" />
+          <img src={fromBase(popoverScreenshot)} alt="" />
         </picture>
         <div class="hero-content">
           <div class="hero-copy">
@@ -164,7 +144,7 @@ const deepDives = [
               <a class="button primary" href={repoUrl}>View on GitHub</a>
               <a class="button secondary" href={fromBase("/#features")}>Explore features</a>
             </div>
-            <p class="meta">Open source macOS app. Current project version: 3.0.0. Minimum deployment target: macOS 14.</p>
+            <p class="meta">Open source macOS app. Current project version: 3.1.0. Minimum deployment target: macOS 14.</p>
           </div>
           <aside class="security-note" aria-label="Security note">
             <strong>Security note</strong>
@@ -180,8 +160,8 @@ const deepDives = [
         </div>
         <p>
           App Helper is designed for people who notice that helper processes, app leftovers, display settings,
-          and companion utilities often need the same small fixes. Turn on the rules you trust, send the app to
-          the background, and let it handle those repeat chores.
+          and companion utilities often need the same small fixes. Turn on the rules you trust, then open the
+          menu bar popover whenever you need to adjust a setting or review activity.
         </p>
       </section>
 
@@ -204,24 +184,14 @@ const deepDives = [
       <section id="screenshots" class="section screenshots" aria-labelledby="screenshots-title">
         <div class="section-heading">
           <p class="eyebrow">Screenshots</p>
-          <h2 id="screenshots-title">A redesigned main window with practical work areas.</h2>
+          <h2 id="screenshots-title">Rules and activity logs, right from the menu bar.</h2>
         </div>
-        <figure class="main-shot">
-          <picture>
-            <source media="(prefers-color-scheme: light)" srcset={fromBase(rulesScreenshot.light)} />
-            <img src={fromBase(rulesScreenshot.dark)} alt="App Helper rules screen showing rules, commands, auto-start apps, display tools, and sleep monitoring." />
-          </picture>
-          <figcaption>
-            Main rules view. Screenshots are provided in both light and dark appearances and follow the viewer's system theme.
-          </figcaption>
-        </figure>
         <div class="shot-grid">
           {screenshotTiles.map((tile) => (
             <article class="shot-tile">
-              <div class={tile.fit === "contain" ? "shot-window is-contain" : "shot-window"}>
+              <div class="shot-window">
                 <picture>
-                  <source media="(prefers-color-scheme: light)" srcset={fromBase(tile.light)} />
-                  <img src={fromBase(tile.dark)} alt={tile.alt} />
+                  <img src={fromBase(tile.image)} alt={tile.alt} />
                 </picture>
               </div>
               <h3>{tile.title}</h3>

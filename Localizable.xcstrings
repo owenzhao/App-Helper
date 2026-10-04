@@ -240,7 +240,7 @@
       }
     },
     "Display" : {
-      "comment" : "Display section title\nDisplay section title in status menu",
+      "comment" : "Display section title",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -527,6 +527,7 @@
     },
     "Open Main App" : {
       "comment" : "Menu item to open the main application window",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -579,6 +580,9 @@
           }
         }
       }
+    },
+    "Quit" : {
+
     },
     "Quit %@" : {
       "localizations" : {
@@ -690,6 +694,7 @@
     },
     "Run in Background" : {
       "comment" : "Button to hide the window and keep running in the background",
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {

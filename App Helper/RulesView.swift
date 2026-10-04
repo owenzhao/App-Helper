@@ -12,15 +12,12 @@ import Darwin
 import Defaults
 import IOKit.pwr_mgt
 import SwiftUI
-import SwiftUIWindowBinder
 import UniformTypeIdentifiers
 
 struct RulesView: View {
   private let xcodeHighCPUThreshold = 1.0
   private let xcodeHighCPUSeconds = 30
   private let ruleCount = 6
-
-  @State private var window: SwiftUIWindowBinder.Window?
 
   @Default(.restartMonitorControl) private var restartMonitorControl
   @Default(.monitorXcodeHighCPUUsage) private var monitorXcodeHighCPUUsage
@@ -56,25 +53,16 @@ struct RulesView: View {
   @State private var pendingRemovalApp: AHApp?
 
   var body: some View {
-    WindowBinder(window: $window) {
-      Form {
-        rulesSection
-        preferencesSection
-        commandsSection
-        autoStartSection
-        displaySection
-        systemSleepSection
-        footerSection
-      }
-      .formStyle(.grouped)
-      .frame(minWidth: 560, minHeight: 520)
+    Form {
+      rulesSection
+      preferencesSection
+      commandsSection
+      autoStartSection
+      displaySection
+      systemSleepSection
     }
-    .onChange(of: window) { _, window in
-      if let window {
-        window.delegate = WindowDelegate.shared
-        NotificationCenter.default.post(name: .updateWindow, object: nil, userInfo: ["window": window])
-      }
-    }
+    .formStyle(.grouped)
+    .frame(minWidth: 560, minHeight: 520)
     .onReceive(notificatonErrorPublisher) { notification in
       if let userInfo = notification.userInfo as? [String: Error], let error = userInfo["error"] {
         self.error = MyError(error)
@@ -395,22 +383,6 @@ extension RulesView {
       .disabled(!enableSleepWatching)
     } header: {
       Text("System Sleep", comment: "System sleep section title")
-    }
-  }
-
-  private var footerSection: some View {
-    Section {
-      Button {
-        NotificationCenter.default.post(name: .simulatedWindowClose, object: self)
-      } label: {
-        Label {
-          Text("Run in Background", comment: "Button to hide the window and keep running in the background")
-        } icon: {
-          Image(systemName: "arrow.down.right.and.arrow.up.left")
-        }
-      }
-      .buttonStyle(.borderless)
-      .foregroundStyle(.tint)
     }
   }
 }
