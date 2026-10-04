@@ -525,18 +525,6 @@
         }
       }
     },
-    "Open Main App" : {
-      "comment" : "Menu item to open the main application window",
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开主应用程序"
-          }
-        }
-      }
-    },
     "Operation timeout" : {
       "comment" : "Shell operation takes too long time.",
       "localizations" : {
@@ -688,18 +676,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "规则"
-          }
-        }
-      }
-    },
-    "Run in Background" : {
-      "comment" : "Button to hide the window and keep running in the background",
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在后台运行"
           }
         }
       }
