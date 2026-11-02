@@ -36,6 +36,10 @@ struct RulesView: View {
   @Default(.sleepShortcut) private var sleepShortcut
   @State private var isRecordingShortcut = false
 
+  @Default(.enableLockScreenShortcut) private var enableLockScreenShortcut
+  @Default(.lockScreenShortcut) private var lockScreenShortcut
+  @State private var isRecordingLockScreenShortcut = false
+
   @State private var preventScreensaver = false
   @State private var hideDesktop = false
   @State private var assertionID: IOPMAssertionID = 0
@@ -60,8 +64,21 @@ struct RulesView: View {
       autoStartSection
       displaySection
       systemSleepSection
+      lockScreenSection
     }
     .formStyle(.grouped)
+    .onChange(of: lockScreenShortcut) { oldValue, newValue in
+      if newValue.isEmpty == false, newValue == sleepShortcut {
+        lockScreenShortcut = oldValue
+        showShortcutConflict()
+      }
+    }
+    .onChange(of: sleepShortcut) { oldValue, newValue in
+      if newValue.isEmpty == false, newValue == lockScreenShortcut {
+        sleepShortcut = oldValue
+        showShortcutConflict()
+      }
+    }
     .frame(minWidth: 560, minHeight: 520)
     .onReceive(notificatonErrorPublisher) { notification in
       if let userInfo = notification.userInfo as? [String: Error], let error = userInfo["error"] {
@@ -385,6 +402,30 @@ extension RulesView {
       Text("System Sleep", comment: "System sleep section title")
     }
   }
+
+  private var lockScreenSection: some View {
+    Section {
+      AHRuleToggle(
+        title: NSLocalizedString("Enable Lock Screen Shortcut", comment: "Toggle: enable the lock screen shortcut"),
+        subtitle: NSLocalizedString("Turns off the display immediately. If a password is required after display sleep, this also locks the screen.", comment: "Lock screen toggle subtitle"),
+        systemImage: "lock",
+        isOn: $enableLockScreenShortcut
+      )
+
+      LabeledContent {
+        KeyboardShortcutView(
+          shortcut: $lockScreenShortcut,
+          isRecording: $isRecordingLockScreenShortcut,
+          specialKeysEnabled: true
+        )
+      } label: {
+        Text("Lock Screen Shortcut", comment: "Lock screen shortcut row label")
+      }
+      .disabled(!enableLockScreenShortcut)
+    } header: {
+      Text("Lock Screen", comment: "Lock screen section title")
+    }
+  }
 }
 
 // MARK: - Row Components
@@ -515,6 +556,19 @@ private extension RulesView {
       threshold,
       seconds
     )
+  }
+
+  func showShortcutConflict() {
+    error = MyError(NSError(
+      domain: "AppHelperShortcut",
+      code: 0,
+      userInfo: [
+        NSLocalizedDescriptionKey: NSLocalizedString(
+          "That shortcut is already used by another action.",
+          comment: "Shortcut conflict alert message"
+        )
+      ]
+    ))
   }
 
   func chooseAutoStartApp() {

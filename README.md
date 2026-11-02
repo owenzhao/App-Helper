@@ -32,8 +32,9 @@ bar while applying only the rules that you enable.
   it is no longer running. Duplicate entries are avoided by bundle identifier or
   application path.
 - **Display and sleep tools.** Toggle the system color theme, inspect HDR status,
-  prevent the display from sleeping, hide or show the desktop, and configure a
-  keyboard shortcut for sleep monitoring.
+  prevent the display from sleeping, hide or show the desktop, and configure
+  keyboard shortcuts for display sleep (which locks the screen when a password is
+  required) and sleep monitoring.
 - **Menu bar popover.** Open rules and logs from the menu bar icon, with display
   appearance, update, and quit actions in the same compact panel.
 - **Notifications and logs.** Optionally receive a local notification when a rule

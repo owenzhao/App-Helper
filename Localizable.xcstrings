@@ -250,6 +250,17 @@
         }
       }
     },
+    "Enable Lock Screen Shortcut" : {
+      "comment" : "Toggle: enable the lock screen shortcut",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用锁屏快捷键"
+          }
+        }
+      }
+    },
     "Every Hour" : {
       "comment" : "Update frequency option for every hour",
       "localizations" : {
@@ -268,6 +279,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "失败"
+          }
+        }
+      }
+    },
+    "Failed to turn off the display." : {
+      "comment" : "Log entry when the display sleep action fails",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭显示器失败。"
           }
         }
       }
@@ -345,6 +367,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "任意应用退出后结束打开与存储面板服务。"
+          }
+        }
+      }
+    },
+    "Lock Screen" : {
+      "comment" : "Lock screen section title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁屏"
+          }
+        }
+      }
+    },
+    "Lock Screen Shortcut" : {
+      "comment" : "Lock screen shortcut row label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁屏快捷键"
           }
         }
       }
@@ -786,6 +830,17 @@
         }
       }
     },
+    "That shortcut is already used by another action." : {
+      "comment" : "Shortcut conflict alert message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该快捷键已被其他操作占用。"
+          }
+        }
+      }
+    },
     "This deletes every log entry and cannot be undone." : {
       "comment" : "Clear logs confirmation message",
       "localizations" : {
@@ -848,6 +903,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "星期二"
+          }
+        }
+      }
+    },
+    "Turns off the display immediately. If a password is required after display sleep, this also locks the screen." : {
+      "comment" : "Lock screen toggle subtitle",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即关闭显示器。如果系统设置为显示器睡眠后要求输入密码，则同时锁定屏幕。"
           }
         }
       }

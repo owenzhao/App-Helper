@@ -30,11 +30,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func registerObserver() {
     // Register current values at launch
-    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])
-    shortcutManager.setEnabled(Defaults[.enableSleepWatching])
+    syncShortcuts()
 
     // Start per-key observation tasks using the new Defaults.updates API
     startObservationTasks()
+  }
+
+  private func syncShortcuts() {
+    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])
+    shortcutManager.registerLockScreenShortcut(
+      Defaults[.enableLockScreenShortcut] ? Defaults[.lockScreenShortcut] : ""
+    )
+    shortcutManager.setEnabled(Defaults[.enableSleepWatching] || Defaults[.enableLockScreenShortcut])
   }
 
   private func startObservationTasks() {
@@ -44,9 +51,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Sleep shortcut updates
     let sleepTask = Task { [weak self] in
       guard let self else { return }
-      for await change in Defaults.updates(.sleepShortcut, initial: false) {
+      for await _ in Defaults.updates(.sleepShortcut, initial: false) {
         await MainActor.run {
-          self.shortcutManager.registerSleepShortcut(change)
+          self.syncShortcuts()
         }
       }
     }
@@ -54,9 +61,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Enable sleep watching updates
     let enableTask = Task { [weak self] in
       guard let self else { return }
-      for await change in Defaults.updates(.enableSleepWatching, initial: false) {
+      for await _ in Defaults.updates(.enableSleepWatching, initial: false) {
         await MainActor.run {
-          self.shortcutManager.setEnabled(change)
+          self.syncShortcuts()
+        }
+      }
+    }
+
+    // Lock screen shortcut updates
+    let lockScreenTask = Task { [weak self] in
+      guard let self else { return }
+      for await _ in Defaults.updates(.lockScreenShortcut, initial: false) {
+        await MainActor.run {
+          self.syncShortcuts()
+        }
+      }
+    }
+
+    // Enable lock screen shortcut updates
+    let enableLockScreenTask = Task { [weak self] in
+      guard let self else { return }
+      for await _ in Defaults.updates(.enableLockScreenShortcut, initial: false) {
+        await MainActor.run {
+          self.syncShortcuts()
         }
       }
     }
@@ -71,7 +98,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
 
-    observationTasks.append(contentsOf: [sleepTask, enableTask, autoStartTask])
+    observationTasks.append(contentsOf: [sleepTask, enableTask, lockScreenTask, enableLockScreenTask, autoStartTask])
   }
 
   private func cancelObservationTasks() {

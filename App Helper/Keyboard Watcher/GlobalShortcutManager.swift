@@ -7,6 +7,7 @@
 
 import Cocoa
 import ApplicationServices
+import CoreData
 
 struct KeyboardShortcutFormatter {
   static let specialKeyMap: [UInt16: String] = [
@@ -68,7 +69,8 @@ struct KeyboardShortcutFormatter {
 
 class GlobalShortcutManager {
   private var eventMonitor: [Any]?
-  private var registeredShortcut: String?
+  private var registeredSleepShortcut: String?
+  private var registeredLockScreenShortcut: String?
 
   init() {
     startMonitoring()
@@ -79,7 +81,11 @@ class GlobalShortcutManager {
   }
 
   func registerSleepShortcut(_ shortcutString: String) {
-    registeredShortcut = shortcutString.isEmpty ? nil : shortcutString
+    registeredSleepShortcut = shortcutString.isEmpty ? nil : shortcutString
+  }
+
+  func registerLockScreenShortcut(_ shortcutString: String) {
+    registeredLockScreenShortcut = shortcutString.isEmpty ? nil : shortcutString
   }
 
   /// Enable or disable global/local key monitoring at runtime.
@@ -123,16 +129,26 @@ class GlobalShortcutManager {
 
   // Helper method to handle key events
   private func handleKeyEvent(_ event: NSEvent) {
-    guard let registeredShortcut = self.registeredShortcut else { return }
-
     let shortcutStrings = KeyboardShortcutFormatter.shortcutStrings(for: event)
-    if shortcutStrings.current == registeredShortcut || shortcutStrings.legacy == registeredShortcut {
+
+    // 锁屏快捷键优先匹配，避免两个动作使用同一快捷键时重复触发
+    if matches(registeredLockScreenShortcut, shortcutStrings) {
+      lockScreen()
+      return
+    }
+
+    if matches(registeredSleepShortcut, shortcutStrings) {
       putSystemToSleep()
     }
 
 #if DEBUG
     print("Current shortcut: \(shortcutStrings.current)")
 #endif
+  }
+
+  private func matches(_ shortcut: String?, _ strings: (current: String, legacy: String)) -> Bool {
+    guard let shortcut else { return false }
+    return strings.current == shortcut || strings.legacy == shortcut
   }
 
   private func stopMonitoring() {
@@ -161,6 +177,45 @@ class GlobalShortcutManager {
       if let error = error {
         print("Error executing sleep command: \(error)")
       }
+    }
+  }
+
+  /// 关闭显示器；若系统设置为休眠后要求输入密码，即等同锁屏。
+  /// 直接调用 pmset，不需要自动化或辅助功能授权。
+  private func lockScreen() {
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
+    process.arguments = ["displaysleepnow"]
+
+    let pipe = Pipe()
+    process.standardOutput = pipe
+    process.standardError = pipe
+
+    do {
+      try process.run()
+      process.waitUntilExit()
+
+      if process.terminationStatus != 0 {
+        let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+        print("Error executing display sleep command: \(output)")
+        writeLog(NSLocalizedString("Failed to turn off the display.", comment: "Log entry when the display sleep action fails"))
+      }
+    } catch {
+      print("Error executing display sleep command: \(error)")
+      writeLog(NSLocalizedString("Failed to turn off the display.", comment: "Log entry when the display sleep action fails"))
+    }
+  }
+
+  private func writeLog(_ text: String) {
+    let moc = LogProvider.shared.container.viewContext
+    let log = AHLog(context: moc)
+    log.createdDate = Date()
+    log.text = text
+
+    do {
+      try moc.save()
+    } catch {
+      print(error)
     }
   }
 

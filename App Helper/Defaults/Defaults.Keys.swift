@@ -75,5 +75,8 @@ extension Defaults.Keys {
   static let sleepShortcut = Key<String>("sleepShortcut", default: "Fn ⌃F12")
   static let enableSleepWatching = Key<Bool>("enableSleepWatching", default: true)
 
+  static let lockScreenShortcut = Key<String>("lockScreenShortcut", default: "")
+  static let enableLockScreenShortcut = Key<Bool>("enableLockScreenShortcut", default: true)
+
   static let tabSpace = Key<Int>("tabSpace", default: 4)
 }
