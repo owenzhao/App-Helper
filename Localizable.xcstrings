@@ -12,6 +12,17 @@
         }
       }
     },
+    "A shortcut can be reused while the other feature is off. Enabling that feature again with the same shortcut is blocked." : {
+      "comment" : "Lock screen section footer about sharing shortcuts",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一个功能关闭时，可以复用它占用的快捷键；若重新启用该功能，相同快捷键会被拦下。"
+          }
+        }
+      }
+    },
     "Add App" : {
       "comment" : "Auto start app picker confirm button",
       "localizations" : {
@@ -72,6 +83,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无法退出%@。"
+          }
+        }
+      }
+    },
+    "Cannot enable: that shortcut is still used by another enabled action. Change one of the shortcuts or disable the other action first." : {
+      "comment" : "Shortcut conflict alert message when enabling a feature",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法启用：该快捷键仍被另一个已启用的操作占用。请先修改其中一个快捷键，或关闭另一个功能。"
           }
         }
       }
@@ -836,7 +858,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "该快捷键已被其他操作占用。"
+            "value" : "该快捷键已被另一个已启用的操作占用。"
           }
         }
       }

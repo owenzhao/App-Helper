@@ -67,16 +67,30 @@ struct RulesView: View {
       lockScreenSection
     }
     .formStyle(.grouped)
+    // 只有对方功能处于启用状态（快捷键会被注册）时才视为冲突
     .onChange(of: lockScreenShortcut) { oldValue, newValue in
-      if newValue.isEmpty == false, newValue == sleepShortcut {
+      if newValue.isEmpty == false, newValue == sleepShortcut, enableSleepWatching {
         lockScreenShortcut = oldValue
         showShortcutConflict()
       }
     }
     .onChange(of: sleepShortcut) { oldValue, newValue in
-      if newValue.isEmpty == false, newValue == lockScreenShortcut {
+      if newValue.isEmpty == false, newValue == lockScreenShortcut, enableLockScreenShortcut {
         sleepShortcut = oldValue
         showShortcutConflict()
+      }
+    }
+    // 复用已关闭功能的快捷键后，重新启用时拦下，避免两个动作共用一键
+    .onChange(of: enableSleepWatching) { oldValue, newValue in
+      if newValue, sleepShortcut.isEmpty == false, sleepShortcut == lockScreenShortcut, enableLockScreenShortcut {
+        enableSleepWatching = oldValue
+        showEnableConflict()
+      }
+    }
+    .onChange(of: enableLockScreenShortcut) { oldValue, newValue in
+      if newValue, lockScreenShortcut.isEmpty == false, lockScreenShortcut == sleepShortcut, enableSleepWatching {
+        enableLockScreenShortcut = oldValue
+        showEnableConflict()
       }
     }
     .frame(minWidth: 560, minHeight: 520)
@@ -424,6 +438,8 @@ extension RulesView {
       .disabled(!enableLockScreenShortcut)
     } header: {
       Text("Lock Screen", comment: "Lock screen section title")
+    } footer: {
+      Text("A shortcut can be reused while the other feature is off. Enabling that feature again with the same shortcut is blocked.", comment: "Lock screen section footer about sharing shortcuts")
     }
   }
 }
@@ -566,6 +582,19 @@ private extension RulesView {
         NSLocalizedDescriptionKey: NSLocalizedString(
           "That shortcut is already used by another action.",
           comment: "Shortcut conflict alert message"
+        )
+      ]
+    ))
+  }
+
+  func showEnableConflict() {
+    error = MyError(NSError(
+      domain: "AppHelperShortcut",
+      code: 0,
+      userInfo: [
+        NSLocalizedDescriptionKey: NSLocalizedString(
+          "Cannot enable: that shortcut is still used by another enabled action. Change one of the shortcuts or disable the other action first.",
+          comment: "Shortcut conflict alert message when enabling a feature"
         )
       ]
     ))
