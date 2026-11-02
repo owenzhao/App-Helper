@@ -397,7 +397,7 @@ extension RulesView {
     Section {
       AHRuleToggle(
         title: NSLocalizedString("Monitor System Sleep", comment: "Toggle: monitor system sleep"),
-        subtitle: NSLocalizedString("Run the shortcut below when the system is about to sleep.", comment: "System sleep toggle subtitle"),
+        subtitle: NSLocalizedString("Press the shortcut below to put your Mac to sleep.", comment: "System sleep toggle subtitle"),
         systemImage: "moon.zzz",
         isOn: $enableSleepWatching
       )

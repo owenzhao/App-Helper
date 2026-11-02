@@ -753,13 +753,13 @@
         }
       }
     },
-    "Run the shortcut below when the system is about to sleep." : {
+    "Press the shortcut below to put your Mac to sleep." : {
       "comment" : "System sleep toggle subtitle",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "系统即将休眠时执行下方的快捷键。"
+            "value" : "按下该快捷键让 Mac 进入睡眠。"
           }
         }
       }
