@@ -37,7 +37,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func syncShortcuts() {
-    shortcutManager.registerSleepShortcut(Defaults[.sleepShortcut])
+    shortcutManager.registerSleepShortcut(
+      Defaults[.enableSleepWatching] ? Defaults[.sleepShortcut] : ""
+    )
     shortcutManager.registerLockScreenShortcut(
       Defaults[.enableLockScreenShortcut] ? Defaults[.lockScreenShortcut] : ""
     )
