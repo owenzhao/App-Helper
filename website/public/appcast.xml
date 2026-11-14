@@ -6,43 +6,44 @@
         <description>Updates for App Helper.</description>
         <language>en</language>
         <item>
+            <title>3.2.1</title>
+            <pubDate>Sat, 14 Nov 2026 20:58:22 +0800</pubDate>
+            <link>https://owenzhao.github.io/App-Helper/</link>
+            <sparkle:version>107</sparkle:version>
+            <sparkle:shortVersionString>3.2.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://owenzhao.github.io/App-Helper/App.Helper.md</sparkle:releaseNotesLink>
+            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App.Helper.zip" length="2548635" type="application/octet-stream" sparkle:edSignature="wYcyVMOxualHfOKcwPlzcy2eiVi6TMRg8UuuNcc4qtsDMOy2GUekgwk9b5BQrZQYXZm8v7eWIUM1MN6bvmriAg=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App%20Helper107-106.delta" sparkle:deltaFrom="106" length="84514" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="RWSLRyIlsNOurhjeQWoXGnAEkauVcUoEgt84h2E3JWvDB76IFOmTeM3647Ioi4Gr26ZNpGhlxfVi/cvZ3zETAA=="/>
+                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App%20Helper107-102.delta" sparkle:deltaFrom="102" length="149926" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="FQhlOLaNmuTNGlkfp/FOy/NR38cTKjY47ktQDwn+oVNOD2LPXeDAxX8DvvV+UXf6vukAztw0237lKgBgNdr7AA=="/>
+                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App%20Helper107-101.delta" sparkle:deltaFrom="101" length="148234" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="omCbQywa23tJj/K0Dh9vd/BKsI4UEhBc6rpuWlcphNyqveAh1+sRI07xxSupymMvgeqnuERkMcwKNgrV8pTGDw=="/>
+                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App%20Helper107-100.delta" sparkle:deltaFrom="100" length="176902" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="8qxCuUoxcyphff201uXf3M5oEoWxDCk227jAo8wR3+sy48u6pM/BHaQ9MYzBywNXP/2VHdafgOkNJ4aqz+hQCw=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
+            <title>3.2.0</title>
+            <pubDate>Sat, 14 Nov 2026 20:58:41 +0800</pubDate>
+            <link>https://owenzhao.github.io/App-Helper/</link>
+            <sparkle:version>106</sparkle:version>
+            <sparkle:shortVersionString>3.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App.Helper-3.2.0.zip" length="2467147" type="application/octet-stream" sparkle:edSignature="MEMgiO3VJnlSdG5ZfSE5Z9xjEtBsPWE5e9FnDvYTdc6ZcsR+gyrDC0+WtJ+URh0fLBzz6caGWaDK7m/LmXW7Dw=="/>
+        </item>
+        <item>
             <title>3.1.1</title>
             <pubDate>Mon, 05 Oct 2026 04:54:00 +0800</pubDate>
             <link>https://owenzhao.github.io/App-Helper/</link>
             <sparkle:version>102</sparkle:version>
             <sparkle:shortVersionString>3.1.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <sparkle:releaseNotesLink>https://owenzhao.github.io/App-Helper/App.Helper.md</sparkle:releaseNotesLink>
-            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App.Helper.zip" length="2452541" type="application/octet-stream" sparkle:edSignature="+bq7WMZi/lKuAZqYwIEI01WfaIIeGtOFu+A4ZDv0G+EvU7dJU4dwGuicMB6cZ07Vpy35u9iIVB+rTIND5cTiAw=="/>
+            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.2.1/App.Helper-3.1.1.zip" length="2452541" type="application/octet-stream" sparkle:edSignature="+bq7WMZi/lKuAZqYwIEI01WfaIIeGtOFu+A4ZDv0G+EvU7dJU4dwGuicMB6cZ07Vpy35u9iIVB+rTIND5cTiAw=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App%20Helper102-101.delta" sparkle:deltaFrom="101" length="16198" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="rtD1/RCf7spE6CobgrpLaq4T46/oFEgMLjZ2IQd52NZLTP/8pGbNn1ibtsTx0gWTYAHDusYtmRqh9m5qM4FgAQ=="/>
                 <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App%20Helper102-100.delta" sparkle:deltaFrom="100" length="142810" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="b2M5FyXKKWDSsKXctc1T+AwUFDFfmkRARPPXiYigMtxx/cggdJnDvAznXiroYJzqwIJG5BdyjiiUHOJSRy6NDA=="/>
                 <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App%20Helper102-92.delta" sparkle:deltaFrom="92" length="338250" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="IdbsPcKIrKQ5lpXxd3pXGcb4f4TB30oB0e0ePMng/I+DY/LrIjlLVah4jkHy86ra8rVushCjjIVfFZZRMzBjAA=="/>
                 <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App%20Helper102-91.delta" sparkle:deltaFrom="91" length="340822" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="1WQYH89IfW/on2Au+Uu8B2hEY7Zr3ycb7oNCzEHpWmcsJpnxQN3iHxel1jUNZwtFPdwdwE4bfyOyeOeOfzMyCg=="/>
             </sparkle:deltas>
-        </item>
-        <item>
-            <title>3.1.0</title>
-            <pubDate>Sun, 04 Oct 2026 21:14:20 +0800</pubDate>
-            <link>https://owenzhao.github.io/App-Helper/</link>
-            <sparkle:version>101</sparkle:version>
-            <sparkle:shortVersionString>3.1.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App.Helper-3.1.0.zip" length="2453138" type="application/octet-stream" sparkle:edSignature="aICly6OdaaSxSfbo2iC/3eh5o6irNTIjmGOiNJ5pCaGHc9KU3A6Q9n7/EWhj+3GfsFFjXEEVpQjvjMQxVuYrCw=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.0/App%20Helper101-100.delta" sparkle:deltaFrom="100" length="144858" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977808" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="zOQdZfBxvyQPHCmY9XWxSPEyjsjAgmFfe4ACH07lnWQexH1x9dbdnlQLTlWvMASJk/SlvNt+Bs+XAvfJMht0Cw=="/>
-                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.0/App%20Helper101-92.delta" sparkle:deltaFrom="92" length="337082" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="dcU3EJKBrwwuqOgObbJ5mZGdYjffUIKDbHQUlYL9kcznledxI1yewNpEAykHcz60w6X6zq+7i/RbjWLG4hiZCQ=="/>
-                <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.0/App%20Helper101-91.delta" sparkle:deltaFrom="91" length="339226" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="975840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="wyULvarHUklmWWYPtRdcavYpSBWapnsmsuX5kvpbRmQbCPGI4Pxi5kWZgU8H4WhOW2zhOTH97/XmWsIqq4gsBg=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>3.0.0</title>
-            <pubDate>Tue, 22 Sep 2026 07:21:47 +0800</pubDate>
-            <link>https://owenzhao.github.io/App-Helper/</link>
-            <sparkle:version>100</sparkle:version>
-            <sparkle:shortVersionString>3.0.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/owenzhao/App-Helper/releases/download/%E5%8F%91%E5%B8%833.1.1/App.Helper-3.0.0.zip" length="2455731" type="application/octet-stream" sparkle:edSignature="1eoiGEHouKbuz5jFBN6t8HVM30UedZNSd8qVucwAogyeutiqlpdQCL2nPYtdtXcn7E1ZbSTwNhKl31R1JVeaCg=="/>
         </item>
     </channel>
 </rss>

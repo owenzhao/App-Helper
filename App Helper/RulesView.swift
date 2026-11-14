@@ -100,13 +100,9 @@ struct RulesView: View {
       }
     }
     .onAppear {
-      HDRDisplayChangeNotifier.shared.start()
       migrateLegacyAutoStartAppsIfNeeded()
       refreshDesktopVisibility()
       refreshHDRStatus()
-    }
-    .onDisappear {
-      HDRDisplayChangeNotifier.shared.stop()
     }
     .onReceive(screenParametersChangedPublisher) { _ in
       refreshHDRStatus()
@@ -675,62 +671,78 @@ private extension RulesView {
     }
   }
 
-  typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
-
-  enum HDRReader {
-    private static let skyLightHandle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
-    private static let slsSupportsHDRMode = loadFunction(named: "SLSDisplaySupportsHDRMode", in: skyLightHandle)
-    private static let slsIsHDRModeEnabled = loadFunction(named: "SLSDisplayIsHDRModeEnabled", in: skyLightHandle)
-
-    private static let coreGraphicsHandle = dlopen("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", RTLD_LAZY)
-    private static let cgsIsHDRSupported = loadFunction(named: "CGSIsHDRSupported", in: coreGraphicsHandle)
-    private static let cgsIsHDREnabled = loadFunction(named: "CGSIsHDREnabled", in: coreGraphicsHandle)
-
-    private static func loadFunction(named symbol: String, in handle: UnsafeMutableRawPointer?) -> HDRBoolFunction? {
-      guard let handle, let raw = dlsym(handle, symbol) else {
-        return nil
-      }
-
-      return unsafeBitCast(raw, to: HDRBoolFunction.self)
-    }
-
-    static func hdrState(displayID: CGDirectDisplayID) -> (status: String, mode: Bool?) {
-      if let slsSupportsHDRMode, let slsIsHDRModeEnabled {
-        if slsSupportsHDRMode(displayID) == false {
-          return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
-        }
-
-        return slsIsHDRModeEnabled(displayID)
-          ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
-          : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
-      }
-
-      guard let cgsIsHDRSupported, let cgsIsHDREnabled else {
-        return (NSLocalizedString("Unavailable", comment: "Private HDR API unavailable"), nil)
-      }
-
-      if cgsIsHDRSupported(displayID) == false {
-        return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
-      }
-
-      return cgsIsHDREnabled(displayID)
-        ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
-        : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
-    }
-  }
-
   func refreshHDRStatus() {
-    guard let screen = NSScreen.main ?? NSScreen.screens.first,
-          let screenNumber = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+    guard let displayID = HDRReader.menuBarDisplayID() else {
       hdrStatus = NSLocalizedString("No Display", comment: "No display available for HDR check")
       currentHDRMode = nil
       return
     }
 
-    let displayID = CGDirectDisplayID(screenNumber.uint32Value)
     let result = HDRReader.hdrState(displayID: displayID)
     hdrStatus = result.status
     currentHDRMode = result.mode
+  }
+}
+
+// 读取显示器的 HDR 状态，菜单栏图标和面板共用一份实现，避免两边判断不一致
+enum HDRReader {
+  private typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
+
+  private static let skyLightHandle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
+  private static let slsSupportsHDRMode = loadFunction(named: "SLSDisplaySupportsHDRMode", in: skyLightHandle)
+  private static let slsIsHDRModeEnabled = loadFunction(named: "SLSDisplayIsHDRModeEnabled", in: skyLightHandle)
+
+  private static let coreGraphicsHandle = dlopen("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", RTLD_LAZY)
+  private static let cgsIsHDRSupported = loadFunction(named: "CGSIsHDRSupported", in: coreGraphicsHandle)
+  private static let cgsIsHDREnabled = loadFunction(named: "CGSIsHDREnabled", in: coreGraphicsHandle)
+
+  private static func loadFunction(named symbol: String, in handle: UnsafeMutableRawPointer?) -> HDRBoolFunction? {
+    guard let handle, let raw = dlsym(handle, symbol) else {
+      return nil
+    }
+
+    return unsafeBitCast(raw, to: HDRBoolFunction.self)
+  }
+
+  static func hdrState(displayID: CGDirectDisplayID) -> (status: String, mode: Bool?) {
+    if let slsSupportsHDRMode, let slsIsHDRModeEnabled {
+      if slsSupportsHDRMode(displayID) == false {
+        return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
+      }
+
+      return slsIsHDRModeEnabled(displayID)
+        ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
+        : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
+    }
+
+    guard let cgsIsHDRSupported, let cgsIsHDREnabled else {
+      return (NSLocalizedString("Unavailable", comment: "Private HDR API unavailable"), nil)
+    }
+
+    if cgsIsHDRSupported(displayID) == false {
+      return (NSLocalizedString("Not Supported", comment: "Display does not support HDR"), nil)
+    }
+
+    return cgsIsHDREnabled(displayID)
+      ? (NSLocalizedString("On", comment: "HDR mode enabled"), true)
+      : (NSLocalizedString("Off", comment: "HDR mode disabled"), false)
+  }
+
+  // 菜单栏所在的显示器。多显示器时 NSScreen.main 会跟着当前窗口跑，
+  // 用第一块屏最稳定，菜单栏图标和面板读到的始终是同一块屏。
+  static func menuBarDisplayID() -> CGDirectDisplayID? {
+    guard let screen = NSScreen.screens.first,
+          let screenNumber = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
+      return nil
+    }
+
+    return CGDirectDisplayID(screenNumber.uint32Value)
+  }
+
+  // 菜单栏图标用的 HDR 状态，和面板里显示的保持一致
+  static func isHDROn() -> Bool {
+    guard let displayID = menuBarDisplayID() else { return false }
+    return hdrState(displayID: displayID).mode == true
   }
 }
 
@@ -789,7 +801,9 @@ private let hdrDisplayReconfigurationCallback: CGDisplayReconfigurationCallBack 
   }
 }
 
-private final class HDRDisplayChangeNotifier {
+// 显示器的 HDR 状态变化通知。回调必须常驻，否则面板关闭后
+// 菜单栏图标就再也收不到 HDR 变化了。
+final class HDRDisplayChangeNotifier {
   static let shared = HDRDisplayChangeNotifier()
   private var isRegistered = false
 

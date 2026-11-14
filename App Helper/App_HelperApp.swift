@@ -116,6 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ notification: Notification) {
     NSApp.setActivationPolicy(.accessory)
+    HDRDisplayChangeNotifier.shared.start()
     setupMenubarTray()
     registerObserver()
     popover.behavior = .transient
@@ -131,6 +132,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ notification: Notification) {
     watcher.stopWatch()
     cancelObservationTasks()
+    HDRDisplayChangeNotifier.shared.stop()
   }
 
   private func registerNotification() {
@@ -213,6 +215,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       DispatchQueue.main.async { [weak self] in
         self?.popover.contentViewController?.view.window?.makeKey()
       }
+      // 面板里的 HDR 状态会重新读取，这里同步一次菜单栏图标
+      updateMenubarIconForHDR()
     }
   }
 
@@ -246,8 +250,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // 如果有brew更新显示，暂时跳过
     if hasBrewUpdates { return }
 
-    let isHDROn = checkHDRStatus()
-    if isHDROn {
+    if HDRReader.isHDROn() {
       button.image = nil
       button.title = "HDR"
     } else {
@@ -255,33 +258,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       let image = NSImage(imageLiteralResourceName: getMenuItemImageName())
       button.image = image
     }
-  }
-
-  // 检测HDR状态（使用与RulesView相同的私有API）
-  private func checkHDRStatus() -> Bool {
-    typealias HDRBoolFunction = @convention(c) (CGDirectDisplayID) -> Bool
-
-    let skyLightHandle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
-    guard let slsSupportsHDRMode = skyLightHandle.flatMap({ dlsym($0, "SLSDisplaySupportsHDRMode") }),
-          let slsIsHDRModeEnabled = skyLightHandle.flatMap({ dlsym($0, "SLSDisplayIsHDRModeEnabled") }) else {
-      return false
-    }
-
-    let supportsHDR = unsafeBitCast(slsSupportsHDRMode, to: HDRBoolFunction.self)
-    let isHDREnabled = unsafeBitCast(slsIsHDRModeEnabled, to: HDRBoolFunction.self)
-
-    guard let screen = NSScreen.main ?? NSScreen.screens.first,
-          let screenNumber = screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
-      return false
-    }
-
-    let displayID = CGDirectDisplayID(screenNumber.uint32Value)
-
-    if supportsHDR(displayID) == false {
-      return false
-    }
-
-    return isHDREnabled(displayID)
   }
 }
 
