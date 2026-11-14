@@ -83,9 +83,11 @@ To publish a new direct-download build:
    Copy the generated `appcast.xml` to `website/public/appcast.xml`.
 3. Upload every archive and delta file referenced by the generated appcast to
    the matching GitHub Release. Sparkle may point retained-version archives at
-   the new release tag, so include those archives too. Commit `appcast.xml` and
-   its release notes under `website/public/`; the GitHub Pages workflow
-   publishes them.
+   the new release tag, so include those archives too. GitHub stores asset names
+   with spaces as dots (`App Helper107-106.delta` becomes
+   `App.Helper107-106.delta`), so the delta URLs in the appcast must use the
+   dotted name or they return 404. Commit `appcast.xml` and its release notes
+   under `website/public/`; the GitHub Pages workflow publishes them.
 
 The matching private EdDSA key is stored only in the login Keychain under the
 account `com.parussoft.app-helper.sparkle`; never commit or upload it.
