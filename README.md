@@ -89,6 +89,22 @@ To publish a new direct-download build:
    dotted name or they return 404. Commit `appcast.xml` and its release notes
    under `website/public/`; the GitHub Pages workflow publishes them.
 
+`generate_appcast` writes delta filenames with a space and encodes them as
+`%20` in the feed, so rename the generated files to the dotted form and update
+the URLs in `appcast.xml` before uploading. The EdDSA signature covers the
+file contents, not the file name, so renaming is safe; re-running
+`generate_appcast` afterwards would restore the space form, so make this the
+last step.
+
+Build `generate_appcast` from the Sparkle version the app actually embeds, so
+the delta format matches what the installed clients can apply:
+
+```sh
+xcodebuild -project Sparkle.xcodeproj -scheme generate_appcast \
+  -configuration Release -derivedDataPath /tmp/sparkle-tools \
+  MACOSX_DEPLOYMENT_TARGET=12.0 build
+```
+
 The matching private EdDSA key is stored only in the login Keychain under the
 account `com.parussoft.app-helper.sparkle`; never commit or upload it.
 
