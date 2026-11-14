@@ -7,7 +7,7 @@ Project website: https://owenzhao.github.io/App-Helper/
 
 
 
-![App Helper 3.1.0 menu bar popover with commands, auto-start apps, display controls, and sleep monitoring](website/public/images/app-helper-popover.png)
+![App Helper menu bar popover with commands, auto-start apps, display controls, and sleep monitoring](website/public/images/app-helper-popover.png)
 
 
 ## What It Does
@@ -34,7 +34,8 @@ bar while applying only the rules that you enable.
 - **Display and sleep tools.** Toggle the system color theme, inspect HDR status,
   prevent the display from sleeping, hide or show the desktop, and configure
   keyboard shortcuts for display sleep (which locks the screen when a password is
-  required) and sleep monitoring.
+  required) and sleep monitoring. The menu bar icon switches to an HDR badge while
+  the display's HDR mode is on.
 - **Menu bar popover.** Open rules and logs from the menu bar icon, with display
   appearance, update, and quit actions in the same compact panel.
 - **Notifications and logs.** Optionally receive a local notification when a rule
