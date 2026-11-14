@@ -1,1 +1,1 @@
-App Helper 3.2.1 fixes the menu bar icon: it now follows the display's HDR mode and switches between the HDR badge and the lion as HDR is turned on and off, even while the panel is closed.
+App Helper 3.2.2 updates the Sparkle update framework to 2.10.0, which fixes delta updates on macOS 27 and fixes the update check falling back to a full download when the server reports no content size.
